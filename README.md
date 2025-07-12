@@ -1,5 +1,6 @@
 # Retrograde
-Space trading game written in TS/React.
+Space trading game written in TS/React.  
+Try it here: [Retrograde](https://caiden20000.github.io/Retrograde/)
 
 ### What
 Retrograde is a small game where you travel to different stations and buy/sell goods to gain a profit.
