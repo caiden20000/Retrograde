@@ -1,11 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useGameState } from "../App";
-import {
-  addRevolutions,
-  cloneSpaceDate,
-  spaceDateToString,
-} from "../classes/time";
-import { floor } from "../classes/util";
+import { addRevolutions, cloneSpaceDate, spaceDateToString } from "../logic/spaceDate";
+import { floor } from "../utils/util";
 
 export function TravelScreen() {
   const { player, travel, setTravel, setScreen } = useGameState();
@@ -38,12 +34,8 @@ export function TravelScreen() {
     return () => cancelAnimationFrame(animationRef.current);
   }, [travel.startedAt, duration]);
 
-  const currentFuel =
-    travel.fuelBefore + (travel.fuelAfter - travel.fuelBefore) * progress;
-  const currentDate = addRevolutions(
-    cloneSpaceDate(travel.startDate),
-    floor(travel.timeToTravel * progress)
-  );
+  const currentFuel = travel.fuelBefore + (travel.fuelAfter - travel.fuelBefore) * progress;
+  const currentDate = addRevolutions(cloneSpaceDate(travel.startDate), floor(travel.timeToTravel * progress));
   const currentDistance = floor(travel.distance * progress);
 
   const arrowAnimation = (speed: number, arrowCount: number) => {
@@ -83,11 +75,7 @@ export function TravelScreen() {
         <h3>Fuel:</h3>
         <Statbar percentage={currentFuel / player.ship.shipType.fuelCapacity} />
       </div>
-      <button
-        className="dock-button"
-        hidden={progress < 1}
-        onClick={() => dock()}
-      >
+      <button className="dock-button" hidden={progress < 1} onClick={() => dock()}>
         Dock station
       </button>
     </div>
@@ -97,10 +85,7 @@ export function TravelScreen() {
 function ProgressBar({ percentage }: { percentage: number }) {
   return (
     <div className="travelbar">
-      <div
-        className="travelbar-fill"
-        style={{ width: percentage * 100 + "%" }}
-      ></div>
+      <div className="travelbar-fill" style={{ width: percentage * 100 + "%" }}></div>
     </div>
   );
 }
@@ -108,10 +93,7 @@ function ProgressBar({ percentage }: { percentage: number }) {
 function Statbar({ percentage }: { percentage: number }) {
   return (
     <div className="statbar">
-      <div
-        className="statbar-fill"
-        style={{ width: percentage * 100 + "%" }}
-      ></div>
+      <div className="statbar-fill" style={{ width: percentage * 100 + "%" }}></div>
     </div>
   );
 }

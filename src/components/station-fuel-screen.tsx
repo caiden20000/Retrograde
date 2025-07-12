@@ -1,15 +1,12 @@
 import { useGameState } from "../App";
 import { StationScreenTemplate } from "./station-screen-template";
-import * as Trd from "../classes/trade-inventory";
-import { itemType } from "../classes/item-type";
-import { clonePlayer } from "../classes/player";
-import { updateStationInSystem } from "../classes/system";
-import { cloneShip } from "../classes/ship";
-import { setAttribute, set, floor } from "../classes/util";
+import * as Trd from "../logic/tradeInventory";
+import { itemType } from "../constants/itemTypes";
+import { updateStationInSystem } from "../logic/system";
+import { set, floor } from "../utils/util";
 
 export function StationFuelScreen() {
-  const { station, player, setStation, setPlayer, system, setSystem } =
-    useGameState();
+  const { station, player, setStation, setPlayer, system, setSystem } = useGameState();
 
   const funds = player.currency;
   const fuelAmount = player.ship.fuel;
@@ -18,10 +15,7 @@ export function StationFuelScreen() {
   const fuelPercentage = fuelAmount / fuelCapacity;
 
   const stationFuel = Trd.getItemCount(station.tradeInventory, itemType.fuel);
-  const fuelPrice = floor(
-    Trd.getItemBuyPrice(station.tradeInventory, itemType.fuel),
-    1
-  );
+  const fuelPrice = floor(Trd.getItemBuyPrice(station.tradeInventory, itemType.fuel), 1);
 
   function canBuy(fuelAmount: number) {
     const price = fuelAmount * fuelPrice;
@@ -44,11 +38,7 @@ export function StationFuelScreen() {
     });
 
     const newStation = set(station, {
-      tradeInventory: Trd.addItemCount(
-        station.tradeInventory,
-        itemType.fuel,
-        -fuelAmount
-      ),
+      tradeInventory: Trd.addItemCount(station.tradeInventory, itemType.fuel, -fuelAmount),
     });
     const newSystem = updateStationInSystem(system, station, newStation);
 
@@ -103,10 +93,7 @@ export function StationFuelScreen() {
 function Statbar({ percentage }: { percentage: number }) {
   return (
     <div className="statbar">
-      <div
-        className="statbar-fill"
-        style={{ width: percentage * 100 + "%" }}
-      ></div>
+      <div className="statbar-fill" style={{ width: percentage * 100 + "%" }}></div>
     </div>
   );
 }

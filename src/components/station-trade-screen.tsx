@@ -1,20 +1,20 @@
 import { ReactNode, useEffect, useState } from "react";
 import { useGameState } from "../App";
-import { Cart } from "../classes/cart";
-import * as Crt from "../classes/cart";
-import * as Trd from "../classes/trade-inventory";
-import * as Inv from "../classes/inventory";
-import { allItemTypes, itemType, ItemType } from "../classes/item-type";
-import { clonePlayer, Player, setCurrency } from "../classes/player";
-import { getItemTypesForStation, Station } from "../classes/station";
+import { Cart } from "../types/Cart";
+import * as Crt from "../logic/cart";
+import * as Trd from "../logic/tradeInventory";
+import * as Inv from "../logic/inventory";
+import { clonePlayer, setCurrency } from "../logic/player";
+import { getItemTypesForStation } from "../logic/station";
 import { StationScreenTemplate } from "./station-screen-template";
-import { getCargoUsage } from "../classes/ship";
-import { updateStationInSystem } from "../classes/system";
-import { floor, set, trunc1 } from "../classes/util";
+import { getCargoUsage } from "../logic/ship";
+import { updateStationInSystem } from "../logic/system";
+import { floor, set, trunc1 } from "../utils/util";
+import { ItemType } from "../types/ItemType";
+import { allItemTypes } from "../constants/itemTypes";
 
 export function StationTradeScreen() {
-  const { station, player, setStation, setPlayer, system, setSystem } =
-    useGameState();
+  const { station, player, setStation, setPlayer, system, setSystem } = useGameState();
   const [cart, setCart] = useState<Cart>(Crt.newCart(player, station));
   const weightTotal = floor(Crt.getCartWeight(cart), 1);
   const costTotal = floor(Crt.getCartCost(cart), 1);
@@ -26,11 +26,7 @@ export function StationTradeScreen() {
   function finalizeTrade() {
     let inventory = player.ship.inventory;
     for (const itemType of allItemTypes) {
-      inventory = Inv.addItemCount(
-        inventory,
-        itemType,
-        Crt.getItemCount(cart, itemType)
-      );
+      inventory = Inv.addItemCount(inventory, itemType, Crt.getItemCount(cart, itemType));
     }
     const newShip = set(player.ship, { inventory });
     const newPlayer = set(player, {
@@ -40,11 +36,7 @@ export function StationTradeScreen() {
 
     let tradeInventory = station.tradeInventory;
     for (const itemType of allItemTypes) {
-      tradeInventory = Trd.addItemCount(
-        tradeInventory,
-        itemType,
-        -Crt.getItemCount(cart, itemType)
-      );
+      tradeInventory = Trd.addItemCount(tradeInventory, itemType, -Crt.getItemCount(cart, itemType));
     }
     const newStation = set(station, { tradeInventory });
 
@@ -66,8 +58,7 @@ export function StationTradeScreen() {
               <tr>
                 <th rowSpan={2}>Cargo capacity:</th>
                 <td>
-                  {trunc1(getCargoUsage(player.ship))} /{" "}
-                  {player.ship.shipType.cargoCapacity} kg
+                  {trunc1(getCargoUsage(player.ship))} / {player.ship.shipType.cargoCapacity} kg
                 </td>
                 <th rowSpan={2}>Funds:</th>
                 <td>${trunc1(player.currency)}</td>
@@ -83,12 +74,10 @@ export function StationTradeScreen() {
               </tr>
               <tr>
                 <td className={colorByValue(weightTotal, true)}>
-                  {weightTotal > 0 ? "+" : weightTotal < 0 ? "-" : ""}{" "}
-                  {trunc1(Math.abs(weightTotal))} kg
+                  {weightTotal > 0 ? "+" : weightTotal < 0 ? "-" : ""} {trunc1(Math.abs(weightTotal))} kg
                 </td>
                 <td className={colorByValue(costTotal, true)}>
-                  {costTotal > 0 ? "-" : costTotal < 0 ? "+" : ""} $
-                  {trunc1(Math.abs(costTotal))}
+                  {costTotal > 0 ? "-" : costTotal < 0 ? "+" : ""} ${trunc1(Math.abs(costTotal))}
                 </td>
               </tr>
             </tbody>
@@ -118,8 +107,7 @@ function TradeList({
           onQuantityChange: (delta: number) => {
             onQuantityChange(itemType, delta);
           },
-          disabled:
-            getItemTypesForStation(cart.station).indexOf(itemType) === -1,
+          disabled: getItemTypesForStation(cart.station).indexOf(itemType) === -1,
         }}
       />
     );
@@ -173,37 +161,25 @@ function TradeListItem({
   const cartCost = trunc1(Crt.getItemCost(cart, itemType));
   const cartWeight = trunc1(Crt.getItemWeight(cart, itemType));
   const cartQuantity = Crt.getItemCount(cart, itemType);
-  const buyPrice = trunc1(
-    Trd.getItemBuyPrice(cart.station.tradeInventory, itemType, 1)
-  );
-  const sellPrice = trunc1(
-    Trd.getItemSellPrice(cart.station.tradeInventory, itemType, 1)
-  );
+  const buyPrice = trunc1(Trd.getItemBuyPrice(cart.station.tradeInventory, itemType, 1));
+  const sellPrice = trunc1(Trd.getItemSellPrice(cart.station.tradeInventory, itemType, 1));
 
   /* Item, Units, Buy price, Weight, Cost, Units, Sell, Buy, Sell price, Units */
   return (
     <tr className={disabled ? "trade-disabled" : ""}>
       <th>{itemType.name}</th>
-      <td className="">
-        {Trd.getItemCount(cart.station.tradeInventory, itemType)}
-      </td>
+      <td className="">{Trd.getItemCount(cart.station.tradeInventory, itemType)}</td>
       <td className="separate">${buyPrice}</td>
       <td className={colorByValue(cartWeight, true)}>{cartWeight} kg</td>
       <td className={colorByValue(cartCost, true)}>${cartCost}</td>
       <td className={colorByValue(cartCost)}>{cartQuantity}</td>
       <td>
-        <button
-          onClick={() => onQuantityChange(-1)}
-          disabled={!Crt.canRemove(cart, itemType) || disabled}
-        >
+        <button onClick={() => onQuantityChange(-1)} disabled={!Crt.canRemove(cart, itemType) || disabled}>
           -
         </button>
       </td>
       <td className="separate">
-        <button
-          onClick={() => onQuantityChange(1)}
-          disabled={!Crt.canAdd(cart, itemType) || disabled}
-        >
+        <button onClick={() => onQuantityChange(1)} disabled={!Crt.canAdd(cart, itemType) || disabled}>
           +
         </button>
       </td>

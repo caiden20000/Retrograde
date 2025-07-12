@@ -1,28 +1,20 @@
 import { ReactNode } from "react";
 import { useGameState } from "../App";
-import { clonePlayer, Player } from "../classes/player";
-import { Station } from "../classes/station";
-import { runTradeForSystem } from "../classes/station-trade-manager";
-import { System, updateStationInSystem } from "../classes/system";
-import { addRevolutions } from "../classes/time";
-import { newTravel } from "../classes/travel";
-import { floor, set } from "../classes/util";
-import { cloneVec2, getDistance, newVec2, Vec2 } from "../classes/vec2";
+import { Player } from "../types/Player";
+import { Station } from "../types/Station";
+import { runTradeForSystem } from "../logic/station-trade-manager";
+import { System } from "../types/System";
+import { addRevolutions } from "../logic/spaceDate";
+import { newTravel } from "../logic/travel";
+import { floor, set } from "../utils/util";
 import { StationScreenTemplate } from "./station-screen-template";
+import { cloneVec2, getDistance, newVec2 } from "../logic/vec2";
+import { updateStationInSystem } from "../logic/system";
+import { Vec2 } from "../types/Vec2";
 
 export function StationMapScreen() {
-  const {
-    station,
-    player,
-    setStation,
-    setPlayer,
-    setScreen,
-    system,
-    setSystem,
-    date,
-    setDate,
-    setTravel,
-  } = useGameState();
+  const { station, player, setStation, setPlayer, setScreen, system, setSystem, date, setDate, setTravel } =
+    useGameState();
 
   function travelTo(destination: Station) {
     const distance = floor(getDistance(station.position, destination.position));
@@ -35,26 +27,14 @@ export function StationMapScreen() {
     setPlayer(newPlayer);
     setSystem((system) => {
       let newSystem = runTradeForSystem(system, timeToTravel);
-      let newDestination = newSystem.find(
-        (station) => station.id === destination.id
-      );
-      if (newDestination === undefined)
-        throw new Error("Could not find destination ID in updated system!");
+      let newDestination = newSystem.find((station: Station) => station.id === destination.id);
+      if (newDestination === undefined) throw new Error("Could not find destination ID in updated system!");
       newDestination = set(newDestination, { visited: true });
       newSystem = updateStationInSystem(newSystem, destination, newDestination);
       setStation(newDestination);
       return newSystem;
     });
-    setTravel(
-      newTravel(
-        station,
-        destination,
-        player.ship.fuel,
-        newShip.fuel,
-        date,
-        timeToTravel
-      )
-    );
+    setTravel(newTravel(station, destination, player.ship.fuel, newShip.fuel, date, timeToTravel));
     setScreen("TravelScreen");
   }
 
@@ -78,10 +58,7 @@ export function StationList({
 }) {
   const center = getCenterOfSystem(system);
   const bounds = getBoundsOfSystem(system);
-  const maxBound = Math.max(
-    bounds.br.x - bounds.tl.x,
-    bounds.br.y - bounds.tl.y
-  );
+  const maxBound = Math.max(bounds.br.x - bounds.tl.x, bounds.br.y - bounds.tl.y);
   const scale = newVec2(maxBound, maxBound);
 
   function absolutePosition(station: Station): Vec2 {
@@ -151,13 +128,7 @@ export function StationDot({
   );
 }
 
-export function Tooltip({
-  text,
-  children,
-}: {
-  text: string;
-  children: ReactNode;
-}) {
+export function Tooltip({ text, children }: { text: string; children: ReactNode }) {
   return (
     <div className="tooltip-container">
       {children} <span className="tooltip-text">{text}</span>
