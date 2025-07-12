@@ -1,5 +1,5 @@
 import { useGameState } from "../App";
-import { capitalize, commatize } from "../classes/util";
+import { capitalize, commatize } from "../utils/util";
 import { StationScreenTemplate } from "./station-screen-template";
 
 export function StationInfoScreen() {

@@ -1,11 +1,9 @@
 import { useGameState } from "../App";
 import { StationScreenTemplate } from "./station-screen-template";
-import * as Trd from "../classes/trade-inventory";
-import { itemType } from "../classes/item-type";
-import { clonePlayer } from "../classes/player";
-import { updateStationInSystem } from "../classes/system";
-import { cloneShip } from "../classes/ship";
-import { setAttribute, set, floor } from "../classes/util";
+import * as Trd from "../logic/tradeInventory";
+import { itemType } from "../constants/itemTypes";
+import { updateStationInSystem } from "../logic/system";
+import { set, floor } from "../utils/util";
 
 export function StationFuelScreen() {
   const { station, player, setStation, setPlayer, system, setSystem } =

@@ -1,18 +1,10 @@
 // Thanks GPT
-
-import {
-  PopulationClass,
-  Station,
-  StationIndustry,
-  StationType,
-} from "./station";
+import { PopulationClass } from "../types/PopulationClass";
+import { StationIndustry } from "../types/StationIndustry";
+import { StationType } from "../types/StationType";
 import { randomItems, randomOf } from "./util";
 
-export function generateFlavortext(
-  type: StationType,
-  industry: StationIndustry,
-  populationClass: PopulationClass
-) {
+export function generateFlavortext(type: StationType, industry: StationIndustry, populationClass: PopulationClass) {
   let result = "";
   result += randomOf(StationTypeFlavortext[type]);
   result += " " + randomOf(StationIndustryFlavortext[industry]);

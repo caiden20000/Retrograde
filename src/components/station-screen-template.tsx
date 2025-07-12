@@ -1,14 +1,8 @@
 import { useGameState } from "../App";
-import { ScreenType } from "../classes/screen-type";
-import { spaceDateToString } from "../classes/time";
+import { spaceDateToString } from "../logic/spaceDate";
+import { ScreenType } from "../types/ScreenType";
 
-export function StationScreenTemplate({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
+export function StationScreenTemplate({ title, children }: { title: string; children: React.ReactNode }) {
   const { screen, setScreen, station, date, player } = useGameState();
 
   return (
@@ -23,16 +17,8 @@ export function StationScreenTemplate({
       </div>
       <div className="station-content">{children}</div>
       <div className="station-footer">
-        <ScreenNavButton
-          navScreen="StationInfoScreen"
-          title="Info"
-          {...{ screen, setScreen }}
-        />
-        <ScreenNavButton
-          navScreen="StationTradeScreen"
-          title="Trade"
-          {...{ screen, setScreen }}
-        />
+        <ScreenNavButton navScreen="StationInfoScreen" title="Info" {...{ screen, setScreen }} />
+        <ScreenNavButton navScreen="StationTradeScreen" title="Trade" {...{ screen, setScreen }} />
         {/* <ScreenNavButton
           navScreen="StationMissionScreen"
           title="Missions"
@@ -43,16 +29,8 @@ export function StationScreenTemplate({
           title="Crew"
           {...{ screen, setScreen }}
         /> */}
-        <ScreenNavButton
-          navScreen="StationFuelScreen"
-          title="Refuel"
-          {...{ screen, setScreen }}
-        />
-        <ScreenNavButton
-          navScreen="StationMapScreen"
-          title="Map"
-          {...{ screen, setScreen }}
-        />
+        <ScreenNavButton navScreen="StationFuelScreen" title="Refuel" {...{ screen, setScreen }} />
+        <ScreenNavButton navScreen="StationMapScreen" title="Map" {...{ screen, setScreen }} />
       </div>
     </div>
   );
@@ -70,10 +48,7 @@ function ScreenNavButton({
   title: string;
 }) {
   return (
-    <button
-      className={screen == navScreen ? "selected" : ""}
-      onClick={() => setScreen(navScreen)}
-    >
+    <button className={screen == navScreen ? "selected" : ""} onClick={() => setScreen(navScreen)}>
       {title}
     </button>
   );

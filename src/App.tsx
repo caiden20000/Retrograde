@@ -1,32 +1,22 @@
-import React, {
-  useRef,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import { initTestPlayer, newPlayer, Player } from "./classes/player";
-import { ScreenType } from "./classes/screen-type";
-import { newStation, Station } from "./classes/station";
-import { runTradeForSystem } from "./classes/station-trade-manager";
-import {
-  generateSystem,
-  System,
-  updateStationInSystem,
-} from "./classes/system";
-import { newSpaceDate, SpaceDate } from "./classes/time";
-import { Travel } from "./classes/travel";
-import { set } from "./classes/util";
-import { StationCrewScreen } from "./components/station-crew-screen";
+import React, { useRef, createContext, useContext, useEffect, useState } from "react";
+import { initTestPlayer, newPlayer } from "./logic/player";
+import { ScreenType } from "./types/ScreenType";
+import { Station } from "./types/Station";
+import { runTradeForSystem } from "./logic/station-trade-manager";
+import { set } from "./utils/util";
 import { StationFuelScreen } from "./components/station-fuel-screen";
 import { StationInfoScreen } from "./components/station-info-screen";
 import { StationMapScreen } from "./components/station-map-screen";
-import { StationMissionScreen } from "./components/station-mission-screen";
-import { StationScreenTemplate } from "./components/station-screen-template";
 import { StationTradeScreen } from "./components/station-trade-screen";
 import { TravelScreen } from "./components/travel-screen";
 import { Watermark } from "./components/watermark";
 import "./styles.css";
+import { newSpaceDate } from "./logic/spaceDate";
+import { generateSystem, updateStationInSystem } from "./logic/system";
+import { Player } from "./types/Player";
+import { SpaceDate } from "./types/SpaceDate";
+import { System } from "./types/System";
+import { Travel } from "./types/Travel";
 
 // === Types ===
 type useStateSetter<T> = React.Dispatch<React.SetStateAction<T>>;
@@ -66,9 +56,8 @@ export default function App() {
     const simulatedDaysBeforeStart = 1000;
     setSystem((system) => {
       let newSystem = runTradeForSystem(system, simulatedDaysBeforeStart);
-      let newStation = newSystem.find((station) => station.id === station.id);
-      if (newStation === undefined)
-        throw new Error("Could not find station ID in updated system!");
+      let newStation = newSystem.find((station: Station) => station.id === station.id);
+      if (newStation === undefined) throw new Error("Could not find station ID in updated system!");
       newStation = set(newStation, { visited: true });
       newSystem = updateStationInSystem(newSystem, station, newStation);
       setStation(newStation);
