@@ -23,10 +23,10 @@
 [ ] A price list that color-codes each station based on the value of the good selected.
 
 
-===== <> Questline: Code Quality =====
+===== <+> Questline: Code Quality =====
 [ ] Turn ItemType and ShipType into ENUMS with values (?)
 [ ] Rename files to match classes
-[ ] Reorganize folder structure
+[~] Reorganize folder structure
 [ ] Code review my stuff, look for issues with structure or unclear code.
 [ ] Get some sort of linter / code scanner for GH actions
 
