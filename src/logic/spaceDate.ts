@@ -14,17 +14,10 @@ export function addRevolutions(date: SpaceDate, revs: number): SpaceDate {
   return newDate;
 }
 
-export function newSpaceDate(
-  cycle: number = 3000,
-  revolution: number = 0
-): SpaceDate {
+export function newSpaceDate(cycle: number = 3000, revolution: number = 0): SpaceDate {
   return { cycle, revolution };
 }
 
 export function spaceDateToString(spaceDate: SpaceDate): string {
-  return `${spaceDate.cycle}.${padStart(
-    spaceDate.revolution.toString(),
-    "0",
-    3
-  )}`;
+  return `${spaceDate.cycle}.${padStart(spaceDate.revolution.toString(), "0", 3)}`;
 }

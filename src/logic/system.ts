@@ -22,17 +22,10 @@ export function cloneSystem(system: System): System {
   return [...system];
 }
 
-export function updateStationInSystem(
-  system: System,
-  oldStation: Station,
-  newStation: Station
-): System {
+export function updateStationInSystem(system: System, oldStation: Station, newStation: Station): System {
   const newSystem = [...system];
   const stationIndex = newSystem.findIndex((stn) => stn.id === oldStation.id);
-  if (stationIndex == -1)
-    throw new Error(
-      "Station ID not found when attempting to update station state."
-    );
+  if (stationIndex == -1) throw new Error("Station ID not found when attempting to update station state.");
   newSystem.splice(stationIndex, 1, newStation);
   return newSystem;
 }
@@ -58,12 +51,7 @@ export function updateStationInSystem(
   return S
   */
 
-function generatePositions(
-  count: number,
-  center: Vec2,
-  minDist: number,
-  maxDist: number
-): Vec2[] {
+function generatePositions(count: number, center: Vec2, minDist: number, maxDist: number): Vec2[] {
   const S: Vec2[] = [];
   S.push({ x: center.x, y: center.y });
 

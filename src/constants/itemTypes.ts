@@ -5,10 +5,7 @@ export const itemType: { [key: string]: ItemType } = {
   nutripaste: newItemType("Nutripaste", 5, 20, ["food", "essential"]),
   freshAir: newItemType("FreshAir", 10, 5, ["essential"]),
   aquaLite: newItemType("AquaLite", 20, 8, ["drink", "essential"]),
-  medicalSupplies: newItemType("Medical Supplies", 2, 50, [
-    "essential",
-    "medical",
-  ]),
+  medicalSupplies: newItemType("Medical Supplies", 2, 50, ["essential", "medical"]),
   fuel: newItemType("Fuel", 2, 2, ["essential"]),
 
   preppedCuisine: newItemType("Prepped Cuisine", 2, 30, ["food"]),
@@ -40,6 +37,4 @@ export const itemType: { [key: string]: ItemType } = {
   weapons: newItemType("Weapons", 10, 800, ["contraband"]),
 };
 
-export const allItemTypes = Object.keys(itemType).map(
-  (key: string) => itemType[key]
-);
+export const allItemTypes = Object.keys(itemType).map((key: string) => itemType[key]);
