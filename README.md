@@ -42,6 +42,10 @@ This has been a learning experience, and I'm still learning every day.
 - Random encounters
     - No more smooth trips between stations; there will be many events to encounter!
 
+### Design doc
+I use Excalidraw to mock-up designs for the UI and other interactions.  
+[Here](https://excalidraw.com/#json=9sZgd8ESrvievViqbqYzB,5M3gXbsIcvsxDTddj_5jQg) is a recent version (may not be up to date)
+
 
 
 
