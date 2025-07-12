@@ -1,0 +1,44 @@
+
+
+===== <> Questline: Main Features =====
+[x] Shipyard: Make TODO
+[ ] Equipment store: Make TODO
+[ ] Crew: Make TODO
+[ ] Missions: Make TODO
+[ ] Random encounters: Make TODO
+
+===== <> Questline: Shipyard =====
+[x] Mock up a UI
+[ ] Determine preliminary ship stats
+[ ] Create the ShipTypes for each planned ship
+[ ] Draft the Station Screen
+[ ] Identify flaws and update this list accordingly
+
+
+===== <> Questline: System Map =====
+[ ] Fix tooltip Z-index behind UI and some undiscovered stations (mystery) (fix)
+[ ] Rewrite code that centers the map dots; they can get clustered off-center. (fix)
+[ ] Put the map into a square so it's contained & can be used in an updated map screen.
+[ ] Make a selection interface + travel button rather than directly traveling on click.
+[ ] A price list that color-codes each station based on the value of the good selected.
+
+
+===== <> Questline: Code Quality =====
+[ ] Turn ItemType and ShipType into ENUMS with values (?)
+[ ] Rename files to match classes
+[ ] Reorganize folder structure
+[ ] Code review my stuff, look for issues with structure or unclear code.
+[ ] Get some sort of linter / code scanner for GH actions
+
+
+
+
+
+
+
+
+
+
+
+
+
