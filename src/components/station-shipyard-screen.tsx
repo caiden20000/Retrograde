@@ -25,7 +25,7 @@ export function StationShipyardScreen() {
   return (
     <StationScreenTemplate title="Shipyard">
       <div className="ship-listing-header">
-        <span className="bold">Your ship:</span>
+        <span className="bold ship-name">Your ship:</span>
 
         <span>Fuel</span>
         <span>Cargo</span>

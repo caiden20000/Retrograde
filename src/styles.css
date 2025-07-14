@@ -510,13 +510,25 @@ table.station-map {
 .ship-listing-header {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  font-size: 0.8em;
+  padding: 10px;
+  margin: 5px;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
-.ship-listing span {
+.ship-listing-header span {
+  border-right: 1px solid #0005;
+  padding-right: 3px;
+}
+
+.ship-listing span,
+.ship-listing-header span {
   text-align: right;
 }
 
-.ship-listing .ship-name {
+.ship-listing .ship-name,
+.ship-listing-header .ship-name {
   text-align: left;
 }
 
