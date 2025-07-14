@@ -7,11 +7,11 @@
 [ ] Missions: Make TODO
 [ ] Random encounters: Make TODO
 
-===== <> Questline: Shipyard =====
+===== <+> Questline: Shipyard =====
 [x] Mock up a UI
+[~] Draft the Station Screen
 [ ] Determine preliminary ship stats
 [ ] Create the ShipTypes for each planned ship
-[ ] Draft the Station Screen
 [ ] Identify flaws and update this list accordingly
 
 
@@ -23,10 +23,10 @@
 [ ] A price list that color-codes each station based on the value of the good selected.
 
 
-===== <+> Questline: Code Quality =====
+===== <> Questline: Code Quality =====
 [ ] Turn ItemType and ShipType into ENUMS with values (?)
-[ ] Rename files to match classes
-[~] Reorganize folder structure
+[x] Rename files to match classes
+[x] Reorganize folder structure
 [ ] Code review my stuff, look for issues with structure or unclear code.
 [ ] Get some sort of linter / code scanner for GH actions
 
