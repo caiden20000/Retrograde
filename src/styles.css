@@ -502,14 +502,14 @@ table.station-map {
 .ship-listing {
   border: 2px solid black;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1.5fr 1fr;
   padding: 8px;
   margin: 5px;
 }
 
 .ship-listing-header {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1.5fr 1fr;
   font-size: 0.8em;
   padding: 10px;
   margin: 5px;
