@@ -4,4 +4,7 @@ export type ShipType = {
   readonly cargoCapacity: number;
   readonly fuelCapacity: number;
   readonly baseCost: number;
+  readonly equipment: number;
+  readonly baseAttack: number;
+  readonly baseDefense: number;
 };

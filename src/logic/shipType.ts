@@ -5,7 +5,10 @@ export function newShipType(
   crewCapacity: number,
   cargoCapacity: number,
   fuelCapacity: number,
-  baseCost: number
+  baseCost: number,
+  equipment: number,
+  baseAttack: number,
+  baseDefense: number
 ): ShipType {
   return {
     name,
@@ -13,5 +16,8 @@ export function newShipType(
     cargoCapacity,
     fuelCapacity,
     baseCost,
+    equipment,
+    baseAttack,
+    baseDefense,
   };
 }
