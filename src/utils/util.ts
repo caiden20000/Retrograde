@@ -51,7 +51,10 @@ export function setAttribute<T extends object, K extends keyof T>(
 /** Immutable update: Returns a clone of the object with the new attribute values.
  * Example usage: `set(player, {currency: 100})`
  */
-export function set<T extends object>(object: T, attributeValues: StrictPartial<T>): T {
+export function set<T extends object>(
+  object: T,
+  attributeValues: StrictPartial<T>
+): T {
   return { ...object, ...attributeValues };
 }
 
@@ -77,6 +80,13 @@ export function padStart(str: string, padding: string, length: number): string {
   const prePad = padding.repeat(Math.ceil(padLength / padding.length));
   const paddedString = prePad.slice(0, padLength) + str;
   return paddedString;
+}
+
+export function colorByValue(value: number, invert: boolean = false) {
+  if (invert) value *= -1;
+  if (value > 0) return "value-up";
+  if (value < 0) return "value-down";
+  return "";
 }
 
 // TODO: Floor every non-whole number to first decimal at their source.
