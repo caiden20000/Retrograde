@@ -1,4 +1,10 @@
-import React, { useRef, createContext, useContext, useEffect, useState } from "react";
+import React, {
+  useRef,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { initTestPlayer, newPlayer } from "./logic/player";
 import { ScreenType } from "./types/ScreenType";
 import { Station } from "./types/Station";
@@ -17,6 +23,7 @@ import { Player } from "./types/Player";
 import { SpaceDate } from "./types/SpaceDate";
 import { System } from "./types/System";
 import { Travel } from "./types/Travel";
+import { StationShipyardScreen } from "./components/station-shipyard-screen";
 
 // === Types ===
 type useStateSetter<T> = React.Dispatch<React.SetStateAction<T>>;
@@ -56,8 +63,11 @@ export default function App() {
     const simulatedDaysBeforeStart = 1000;
     setSystem((system) => {
       let newSystem = runTradeForSystem(system, simulatedDaysBeforeStart);
-      let newStation = newSystem.find((station: Station) => station.id === station.id);
-      if (newStation === undefined) throw new Error("Could not find station ID in updated system!");
+      let newStation = newSystem.find(
+        (station: Station) => station.id === station.id
+      );
+      if (newStation === undefined)
+        throw new Error("Could not find station ID in updated system!");
       newStation = set(newStation, { visited: true });
       newSystem = updateStationInSystem(newSystem, station, newStation);
       setStation(newStation);
@@ -89,6 +99,7 @@ export default function App() {
             {screen === "StationTradeScreen" && <StationTradeScreen />}
             {/* {screen === "StationMissionScreen" && <StationMissionScreen />}
             {screen === "StationCrewScreen" && <StationCrewScreen />} */}
+            {screen === "StationShipyardScreen" && <StationShipyardScreen />}
             {screen === "StationFuelScreen" && <StationFuelScreen />}
             {screen === "StationMapScreen" && <StationMapScreen />}
             {screen === "TravelScreen" && <TravelScreen />}
