@@ -12,6 +12,7 @@ export function StationShipyardScreen() {
 
   const shipList = allShipTypes
     .filter((ship) => ship != player.ship.shipType && ship != shipType.none)
+    .sort((a, b) => a.baseCost - b.baseCost)
     .map((shipType) => (
       <ShipItem
         shipType={shipType}
@@ -60,7 +61,7 @@ export function ShipItem({
 }) {
   return (
     <div className="ship-listing">
-      <span className="ship-name">{shipType.name}</span>
+      <span className="ship-name bold">{shipType.name}</span>
       <span className="ship-fuel">{shipType.fuelCapacity}ps</span>
       <span className="ship-cargo">{shipType.cargoCapacity}</span>
       <span className="ship-crew">{shipType.crewCapacity}</span>
