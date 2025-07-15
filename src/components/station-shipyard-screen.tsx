@@ -1,13 +1,64 @@
 import { useGameState } from "../App";
+import { allItemTypes } from "../constants/itemTypes";
 import { allShipTypes, shipType } from "../constants/shipTypes";
+import {
+  addItemCount,
+  cloneInventory,
+  getItemCount,
+  getTotalWeight,
+  newInventory,
+} from "../logic/inventory";
+import { getCargoUsage, newShip } from "../logic/ship";
 import { ShipType } from "../types/ShipType";
+import { set } from "../utils/util";
 import { StationScreenTemplate } from "./station-screen-template";
 
 export function StationShipyardScreen() {
-  const { player } = useGameState();
+  const { player, setPlayer } = useGameState();
 
   function purchaseShip(shipType: ShipType) {
-    return;
+    const currentWeight = getCargoUsage(player.ship);
+    const newMaxWeight = shipType.cargoCapacity;
+    let newShipInventory = cloneInventory(player.ship.inventory);
+
+    if (currentWeight > newMaxWeight) {
+      // For now, dispose of heaviest items until under weight limit
+      // TODO: Ask for confirmation before throwing away cargo.
+      const itemTypesSortedByWeight = [...allItemTypes].sort(
+        (a, b) => b.weight - a.weight
+      );
+      let itemTypeIndex = 0;
+      while (
+        getTotalWeight(newShipInventory) > newMaxWeight &&
+        getTotalWeight(newShipInventory) > 0
+      ) {
+        const itemType = itemTypesSortedByWeight[itemTypeIndex];
+        const itemCount = getItemCount(newShipInventory, itemType);
+        const requiredWeightReduction =
+          getTotalWeight(newShipInventory) - newMaxWeight;
+        const targetRemovalCountToReachGoal = Math.ceil(
+          requiredWeightReduction / itemType.weight
+        );
+        const actualRemoveCount = Math.min(
+          targetRemovalCountToReachGoal,
+          itemCount
+        );
+        newShipInventory = addItemCount(
+          newShipInventory,
+          itemType,
+          -actualRemoveCount
+        );
+        itemTypeIndex++;
+      }
+    }
+
+    let purchasedShip = newShip(shipType);
+    purchasedShip = set(purchasedShip, { inventory: newShipInventory });
+    let newPlayer = set(player, {
+      ship: purchasedShip,
+      currency: player.currency - shipType.baseCost,
+    });
+    setPlayer(newPlayer);
   }
 
   const shipList = allShipTypes

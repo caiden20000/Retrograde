@@ -28,7 +28,7 @@ export function setShip(player: Player, ship: Ship): Player {
 
 export function initTestPlayer(): Player {
   return set(newPlayer(), {
-    currency: 1000,
+    currency: 10000,
     ship: newShip(shipType.dart),
   });
 }
