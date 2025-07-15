@@ -8,6 +8,13 @@ const baseCost = 1000;
 const baseAttack = 5;
 const baseDefense = 5;
 
+const baseExp = 1.3;
+const cargoExp = baseExp * 1;
+const fuelExp = baseExp * 1;
+const costExp = baseExp * 1;
+const attackExp = baseExp * 1;
+const defenseExp = baseExp * 1;
+
 // (name, crew, cargo, fuel, cost, equipment, attack, defense)
 // Dart    0 1x 1.0x $1x 1 1.0x 1.0x
 // Trawler 1 2x 0.8x $2x 2 1.5x 2.0x
@@ -22,107 +29,39 @@ const baseDefense = 5;
 // Dreadnought 4 2.3x 5x $16x 5 5x 3.0x
 export const shipType: { [key: string]: ShipType } = {
   none: newShipType("None", 0, 0, 0, 0, 0, 0, 0),
-  dart: newShipType(
-    "Dart",
-    0,
-    baseCargo,
-    baseFuel,
-    baseCost,
-    1,
-    baseAttack,
-    baseDefense
-  ),
-  trawler: newShipType(
-    "Trawler",
-    1,
-    baseCargo * 2,
-    floor(baseFuel * 0.8),
-    baseCost * 2,
-    2,
-    floor(baseAttack * 1.5),
-    baseDefense * 2.0
-  ),
-  caravel: newShipType(
-    "Caravel",
-    2,
-    baseCargo * 3,
-    floor(baseFuel * 1.2),
-    baseCost * 4,
-    3,
-    baseAttack * 2.0,
-    baseDefense * 3.0
-  ),
-  galleon: newShipType(
-    "Galleon",
-    3,
-    baseCargo * 4,
-    floor(baseFuel * 1.6),
-    baseCost * 8,
-    4,
-    floor(baseAttack * 2.5),
-    baseDefense * 4.0
-  ),
-  eastman: newShipType(
-    "Eastman",
-    4,
-    baseCargo * 5,
-    baseFuel * 2.0,
-    baseCost * 16,
-    5,
-    baseAttack * 3.0,
-    baseDefense * 5.0
-  ),
-  carrier: newShipType(
-    "Carrier",
-    5,
-    baseCargo * 5,
-    baseFuel * 5.0,
-    baseCost * 32,
-    6,
-    floor(baseAttack * 5.5),
-    floor(baseDefense * 5.5)
-  ),
+  dart: scaledShipType("Dart", 0, 1, 1, 1, 1, 1, 1),
+  trawler: scaledShipType("Trawler", 1, 2, 0.8, 2, 2, 1.5, 2.0),
+  caravel: scaledShipType("Caravel", 2, 3, 1.2, 4, 3, 2.0, 3.0),
+  galleon: scaledShipType("Galleon", 3, 4, 1.6, 8, 4, 2.5, 4.0),
+  eastman: scaledShipType("Eastman", 4, 5, 2.0, 16, 5, 3.0, 5.0),
+  carrier: scaledShipType("Carrier", 5, 5, 5.0, 32, 6, 5.5, 5.5),
 
-  ketch: newShipType(
-    "Ketch",
-    1,
-    floor(baseCargo * 1.1),
-    baseFuel * 2,
-    baseCost * 2,
-    2,
-    baseAttack * 2.0,
-    floor(baseDefense * 1.5)
-  ),
-  brig: newShipType(
-    "Brig",
-    2,
-    floor(baseCargo * 1.5),
-    baseFuel * 3,
-    baseCost * 4,
-    3,
-    baseAttack * 3.0,
-    baseDefense * 2.0
-  ),
-  frigate: newShipType(
-    "Frigate",
-    3,
-    floor(baseCargo * 1.9),
-    baseFuel * 4,
-    baseCost * 8,
-    4,
-    baseAttack * 4.0,
-    floor(baseDefense * 2.5)
-  ),
-  dreadnought: newShipType(
-    "Dreadnought",
-    4,
-    floor(baseCargo * 2.3),
-    baseFuel * 5,
-    baseCost * 16,
-    5,
-    baseAttack * 5.0,
-    floor(baseDefense * 3.0)
-  ),
+  ketch: scaledShipType("Ketch", 1, 1.1, 2, 2, 2, 2.0, 1.5),
+  brig: scaledShipType("Brig", 2, 1.5, 3, 4, 3, 3.0, 2.0),
+  frigate: scaledShipType("Frigate", 3, 1.9, 4, 8, 4, 4.0, 2.5),
+  dreadnought: scaledShipType("Dreadnought", 4, 2.3, 5, 16, 5, 5.0, 3.0),
 };
+
+function scaledShipType(
+  name: string,
+  crew: number,
+  cargoMul: number,
+  fuelMul: number,
+  costMul: number,
+  equipment: number,
+  attackMul: number,
+  defenseMul: number
+) {
+  return newShipType(
+    name,
+    crew,
+    floor(baseCargo * cargoMul ** cargoExp),
+    floor(baseFuel * fuelMul ** fuelExp),
+    floor(baseCost * costMul ** costExp),
+    equipment,
+    floor(baseAttack * attackMul ** attackExp),
+    floor(baseDefense * defenseMul ** defenseExp)
+  );
+}
 
 export const allShipTypes = Object.keys(shipType).map((key) => shipType[key]);
