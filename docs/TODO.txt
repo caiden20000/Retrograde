@@ -31,6 +31,7 @@
 [x] Reorganize folder structure
 [ ] Code review my stuff, look for issues with structure or unclear code.
 [ ] Get some sort of linter / code scanner for GH actions
+[ ] Floor fuel cost
 
 
 
