@@ -5,4 +5,5 @@ export type ScreenType =
   | "StationMapScreen"
   | "StationFuelScreen"
   | "StationCrewScreen"
+  | "StationShipyardScreen"
   | "TravelScreen";

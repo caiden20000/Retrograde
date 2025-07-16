@@ -18,6 +18,7 @@ export function cloneShip(ship: Ship): Ship {
   };
 }
 
+/** Returns the total weight of the ship's inventory. */
 export function getCargoUsage(ship: Ship): number {
   let sum = 0;
   for (const itemType of allItemTypes) {
