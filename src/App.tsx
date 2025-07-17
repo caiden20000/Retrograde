@@ -63,9 +63,7 @@ export default function App() {
     const simulatedDaysBeforeStart = 1000;
     setSystem((system) => {
       let newSystem = runTradeForSystem(system, simulatedDaysBeforeStart);
-      let newStation = newSystem.find(
-        (station: Station) => station.id === station.id
-      );
+      let newStation = newSystem.find((stn: Station) => stn.id === station.id);
       if (newStation === undefined)
         throw new Error("Could not find station ID in updated system!");
       newStation = set(newStation, { visited: true });
