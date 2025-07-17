@@ -6,8 +6,8 @@ export function StationScreenTemplate({
   title,
   children,
 }: {
-  title: string;
-  children: React.ReactNode;
+  readonly title: string;
+  readonly children: React.ReactNode;
 }) {
   const { screen, setScreen, station, date, player } = useGameState();
 
@@ -69,10 +69,10 @@ function ScreenNavButton({
   setScreen,
   title,
 }: {
-  navScreen: ScreenType;
-  screen: ScreenType;
-  setScreen: (screen: ScreenType) => void;
-  title: string;
+  readonly navScreen: ScreenType;
+  readonly screen: ScreenType;
+  readonly setScreen: (screen: ScreenType) => void;
+  readonly title: string;
 }) {
   return (
     <button

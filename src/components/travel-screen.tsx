@@ -92,7 +92,7 @@ export function TravelScreen() {
   );
 }
 
-function ProgressBar({ percentage }: { percentage: number }) {
+function ProgressBar({ percentage }: { readonly percentage: number }) {
   return (
     <div className="travelbar">
       <div
@@ -103,7 +103,7 @@ function ProgressBar({ percentage }: { percentage: number }) {
   );
 }
 
-function Statbar({ percentage }: { percentage: number }) {
+function Statbar({ percentage }: { readonly percentage: number }) {
   return (
     <div className="statbar">
       <div

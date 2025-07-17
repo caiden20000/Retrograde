@@ -73,10 +73,10 @@ export function StationList({
   system,
   travelTo,
 }: {
-  station: Station;
-  player: Player;
-  system: System;
-  travelTo: (station: Station) => void;
+  readonly station: Station;
+  readonly player: Player;
+  readonly system: System;
+  readonly travelTo: (station: Station) => void;
 }) {
   const bounds = getBoundsOfSystem(system);
   const maxBound = Math.max(
@@ -120,11 +120,11 @@ export function StationDot({
   maxTravelDistance,
   onTravel,
 }: {
-  station: Station;
-  absolutePosition: Vec2;
-  distance: number;
-  maxTravelDistance: number;
-  onTravel: (station: Station) => void;
+  readonly station: Station;
+  readonly absolutePosition: Vec2;
+  readonly distance: number;
+  readonly maxTravelDistance: number;
+  readonly onTravel: (station: Station) => void;
 }) {
   const canTravelTo = maxTravelDistance <= distance;
   const top = absolutePosition.y * 100;
@@ -156,8 +156,8 @@ export function Tooltip({
   text,
   children,
 }: {
-  text: string;
-  children: ReactNode;
+  readonly text: string;
+  readonly children: ReactNode;
 }) {
   return (
     <div className="tooltip-container">

@@ -103,8 +103,8 @@ function TradeList({
   cart,
   onQuantityChange,
 }: {
-  cart: Cart;
-  onQuantityChange: (itemType: ItemType, delta: number) => void;
+  readonly cart: Cart;
+  readonly onQuantityChange: (itemType: ItemType, delta: number) => void;
 }) {
   const list: ReactNode[] = [];
   for (const itemType of allItemTypes) {
@@ -164,10 +164,10 @@ function TradeListItem({
   onQuantityChange,
   disabled,
 }: {
-  cart: Cart;
-  itemType: ItemType;
-  onQuantityChange: (delta: number) => void;
-  disabled: boolean;
+  readonly cart: Cart;
+  readonly itemType: ItemType;
+  readonly onQuantityChange: (delta: number) => void;
+  readonly disabled: boolean;
 }) {
   const cartCost = trunc1(Crt.getItemCost(cart, itemType));
   const cartWeight = trunc1(Crt.getItemWeight(cart, itemType));
