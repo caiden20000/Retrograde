@@ -8,7 +8,7 @@
 [ ] Random encounters: Make TODO
 [ ] Popup / warning / modal system TODO
 
-===== <+> Questline: Shipyard =====
+===== <> Questline: Shipyard =====
 [x] Mock up a UI
 [ ] Draft the Station Screen
 [x] Determine preliminary ship stats
@@ -25,13 +25,15 @@
 [ ] A price list that color-codes each station based on the value of the good selected.
 
 
-===== <> Questline: Code Quality =====
+===== <+> Questline: Code Quality =====
 [ ] Turn ItemType and ShipType into ENUMS with values (?)
 [x] Rename files to match classes
 [x] Reorganize folder structure
 [ ] Code review my stuff, look for issues with structure or unclear code.
 [ ] Get some sort of linter / code scanner for GH actions
 [ ] Floor fuel cost
+[x] Run SonarQube
+[~] Fix some SonarQube issues
 
 
 
