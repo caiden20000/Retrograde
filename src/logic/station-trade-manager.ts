@@ -155,8 +155,6 @@ function tradeBetween(
   requester: Station;
   supplier: Station;
 } {
-  const supply = Trd.getItemCount(supplier.tradeInventory, itemType);
-
   const returnValue = {
     requester: set(requester, {
       tradeInventory: Trd.addItemCount(
