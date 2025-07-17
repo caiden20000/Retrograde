@@ -14,7 +14,8 @@ import { ItemType } from "../types/ItemType";
 import { allItemTypes } from "../constants/itemTypes";
 
 export function StationTradeScreen() {
-  const { station, player, setStation, setPlayer, system, setSystem } = useGameState();
+  const { station, player, setStation, setPlayer, system, setSystem } =
+    useGameState();
   const [cart, setCart] = useState<Cart>(Crt.newCart(player, station));
   const weightTotal = floor(Crt.getCartWeight(cart), 1);
   const costTotal = floor(Crt.getCartCost(cart), 1);
@@ -26,7 +27,11 @@ export function StationTradeScreen() {
   function finalizeTrade() {
     let inventory = player.ship.inventory;
     for (const itemType of allItemTypes) {
-      inventory = Inv.addItemCount(inventory, itemType, Crt.getItemCount(cart, itemType));
+      inventory = Inv.addItemCount(
+        inventory,
+        itemType,
+        Crt.getItemCount(cart, itemType)
+      );
     }
     const newShip = set(player.ship, { inventory });
     const newPlayer = set(player, {
@@ -36,7 +41,11 @@ export function StationTradeScreen() {
 
     let tradeInventory = station.tradeInventory;
     for (const itemType of allItemTypes) {
-      tradeInventory = Trd.addItemCount(tradeInventory, itemType, -Crt.getItemCount(cart, itemType));
+      tradeInventory = Trd.addItemCount(
+        tradeInventory,
+        itemType,
+        -Crt.getItemCount(cart, itemType)
+      );
     }
     const newStation = set(station, { tradeInventory });
 
@@ -58,7 +67,8 @@ export function StationTradeScreen() {
               <tr>
                 <th rowSpan={2}>Cargo capacity:</th>
                 <td>
-                  {trunc1(getCargoUsage(player.ship))} / {player.ship.shipType.cargoCapacity} kg
+                  {trunc1(getCargoUsage(player.ship))} /{" "}
+                  {player.ship.shipType.cargoCapacity} kg
                 </td>
                 <th rowSpan={2}>Funds:</th>
                 <td>${trunc1(player.currency)}</td>
@@ -74,10 +84,10 @@ export function StationTradeScreen() {
               </tr>
               <tr>
                 <td className={colorByValue(weightTotal, true)}>
-                  {weightTotal > 0 ? "+" : weightTotal < 0 ? "-" : ""} {trunc1(Math.abs(weightTotal))} kg
+                  {addSign(weightTotal)} {trunc1(Math.abs(weightTotal))} kg
                 </td>
                 <td className={colorByValue(costTotal, true)}>
-                  {costTotal > 0 ? "-" : costTotal < 0 ? "+" : ""} ${trunc1(Math.abs(costTotal))}
+                  {addSign(costTotal)} ${trunc1(Math.abs(costTotal))}
                 </td>
               </tr>
             </tbody>
@@ -93,8 +103,8 @@ function TradeList({
   cart,
   onQuantityChange,
 }: {
-  cart: Cart;
-  onQuantityChange: (itemType: ItemType, delta: number) => void;
+  readonly cart: Cart;
+  readonly onQuantityChange: (itemType: ItemType, delta: number) => void;
 }) {
   const list: ReactNode[] = [];
   for (const itemType of allItemTypes) {
@@ -107,7 +117,8 @@ function TradeList({
           onQuantityChange: (delta: number) => {
             onQuantityChange(itemType, delta);
           },
-          disabled: getItemTypesForStation(cart.station).indexOf(itemType) === -1,
+          disabled:
+            getItemTypesForStation(cart.station).indexOf(itemType) === -1,
         }}
       />
     );
@@ -153,33 +164,45 @@ function TradeListItem({
   onQuantityChange,
   disabled,
 }: {
-  cart: Cart;
-  itemType: ItemType;
-  onQuantityChange: (delta: number) => void;
-  disabled: boolean;
+  readonly cart: Cart;
+  readonly itemType: ItemType;
+  readonly onQuantityChange: (delta: number) => void;
+  readonly disabled: boolean;
 }) {
   const cartCost = trunc1(Crt.getItemCost(cart, itemType));
   const cartWeight = trunc1(Crt.getItemWeight(cart, itemType));
   const cartQuantity = Crt.getItemCount(cart, itemType);
-  const buyPrice = trunc1(Trd.getItemBuyPrice(cart.station.tradeInventory, itemType, 1));
-  const sellPrice = trunc1(Trd.getItemSellPrice(cart.station.tradeInventory, itemType, 1));
+  const buyPrice = trunc1(
+    Trd.getItemBuyPrice(cart.station.tradeInventory, itemType, 1)
+  );
+  const sellPrice = trunc1(
+    Trd.getItemSellPrice(cart.station.tradeInventory, itemType, 1)
+  );
 
   /* Item, Units, Buy price, Weight, Cost, Units, Sell, Buy, Sell price, Units */
   return (
     <tr className={disabled ? "trade-disabled" : ""}>
       <th>{itemType.name}</th>
-      <td className="">{Trd.getItemCount(cart.station.tradeInventory, itemType)}</td>
+      <td className="">
+        {Trd.getItemCount(cart.station.tradeInventory, itemType)}
+      </td>
       <td className="separate">${buyPrice}</td>
       <td className={colorByValue(cartWeight, true)}>{cartWeight} kg</td>
       <td className={colorByValue(cartCost, true)}>${cartCost}</td>
       <td className={colorByValue(cartCost)}>{cartQuantity}</td>
       <td>
-        <button onClick={() => onQuantityChange(-1)} disabled={!Crt.canRemove(cart, itemType) || disabled}>
+        <button
+          onClick={() => onQuantityChange(-1)}
+          disabled={!Crt.canRemove(cart, itemType) || disabled}
+        >
           -
         </button>
       </td>
       <td className="separate">
-        <button onClick={() => onQuantityChange(1)} disabled={!Crt.canAdd(cart, itemType) || disabled}>
+        <button
+          onClick={() => onQuantityChange(1)}
+          disabled={!Crt.canAdd(cart, itemType) || disabled}
+        >
           +
         </button>
       </td>
@@ -193,5 +216,11 @@ function colorByValue(value: number, invert: boolean = false) {
   if (invert) value *= -1;
   if (value > 0) return "value-up";
   if (value < 0) return "value-down";
+  return "";
+}
+
+function addSign(num: number) {
+  if (num > 0) return "+";
+  if (num < 0) return "-";
   return "";
 }

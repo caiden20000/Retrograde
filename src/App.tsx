@@ -4,6 +4,7 @@ import React, {
   useContext,
   useEffect,
   useState,
+  useMemo,
 } from "react";
 import { initTestPlayer, newPlayer } from "./logic/player";
 import { ScreenType } from "./types/ScreenType";
@@ -63,9 +64,7 @@ export default function App() {
     const simulatedDaysBeforeStart = 1000;
     setSystem((system) => {
       let newSystem = runTradeForSystem(system, simulatedDaysBeforeStart);
-      let newStation = newSystem.find(
-        (station: Station) => station.id === station.id
-      );
+      let newStation = newSystem.find((stn: Station) => stn.id === station.id);
       if (newStation === undefined)
         throw new Error("Could not find station ID in updated system!");
       newStation = set(newStation, { visited: true });
@@ -75,23 +74,26 @@ export default function App() {
     });
   }, []);
 
+  const contextMemo = useMemo(
+    () => ({
+      screen,
+      setScreen,
+      station,
+      setStation,
+      player,
+      setPlayer,
+      system,
+      setSystem,
+      date,
+      setDate,
+      travel,
+      setTravel,
+    }),
+    [screen, station, player, system, date, travel]
+  );
+
   return (
-    <GameStateContext.Provider
-      value={{
-        screen,
-        setScreen,
-        station,
-        setStation,
-        player,
-        setPlayer,
-        system,
-        setSystem,
-        date,
-        setDate,
-        travel,
-        setTravel,
-      }}
-    >
+    <GameStateContext.Provider value={contextMemo}>
       <div className="screen-background">
         <div className="screen-resize-box">
           <div className="screen-box">

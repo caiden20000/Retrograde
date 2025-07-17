@@ -105,10 +105,10 @@ export function ShipItem({
   canPurchase,
   onPurchase,
 }: {
-  shipType: ShipType;
-  forSale: boolean;
-  canPurchase: boolean;
-  onPurchase: () => void;
+  readonly shipType: ShipType;
+  readonly forSale: boolean;
+  readonly canPurchase: boolean;
+  readonly onPurchase: () => void;
 }) {
   return (
     <div className="ship-listing">
