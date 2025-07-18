@@ -28,6 +28,20 @@ import { StationShipyardScreen } from "./components/station-shipyard-screen";
 
 // === Types ===
 type useStateSetter<T> = React.Dispatch<React.SetStateAction<T>>;
+export type GameState = {
+  screen: ScreenType;
+  setScreen: (screen: ScreenType) => void;
+  station: Station;
+  setStation: useStateSetter<Station>;
+  player: Player;
+  setPlayer: useStateSetter<Player>;
+  system: System;
+  setSystem: useStateSetter<System>;
+  date: SpaceDate;
+  setDate: useStateSetter<SpaceDate>;
+  travel: Travel | null;
+  setTravel: useStateSetter<Travel | null>;
+};
 
 // === Global Game State Context ===
 const GameStateContext = createContext<{
