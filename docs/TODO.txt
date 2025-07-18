@@ -25,15 +25,23 @@
 [ ] A price list that color-codes each station based on the value of the good selected.
 
 
-===== <> Questline: Encounters =====
-[ ] Define encounter type structure
-[ ] Define battle type
+===== <+> Questline: Encounters =====
+[+] Define encounter type structure
+[-] Define battle type
 [ ] Draft a few test encounters
 [ ] Create encounter screen wireframes
 [ ] Create preliminary encounter screen component
 [ ] Create system to switch to encounters during travel
 [ ] Think about unifying the travel + encounter screens
 
+===== <+> Questline: Battle =====
+[ ] Define Character type
+[ ] Characters have stats; define the stats
+[ ] Switch Player to Character
+[ ] Create a random Character generator
+    [ ] Crew - Characters that don't own a ship
+    [ ] Captains - Characters that own a ship
+[ ] Define battle type
 
 ===== <> Questline: Code Quality =====
 [ ] Turn ItemType and ShipType into ENUMS with values (?)
