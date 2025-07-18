@@ -4,6 +4,7 @@ import * as Trd from "../logic/tradeInventory";
 import { itemType } from "../constants/itemTypes";
 import { updateStationInSystem } from "../logic/system";
 import { set, floor } from "../utils/util";
+import { Statbar } from "./statbar";
 
 export function StationFuelScreen() {
   const { station, player, setStation, setPlayer, system, setSystem } =
@@ -69,7 +70,11 @@ export function StationFuelScreen() {
             Fuel: {fuelAmount}/{fuelCapacity}
           </div>
           <div className="bar">
-            <Statbar percentage={fuelPercentage}></Statbar>
+            <Statbar
+              backgroundColor="rgb(211, 211, 211)"
+              barColor="rgb(224, 218, 104)"
+              percentage={fuelPercentage}
+            ></Statbar>
           </div>
           <div className="smallbutton1">
             <button disabled={!canBuy(1)} onClick={() => buy(1)}>
@@ -95,16 +100,5 @@ export function StationFuelScreen() {
         </div>
       </div>
     </StationScreenTemplate>
-  );
-}
-
-function Statbar({ percentage }: { readonly percentage: number }) {
-  return (
-    <div className="statbar">
-      <div
-        className="statbar-fill"
-        style={{ width: percentage * 100 + "%" }}
-      ></div>
-    </div>
   );
 }

@@ -7,6 +7,7 @@ import {
 } from "../logic/spaceDate";
 import { floor, set } from "../utils/util";
 import { StationScreenTemplate } from "./station-screen-template";
+import { Statbar } from "./statbar";
 
 export function TravelScreen() {
   const { player, setPlayer, travel, setTravel, setScreen, date, setDate } =
@@ -75,11 +76,17 @@ export function TravelScreen() {
       </div>
       <div className="bar-container">
         <h3>Progress:</h3>
-        <ProgressBar percentage={progress} />
+        <Statbar
+          backgroundColor="rgb(51, 50, 68)"
+          barColor="rgb(110, 115, 242)"
+          percentage={progress}
+        />
       </div>
       <div className="bar-container">
         <h3>Fuel:</h3>
         <Statbar
+          backgroundColor="rgb(211, 211, 211)"
+          barColor="rgb(224, 218, 104)"
           percentage={player.ship.fuel / player.ship.shipType.fuelCapacity}
         />
       </div>
@@ -91,27 +98,5 @@ export function TravelScreen() {
         Dock station
       </button>
     </StationScreenTemplate>
-  );
-}
-
-function ProgressBar({ percentage }: { readonly percentage: number }) {
-  return (
-    <div className="travelbar">
-      <div
-        className="travelbar-fill"
-        style={{ width: percentage * 100 + "%" }}
-      ></div>
-    </div>
-  );
-}
-
-function Statbar({ percentage }: { readonly percentage: number }) {
-  return (
-    <div className="statbar">
-      <div
-        className="statbar-fill"
-        style={{ width: percentage * 100 + "%" }}
-      ></div>
-    </div>
   );
 }
