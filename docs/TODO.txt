@@ -25,7 +25,17 @@
 [ ] A price list that color-codes each station based on the value of the good selected.
 
 
-===== <+> Questline: Code Quality =====
+===== <> Questline: Encounters =====
+[ ] Define encounter type structure
+[ ] Define battle type
+[ ] Draft a few test encounters
+[ ] Create encounter screen wireframes
+[ ] Create preliminary encounter screen component
+[ ] Create system to switch to encounters during travel
+[ ] Think about unifying the travel + encounter screens
+
+
+===== <> Questline: Code Quality =====
 [ ] Turn ItemType and ShipType into ENUMS with values (?)
 [x] Rename files to match classes
 [x] Reorganize folder structure
