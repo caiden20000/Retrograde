@@ -60,9 +60,8 @@ html,
   color: white;
   border-bottom: 2px solid black;
 
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .station-content {
