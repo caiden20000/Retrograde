@@ -4,22 +4,10 @@ import initialState from "../initialState";
 import { Ship } from "../../types/Ship";
 import { Travel } from "../../types/Travel";
 import { Station } from "../../types/Station";
+import { newCharacterSlice } from "./characterSlice";
 
-const playerSlice = createSlice({
-  name: "player",
-  initialState: initialState().player,
-  reducers: {
-    addMoney: (state, action: PayloadAction<number>) => {
-      state.money + action.payload;
-    },
-    setShip: (state, action: PayloadAction<Ship>) => {
-      state.ship = action.payload;
-    },
-    setLocation: (state, action: PayloadAction<Station | Travel>) => {
-      state.location = action.payload;
-    },
-  },
-});
+const playerSlice = newCharacterSlice("player", initialState().player);
 
-export const { addMoney, setShip, setLocation } = playerSlice.actions;
+export const { setMoney, setLocation, setName, changeShip, addItemCount } =
+  playerSlice.actions;
 export default playerSlice.reducer;
