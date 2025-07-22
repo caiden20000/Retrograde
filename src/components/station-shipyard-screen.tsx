@@ -7,6 +7,7 @@ import {
   getItemCount,
   getTotalWeight,
   newInventory,
+  reduceTo,
 } from "../logic/inventory";
 import { getCargoUsage, newShip } from "../logic/ship";
 import { ShipType } from "../types/ShipType";
@@ -21,36 +22,7 @@ export function StationShipyardScreen() {
     const newMaxWeight = shipType.cargoCapacity;
     let newShipInventory = cloneInventory(player.ship.inventory);
 
-    if (currentWeight > newMaxWeight) {
-      // For now, dispose of heaviest items until under weight limit
-      // TODO: Ask for confirmation before throwing away cargo.
-      const itemTypesSortedByWeight = [...allItemTypes].sort(
-        (a, b) => b.weight - a.weight
-      );
-      let itemTypeIndex = 0;
-      while (
-        getTotalWeight(newShipInventory) > newMaxWeight &&
-        getTotalWeight(newShipInventory) > 0
-      ) {
-        const itemType = itemTypesSortedByWeight[itemTypeIndex];
-        const itemCount = getItemCount(newShipInventory, itemType);
-        const requiredWeightReduction =
-          getTotalWeight(newShipInventory) - newMaxWeight;
-        const targetRemovalCountToReachGoal = Math.ceil(
-          requiredWeightReduction / itemType.weight
-        );
-        const actualRemoveCount = Math.min(
-          targetRemovalCountToReachGoal,
-          itemCount
-        );
-        newShipInventory = addItemCount(
-          newShipInventory,
-          itemType,
-          -actualRemoveCount
-        );
-        itemTypeIndex++;
-      }
-    }
+    newShipInventory = reduceTo(newShipInventory, newMaxWeight);
 
     let purchasedShip = newShip(shipType);
     purchasedShip = set(purchasedShip, { inventory: newShipInventory });
