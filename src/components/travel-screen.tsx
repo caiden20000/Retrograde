@@ -8,6 +8,7 @@ import {
 import { floor, set } from "../utils/util";
 import { StationScreenTemplate } from "./station-screen-template";
 import { Statbar } from "./statbar";
+import { Player } from "../types/Player";
 
 export function TravelScreen() {
   const { player, setPlayer, travel, setTravel, setScreen, date, setDate } =
@@ -74,6 +75,27 @@ export function TravelScreen() {
           </div>
         </div>
       </div>
+      <ProgressAndFuel {...{ progress, player }} />
+      <button
+        className="dock-button"
+        hidden={progress < 1}
+        onClick={() => dock()}
+      >
+        Dock station
+      </button>
+    </StationScreenTemplate>
+  );
+}
+
+export function ProgressAndFuel({
+  progress,
+  player,
+}: {
+  progress: number;
+  player: Player;
+}) {
+  return (
+    <div>
       <div className="bar-container">
         <h3>Progress:</h3>
         <Statbar
@@ -90,13 +112,6 @@ export function TravelScreen() {
           percentage={player.ship.fuel / player.ship.shipType.fuelCapacity}
         />
       </div>
-      <button
-        className="dock-button"
-        hidden={progress < 1}
-        onClick={() => dock()}
-      >
-        Dock station
-      </button>
-    </StationScreenTemplate>
+    </div>
   );
 }
