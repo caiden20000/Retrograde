@@ -6,7 +6,7 @@ import { Travel } from "./Travel";
 export type Character = {
   name: string;
   skills: CharacterSkills;
-  currency: number;
+  money: number;
   ship: Ship | null; // Owned ship. If crew, ship is null.
   location: Station | Travel;
 };
