@@ -1,12 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import playerSlice from "./slices/playerSlice";
-import { newCharacterSlice } from "./slices/characterSlice";
-import initialState from "./initialState";
 import systemSlice from "./slices/systemSlice";
 import dateSlice from "./slices/dateSlice";
 import currentScreenSlice from "./slices/currentScreenSlice";
 import travelSlice from "./slices/travelSlice";
 import encounterSlice from "./slices/encounterSlice";
+import { GameState } from "../types/GameState";
 
 const store = configureStore({
   reducer: {
@@ -21,3 +20,6 @@ const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+// Verify the store matches our GameState type.
+const _stateTypeCheck = store.getState() satisfies GameState;

@@ -11,6 +11,19 @@ export type GameState = {
   system: System;
   date: SpaceDate;
   currentScreen: ScreenType;
+  travel: Travel | null;
+  encounter: EncounterNode | null;
+};
+
+/* 
+This is a validated type that would prevent a weird thing from happening, as encounter should not be null when travel is null.
+But this makes type validation for the redux store complicated so we'll deprecate it for now.
+
+export type GameState = {
+  player: Character;
+  system: System;
+  date: SpaceDate;
+  currentScreen: ScreenType;
 } & (
   | {
       travel: null;
@@ -21,3 +34,4 @@ export type GameState = {
       encounter: EncounterNode | null;
     }
 );
+*/
