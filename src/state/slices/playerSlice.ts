@@ -8,6 +8,6 @@ import { newCharacterSlice } from "./characterSlice";
 
 const playerSlice = newCharacterSlice("player", initialState().player);
 
-export const { setMoney, setLocation, setName, changeShip, addItemCount } =
+export const { setMoney, setLocation, setName, changeShip, modifyItemCount } =
   playerSlice.actions;
 export default playerSlice.reducer;

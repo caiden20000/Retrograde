@@ -34,7 +34,7 @@ export const newCharacterSlice = (name: string, initialState: Character) =>
           state.ship.inventory = reducedInventory;
         }
       },
-      addItemCount(
+      modifyItemCount(
         state,
         action: PayloadAction<{ itemType: ItemType; count: number }>
       ) {
