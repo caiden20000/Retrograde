@@ -25,6 +25,8 @@ import { SpaceDate } from "./types/SpaceDate";
 import { System } from "./types/System";
 import { Travel } from "./types/Travel";
 import { StationShipyardScreen } from "./components/station-shipyard-screen";
+import { Provider } from "react-redux";
+import { store } from "./state/store";
 
 // === Types ===
 type useStateSetter<T> = React.Dispatch<React.SetStateAction<T>>;
@@ -107,7 +109,7 @@ export default function App() {
   );
 
   return (
-    <GameStateContext.Provider value={contextMemo}>
+    <Provider store={store}>
       <div className="screen-background">
         <div className="screen-resize-box">
           <div className="screen-box">
@@ -123,7 +125,7 @@ export default function App() {
         </div>
         <Watermark />
       </div>
-    </GameStateContext.Provider>
+    </Provider>
   );
 }
 
