@@ -1,9 +1,21 @@
-import { useGameState } from "../App";
+import { useAppSelector } from "../state/hooks";
+import { selectStation } from "../state/selectors";
 import { capitalize, commatize } from "../utils/util";
+import { ErrorPage } from "./error";
 import { StationScreenTemplate } from "./station-screen-template";
 
 export function StationInfoScreen() {
-  const { station } = useGameState();
+  const station = useAppSelector(selectStation);
+
+  if (station === null) {
+    return (
+      <ErrorPage
+        code="789456615"
+        reason="Attempted to load cart on trade screen while station was null (implies traveling)"
+      />
+    );
+  }
+
   return (
     <StationScreenTemplate title="Station Info">
       <div className="station-info">

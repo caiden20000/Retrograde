@@ -7,7 +7,7 @@ import travelSlice from "./slices/travelSlice";
 import encounterSlice from "./slices/encounterSlice";
 import { GameState } from "../types/GameState";
 
-const store = configureStore({
+export const store = configureStore({
   reducer: {
     player: playerSlice,
     system: systemSlice,

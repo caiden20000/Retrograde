@@ -13,7 +13,12 @@ export function generateSystem(systemCount: number): System {
     MAX_STATION_DISTANCE
   );
   for (const pos of positions) {
-    system.push(newStation(system.length.toString(), pos));
+    // Make sure to not have copy names
+    let stn: Station | null = null;
+    while (stn === null || system.some((stn2) => stn?.name == stn2.name)) {
+      stn = newStation(system.length.toString(), pos);
+    }
+    system.push(stn);
   }
   return system;
 }
@@ -22,10 +27,17 @@ export function cloneSystem(system: System): System {
   return [...system];
 }
 
-export function updateStationInSystem(system: System, oldStation: Station, newStation: Station): System {
+export function updateStationInSystem(
+  system: System,
+  oldStation: Station,
+  newStation: Station
+): System {
   const newSystem = [...system];
   const stationIndex = newSystem.findIndex((stn) => stn.id === oldStation.id);
-  if (stationIndex == -1) throw new Error("Station ID not found when attempting to update station state.");
+  if (stationIndex == -1)
+    throw new Error(
+      "Station ID not found when attempting to update station state."
+    );
   newSystem.splice(stationIndex, 1, newStation);
   return newSystem;
 }
@@ -51,7 +63,12 @@ export function updateStationInSystem(system: System, oldStation: Station, newSt
   return S
   */
 
-function generatePositions(count: number, center: Vec2, minDist: number, maxDist: number): Vec2[] {
+function generatePositions(
+  count: number,
+  center: Vec2,
+  minDist: number,
+  maxDist: number
+): Vec2[] {
   const S: Vec2[] = [];
   S.push({ x: center.x, y: center.y });
 

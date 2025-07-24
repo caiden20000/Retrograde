@@ -1,6 +1,14 @@
-import { useGameState } from "../App";
 import { spaceDateToString } from "../logic/spaceDate";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
+import {
+  selectCurrentScreen,
+  selectDate,
+  selectPlayer,
+  selectStation,
+} from "../state/selectors";
+import { setScreen } from "../state/slices/currentScreenSlice";
 import { ScreenType } from "../types/ScreenType";
+import { floor } from "../utils/util";
 
 export function StationScreenTemplate({
   title,
@@ -11,49 +19,46 @@ export function StationScreenTemplate({
   readonly children: React.ReactNode;
   readonly isTravel?: boolean;
 }) {
-  const { screen, setScreen, station, date, player } = useGameState();
+  const station = useAppSelector(selectStation);
+  const date = useAppSelector(selectDate);
+  const player = useAppSelector(selectPlayer);
+  const screen = useAppSelector(selectCurrentScreen);
 
   return (
     <div className="station-template">
       <div className="station-header">
         <div className="perm-header">
           <span className="station-name">
-            {isTravel ? "Space" : station.name}
+            {isTravel || station === null ? "Space" : station.name}
           </span>
-          <span className="funds">Funds: ${player.currency}</span>
+          <span className="funds">Funds: ${floor(player.money, 1)}</span>
           <span className="space-date">Date: {spaceDateToString(date)}</span>
         </div>
         {title}
       </div>
       <div className="station-content">{children}</div>
-      {!isTravel && <ScreenNavBar {...{ screen, setScreen }} />}
+      {!isTravel && <ScreenNavBar {...{ screen }} />}
     </div>
   );
 }
 
-function ScreenNavBar({
-  screen,
-  setScreen,
-}: {
-  readonly screen: ScreenType;
-  readonly setScreen: (screen: ScreenType) => void;
-}) {
+function ScreenNavBar({ screen }: { readonly screen: ScreenType }) {
   return (
     <div className="station-footer">
       <ScreenNavButton
         navScreen="StationInfoScreen"
         title="Info"
-        {...{ screen, setScreen }}
+        {...{ screen }}
       />
       <ScreenNavButton
         navScreen="StationTradeScreen"
         title="Trade"
-        {...{ screen, setScreen }}
+        {...{ screen }}
       />
       <ScreenNavButton
         navScreen="StationShipyardScreen"
         title="Shipyard"
-        {...{ screen, setScreen }}
+        {...{ screen }}
       />
       {/* <ScreenNavButton
     navScreen="StationMissionScreen"
@@ -68,12 +73,12 @@ function ScreenNavBar({
       <ScreenNavButton
         navScreen="StationFuelScreen"
         title="Refuel"
-        {...{ screen, setScreen }}
+        {...{ screen }}
       />
       <ScreenNavButton
         navScreen="StationMapScreen"
         title="Map"
-        {...{ screen, setScreen }}
+        {...{ screen }}
       />
     </div>
   );
@@ -82,18 +87,17 @@ function ScreenNavBar({
 function ScreenNavButton({
   navScreen,
   screen,
-  setScreen,
   title,
 }: {
   readonly navScreen: ScreenType;
   readonly screen: ScreenType;
-  readonly setScreen: (screen: ScreenType) => void;
   readonly title: string;
 }) {
+  const dispatch = useAppDispatch();
   return (
     <button
       className={screen == navScreen ? "selected" : ""}
-      onClick={() => setScreen(navScreen)}
+      onClick={() => dispatch(setScreen(navScreen))}
     >
       {title}
     </button>

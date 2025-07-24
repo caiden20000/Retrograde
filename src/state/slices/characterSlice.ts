@@ -7,16 +7,20 @@ import { ItemType } from "../../types/ItemType";
 import { ShipType } from "../../types/ShipType";
 import { newShip } from "../../logic/ship";
 import { addItemCount, reduceTo } from "../../logic/inventory";
+import { Player } from "../../types/Player";
 
-export const newCharacterSlice = (name: string, initialState: Character) =>
+export const newCharacterSlice = <T extends Character | Player>(
+  name: string,
+  initialState: T
+) =>
   createSlice({
     name,
     initialState,
     reducers: {
-      setMoney: (state, action: PayloadAction<number>) => {
-        state.money = action.payload;
+      modifyMoney: (state, action: PayloadAction<number>) => {
+        state.money += action.payload;
       },
-      setLocation: (state, action: PayloadAction<Station | Travel>) => {
+      setLocation: (state, action: PayloadAction<string | Travel>) => {
         state.location = action.payload;
       },
       setName: (state, action: PayloadAction<string>) => {
@@ -33,6 +37,12 @@ export const newCharacterSlice = (name: string, initialState: Character) =>
           state.ship = newShip(action.payload);
           state.ship.inventory = reducedInventory;
         }
+      },
+      modifyFuel: (state, action: PayloadAction<number>) => {
+        if (state.ship) state.ship.fuel += action.payload;
+      },
+      setFuel: (state, action: PayloadAction<number>) => {
+        if (state.ship) state.ship.fuel = action.payload;
       },
       modifyItemCount(
         state,
