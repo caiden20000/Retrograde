@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { useGameState } from "../App";
 import {
   addRevolutions,
   cloneSpaceDate,
@@ -9,10 +8,18 @@ import { floor, set } from "../utils/util";
 import { StationScreenTemplate } from "./station-screen-template";
 import { Statbar } from "./statbar";
 import { Player } from "../types/Player";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
+import { selectPlayer, selectShip, selectTravel } from "../state/selectors";
+import { modifyFuel } from "../state/slices/playerSlice";
+import { setDate } from "../state/slices/dateSlice";
+import { setTravel } from "../state/slices/travelSlice";
+import { setScreen } from "../state/slices/currentScreenSlice";
 
 export function TravelScreen() {
-  const { player, setPlayer, travel, setTravel, setScreen, date, setDate } =
-    useGameState();
+  const dispatch = useAppDispatch();
+  const travel = useAppSelector(selectTravel);
+  const player = useAppSelector(selectPlayer);
+  const ship = useAppSelector(selectShip);
   const [progress, setProgress] = useState<number>(0);
   const [elapsed, setElapsed] = useState<number>(0);
   const animationRef = useRef<number>(0);
@@ -36,9 +43,8 @@ export function TravelScreen() {
         cloneSpaceDate(travel.startDate),
         floor(travel.timeToTravel * progress)
       );
-
-      setPlayer(set(player, { ship: set(player.ship, { fuel: currentFuel }) }));
-      setDate(currentDate);
+      dispatch(modifyFuel(currentFuel - ship.fuel));
+      dispatch(setDate(currentDate));
     };
 
     animationRef.current = requestAnimationFrame(update);
@@ -57,8 +63,8 @@ export function TravelScreen() {
   };
 
   function dock() {
-    setTravel(null);
-    setScreen("StationInfoScreen");
+    dispatch(setTravel(null));
+    dispatch(setScreen("StationInfoScreen"));
   }
 
   return (

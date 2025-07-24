@@ -1,8 +1,13 @@
-import { allItemTypes } from "../../constants/itemTypes";
+import { allItemTypes, itemType } from "../../constants/itemTypes";
 import { getCartCost } from "../../logic/cart";
 import { runTradeForSystem } from "../../logic/station-trade-manager";
+import { getItemBuyPrice } from "../../logic/tradeInventory";
 import { Cart } from "../../types/Cart";
-import { modifyItemCount, setMoney } from "../slices/playerSlice";
+import {
+  modifyFuel,
+  modifyPlayerItemCount,
+  modifyMoney,
+} from "../slices/playerSlice";
 import {
   modifyStationItemCount,
   replaceAllStations,
@@ -19,7 +24,7 @@ export const checkout =
     for (const itemType of allItemTypes) {
       const count = cartInventory[itemType.name];
       if (count !== undefined) {
-        dispatch(modifyItemCount({ itemType, count }));
+        dispatch(modifyPlayerItemCount({ itemType, count }));
         dispatch(
           modifyStationItemCount({
             id: cart.station.id,
@@ -30,7 +35,7 @@ export const checkout =
       }
     }
     const totalCost = getCartCost(cart);
-    dispatch(setMoney(state.player.money - totalCost));
+    dispatch(modifyMoney(state.player.money - totalCost));
   };
 
 export const systemTrade =
@@ -40,4 +45,26 @@ export const systemTrade =
     const system = state.system;
     const newSystem = runTradeForSystem(state.system, revs);
     dispatch(replaceAllStations(newSystem));
+  };
+
+export const buyFuel =
+  (stationId: string, fuelAmount: number): AppThunk =>
+  (dispatch, getState) => {
+    const state = getState();
+    const station = state.system.find((stn) => stn.id == stationId);
+    if (station === undefined)
+      throw new Error("Tried to buy fuel when station was null!");
+    dispatch(modifyFuel(fuelAmount));
+    dispatch(
+      modifyStationItemCount({
+        id: station.id,
+        itemType: itemType.fuel,
+        count: -fuelAmount,
+      })
+    );
+    dispatch(
+      modifyMoney(
+        -(fuelAmount * getItemBuyPrice(station.tradeInventory, itemType.fuel))
+      )
+    );
   };

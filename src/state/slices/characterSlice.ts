@@ -17,8 +17,8 @@ export const newCharacterSlice = <T extends Character | Player>(
     name,
     initialState,
     reducers: {
-      setMoney: (state, action: PayloadAction<number>) => {
-        state.money = action.payload;
+      modifyMoney: (state, action: PayloadAction<number>) => {
+        state.money += action.payload;
       },
       setLocation: (state, action: PayloadAction<string | Travel>) => {
         state.location = action.payload;
@@ -37,6 +37,9 @@ export const newCharacterSlice = <T extends Character | Player>(
           state.ship = newShip(action.payload);
           state.ship.inventory = reducedInventory;
         }
+      },
+      modifyFuel: (state, action: PayloadAction<number>) => {
+        if (state.ship) state.ship.fuel += action.payload;
       },
       modifyItemCount(
         state,

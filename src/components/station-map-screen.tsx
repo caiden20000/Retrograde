@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { useGameState } from "../App";
 import { Player } from "../types/Player";
 import { Station } from "../types/Station";
 import { runTradeForSystem } from "../logic/station-trade-manager";
@@ -11,53 +10,64 @@ import { StationScreenTemplate } from "./station-screen-template";
 import { cloneVec2, getDistance, newVec2 } from "../logic/vec2";
 import { updateStationInSystem } from "../logic/system";
 import { Vec2 } from "../types/Vec2";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
+import {
+  selectDate,
+  selectPlayer,
+  selectStation,
+  selectSystem,
+  selectTravel,
+} from "../state/selectors";
+import { ErrorPage } from "./error";
+import { useDispatch } from "react-redux";
+import { addRevs } from "../state/slices/dateSlice";
+import { modifyFuel } from "../state/slices/playerSlice";
+import { replaceAllStations } from "../state/slices/systemSlice";
+import { setTravel } from "../state/slices/travelSlice";
+import { setScreen } from "../state/slices/currentScreenSlice";
 
 export function StationMapScreen() {
-  const {
-    station,
-    player,
-    setStation,
-    setPlayer,
-    setScreen,
-    system,
-    setSystem,
-    date,
-    setDate,
-    setTravel,
-  } = useGameState();
+  const dispatch = useAppDispatch();
+  const station = useAppSelector(selectStation);
+  const player = useAppSelector(selectPlayer);
+  const date = useAppSelector(selectDate);
+  const system = useAppSelector(selectSystem);
+  const travel = useAppSelector(selectTravel);
+
+  if (station === null) {
+    return (
+      <ErrorPage
+        code="1654321968"
+        reason="Attempted to load map on trade screen while station was null (implies traveling)"
+      />
+    );
+  }
 
   function travelTo(destination: Station) {
+    if (station === null)
+      throw new Error("Tried to travel while source station is null!");
     const distance = floor(getDistance(station.position, destination.position));
     const timeToTravel = distance;
-    const newShip = set(player.ship, {
-      fuel: player.ship.fuel - Math.floor(distance),
-    });
-    const newPlayer = set(player, { ship: newShip });
-    setDate((date) => addRevolutions(date, timeToTravel));
-    setPlayer(newPlayer);
-    setSystem((system) => {
-      let newSystem = runTradeForSystem(system, timeToTravel);
-      let newDestination = newSystem.find(
-        (station: Station) => station.id === destination.id
-      );
-      if (newDestination === undefined)
-        throw new Error("Could not find destination ID in updated system!");
-      newDestination = set(newDestination, { visited: true });
-      newSystem = updateStationInSystem(newSystem, destination, newDestination);
-      setStation(newDestination);
-      return newSystem;
-    });
-    setTravel(
-      newTravel(
-        station,
-        destination,
-        player.ship.fuel,
-        newShip.fuel,
-        date,
-        timeToTravel
+
+    let newSystem = runTradeForSystem(system, timeToTravel);
+    dispatch(replaceAllStations(newSystem));
+    dispatch(
+      setTravel(
+        newTravel(
+          station,
+          destination,
+          player.ship.fuel,
+          player.ship.fuel - Math.floor(distance),
+          date,
+          timeToTravel
+        )
       )
     );
-    setScreen("TravelScreen");
+
+    dispatch(modifyFuel(-Math.floor(distance)));
+    dispatch(addRevs(timeToTravel));
+
+    dispatch(setScreen("TravelScreen"));
   }
 
   return (

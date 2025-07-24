@@ -1,16 +1,12 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import initialState from "../initialState";
 import { ScreenType } from "../../types/ScreenType";
+import { newGenericSlice } from "./genericSlice";
 
-const currentScreenSlice = createSlice({
-  name: "currentScreen",
-  initialState: initialState().currentScreen,
-  reducers: {
-    setScreen: (state, action: PayloadAction<ScreenType>) => {
-      return action.payload;
-    },
-  },
-});
+const currentScreenSlice = newGenericSlice(
+  "currentScreen",
+  initialState().currentScreen
+);
 
-export const { setScreen } = currentScreenSlice.actions;
+export const { setValue: setScreen } = currentScreenSlice.actions;
 export default currentScreenSlice.reducer;

@@ -1,10 +1,9 @@
-import { GameState } from "../App";
 import { Battle } from "./Battle";
 import { EncounterNode } from "./EncounterNode";
 
 export type EncounterOption = {
   readonly label: string;
-  readonly sideEffect: ((context: GameState) => void) | null;
+  readonly sideEffect: (() => void) | null;
 } & (
   | {
       readonly node: EncounterNode;

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { EncounterNode } from "../types/EncounterNode";
 import { EncounterOption } from "../types/EcounterOption";
 import { StationScreenTemplate } from "./station-screen-template";
-import { useGameState } from "../App";
 
 export function EncounterScreen({
   initialEncounterNode,
@@ -11,11 +10,10 @@ export function EncounterScreen({
 }) {
   const [encounterNode, setEncounterNode] =
     useState<EncounterNode>(initialEncounterNode);
-  const context = useGameState();
 
   function chooseOption(option: EncounterOption) {
     // Do side effect
-    if (option.sideEffect !== null) option.sideEffect(context);
+    if (option.sideEffect !== null) option.sideEffect();
     // Change screen
     const next = option.node;
     if (option.nodeType == "null") {

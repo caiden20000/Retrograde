@@ -3,7 +3,7 @@ import { allShipTypes, shipType } from "../constants/shipTypes";
 import { ShipType } from "../types/ShipType";
 import { StationScreenTemplate } from "./station-screen-template";
 import { RootState } from "../state/store";
-import { changeShip, setMoney } from "../state/slices/playerSlice";
+import { changeShip, modifyMoney } from "../state/slices/playerSlice";
 
 export function StationShipyardScreen() {
   // const { player, setPlayer } = useGameState();
@@ -12,7 +12,7 @@ export function StationShipyardScreen() {
 
   function purchaseShip(shipType: ShipType) {
     dispatch(changeShip(shipType));
-    dispatch(setMoney(player.money - shipType.baseCost));
+    dispatch(modifyMoney(player.money - shipType.baseCost));
   }
 
   const playerShipType = player.ship?.shipType ?? shipType.none;
