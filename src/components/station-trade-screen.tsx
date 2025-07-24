@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { Cart } from "../types/Cart";
 import * as Crt from "../logic/cart";
 import * as Trd from "../logic/tradeInventory";
@@ -21,9 +21,6 @@ export function StationTradeScreen() {
   const station = useAppSelector(selectStation);
   const ship = useAppSelector(selectShip);
 
-  const [cart, setCart] = useState<Cart>(
-    Crt.newCart(player, station as Station)
-  ); // TODO: Bad bind, fix later
   if (station === null) {
     return (
       <ErrorPage
@@ -32,8 +29,11 @@ export function StationTradeScreen() {
       />
     );
   }
-  const weightTotal = floor(Crt.getCartWeight(cart), 1);
-  const costTotal = floor(Crt.getCartCost(cart), 1);
+
+  const [cart, setCart] = useState<Cart>(Crt.newCart(player, station));
+
+  const weightTotal = useMemo(() => floor(Crt.getCartWeight(cart), 1), [cart]);
+  const costTotal = useMemo(() => floor(Crt.getCartCost(cart), 1), [cart]);
 
   function onQuantityChange(itemType: ItemType, delta: number): void {
     setCart((cart) => Crt.addToCart(cart, itemType, delta));
