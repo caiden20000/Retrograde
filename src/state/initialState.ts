@@ -7,13 +7,14 @@ import { newSpaceDate } from "../logic/spaceDate";
 import { generateSystem } from "../logic/system";
 import { Character } from "../types/Character";
 import { GameState } from "../types/GameState";
+import { Player } from "../types/Player";
 
 let initStorage: GameState | null = null;
 export default function initialState(): GameState {
   if (initStorage !== null) return initStorage;
   const system = generateSystem(32);
   const station = system[0];
-  const player: Character = {
+  const player: Player = {
     name: "Player",
     skills: {
       trade: 2,
@@ -23,7 +24,7 @@ export default function initialState(): GameState {
     },
     money: 10000,
     ship: newShip(shipType.dart),
-    location: station,
+    location: station.id,
   };
   const newState: GameState = {
     system,

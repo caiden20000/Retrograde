@@ -7,8 +7,12 @@ import { ItemType } from "../../types/ItemType";
 import { ShipType } from "../../types/ShipType";
 import { newShip } from "../../logic/ship";
 import { addItemCount, reduceTo } from "../../logic/inventory";
+import { Player } from "../../types/Player";
 
-export const newCharacterSlice = (name: string, initialState: Character) =>
+export const newCharacterSlice = <T extends Character | Player>(
+  name: string,
+  initialState: T
+) =>
   createSlice({
     name,
     initialState,

@@ -1,13 +1,14 @@
 import { Battle } from "./Battle";
 import { Character } from "./Character";
 import { EncounterNode } from "./EncounterNode";
+import { Player } from "./Player";
 import { ScreenType } from "./ScreenType";
 import { SpaceDate } from "./SpaceDate";
 import { System } from "./System";
 import { Travel } from "./Travel";
 
 export type GameState = {
-  player: Character;
+  player: Player;
   system: System;
   date: SpaceDate;
   currentScreen: ScreenType;
