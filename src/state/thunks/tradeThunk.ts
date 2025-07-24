@@ -35,7 +35,7 @@ export const checkout =
       }
     }
     const totalCost = getCartCost(cart);
-    dispatch(modifyMoney(state.player.money - totalCost));
+    dispatch(modifyMoney(-totalCost));
   };
 
 export const systemTrade =

@@ -12,7 +12,7 @@ export function StationShipyardScreen() {
 
   function purchaseShip(shipType: ShipType) {
     dispatch(changeShip(shipType));
-    dispatch(modifyMoney(player.money - shipType.baseCost));
+    dispatch(modifyMoney(-shipType.baseCost));
   }
 
   const playerShipType = player.ship?.shipType ?? shipType.none;

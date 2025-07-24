@@ -1,7 +1,6 @@
 // Generate initial state to populate store
 
 import { shipType } from "../constants/shipTypes";
-import { initTestPlayer, newPlayer } from "../logic/player";
 import { newShip } from "../logic/ship";
 import { newSpaceDate } from "../logic/spaceDate";
 import { generateSystem } from "../logic/system";

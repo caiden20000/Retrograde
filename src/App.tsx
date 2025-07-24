@@ -7,7 +7,6 @@ import { TravelScreen } from "./components/travel-screen";
 import { Watermark } from "./components/watermark";
 import "./styles.css";
 import { StationShipyardScreen } from "./components/station-shipyard-screen";
-import { Provider } from "react-redux";
 import { RootState, store } from "./state/store";
 import { SIMULATED_REVS_BEFORE_START } from "./constants";
 import { systemTrade } from "./state/thunks/tradeThunk";
@@ -23,23 +22,21 @@ export default function App() {
   }, []);
 
   return (
-    <Provider store={store}>
-      <div className="screen-background">
-        <div className="screen-resize-box">
-          <div className="screen-box">
-            {screen === "StationInfoScreen" && <StationInfoScreen />}
-            {screen === "StationTradeScreen" && <StationTradeScreen />}
-            {/* {screen === "StationMissionScreen" && <StationMissionScreen />}
+    <div className="screen-background">
+      <div className="screen-resize-box">
+        <div className="screen-box">
+          {screen === "StationInfoScreen" && <StationInfoScreen />}
+          {screen === "StationTradeScreen" && <StationTradeScreen />}
+          {/* {screen === "StationMissionScreen" && <StationMissionScreen />}
             {screen === "StationCrewScreen" && <StationCrewScreen />} */}
-            {screen === "StationShipyardScreen" && <StationShipyardScreen />}
-            {screen === "StationFuelScreen" && <StationFuelScreen />}
-            {screen === "StationMapScreen" && <StationMapScreen />}
-            {screen === "TravelScreen" && <TravelScreen />}
-          </div>
+          {screen === "StationShipyardScreen" && <StationShipyardScreen />}
+          {screen === "StationFuelScreen" && <StationFuelScreen />}
+          {screen === "StationMapScreen" && <StationMapScreen />}
+          {screen === "TravelScreen" && <TravelScreen />}
         </div>
-        <Watermark />
       </div>
-    </Provider>
+      <Watermark />
+    </div>
   );
 }
 

@@ -23,7 +23,11 @@ export function cloneCart(cart: Cart): Cart {
   };
 }
 
-export function addToCart(cart: Cart, itemType: ItemType, count: number = 1): Cart {
+export function addToCart(
+  cart: Cart,
+  itemType: ItemType,
+  count: number = 1
+): Cart {
   let cartInventory = Inv.addItemCount(cart.cartInventory, itemType, count);
   const newCart = set(cart, { cartInventory });
   if (!isCartValid(cart)) {
@@ -33,21 +37,31 @@ export function addToCart(cart: Cart, itemType: ItemType, count: number = 1): Ca
   }
 }
 
-export function canAdd(cart: Cart, itemType: ItemType, count: number = 1): boolean {
+export function canAdd(
+  cart: Cart,
+  itemType: ItemType,
+  count: number = 1
+): boolean {
   let cartInventory = Inv.addItemCount(cart.cartInventory, itemType, count);
   const newCart = set(cart, { cartInventory });
   return isCartValid(newCart);
 }
 
-export function canRemove(cart: Cart, itemType: ItemType, count: number = 1): boolean {
+export function canRemove(
+  cart: Cart,
+  itemType: ItemType,
+  count: number = 1
+): boolean {
   return canAdd(cart, itemType, -count);
 }
 
 export function isCartValid(cart: Cart): boolean {
   for (const itemType of allItemTypes) {
     const cartCount = Inv.getItemCount(cart.cartInventory, itemType);
-    if (cartCount < 0 && !doesPlayerHave(cart, itemType, -cartCount)) return false;
-    if (cartCount > 0 && !doesStationHave(cart, itemType, cartCount)) return false;
+    if (cartCount < 0 && !doesPlayerHave(cart, itemType, -cartCount))
+      return false;
+    if (cartCount > 0 && !doesStationHave(cart, itemType, cartCount))
+      return false;
   }
   if (!canPlayerAfford(cart, getCartCost(cart))) return false;
   if (!canShipHold(cart, getCartWeight(cart))) return false;
@@ -58,8 +72,18 @@ export function getCartCost(cart: Cart): number {
   let sum = 0;
   for (const itemType of allItemTypes) {
     const cartCount = Inv.getItemCount(cart.cartInventory, itemType);
-    if (cartCount < 0) sum -= Trd.getItemSellPrice(cart.station.tradeInventory, itemType, -cartCount);
-    if (cartCount > 0) sum += Trd.getItemBuyPrice(cart.station.tradeInventory, itemType, cartCount);
+    if (cartCount < 0)
+      sum -= Trd.getItemSellPrice(
+        cart.station.tradeInventory,
+        itemType,
+        -cartCount
+      );
+    if (cartCount > 0)
+      sum += Trd.getItemBuyPrice(
+        cart.station.tradeInventory,
+        itemType,
+        cartCount
+      );
   }
   return sum;
 }
@@ -92,7 +116,7 @@ export function getItemCount(cart: Cart, itemType: ItemType): number {
 }
 
 export function canPlayerAfford(cart: Cart, cost: number): boolean {
-  return cart.player.currency >= cost;
+  return cart.player.money >= cost;
 }
 
 export function canShipHold(cart: Cart, weight: number): boolean {
@@ -100,20 +124,32 @@ export function canShipHold(cart: Cart, weight: number): boolean {
   return weight <= cargoSpaceLeft;
 }
 
-export function doesStationHave(cart: Cart, itemType: ItemType, count: number): boolean {
+export function doesStationHave(
+  cart: Cart,
+  itemType: ItemType,
+  count: number
+): boolean {
   return Trd.getItemCount(cart.station.tradeInventory, itemType) >= count;
 }
 
-export function doesPlayerHave(cart: Cart, itemType: ItemType, count: number): boolean {
+export function doesPlayerHave(
+  cart: Cart,
+  itemType: ItemType,
+  count: number
+): boolean {
   return Inv.getItemCount(cart.player.ship.inventory, itemType) >= count;
 }
 
 export function maxBuy(cart: Cart, itemType: ItemType): number {
   const maxQuantity = Trd.getItemCount(cart.station.tradeInventory, itemType);
   const buyPrice = Trd.getItemBuyPrice(cart.station.tradeInventory, itemType);
-  const maxAfford = Math.floor(cart.player.currency / buyPrice);
-  const maxWeight = Math.floor(getFreeCargoSpace(cart.player.ship) / itemType.weight);
-  return Math.max(maxQuantity, maxAfford, maxWeight) - getItemCount(cart, itemType);
+  const maxAfford = Math.floor(cart.player.money / buyPrice);
+  const maxWeight = Math.floor(
+    getFreeCargoSpace(cart.player.ship) / itemType.weight
+  );
+  return (
+    Math.max(maxQuantity, maxAfford, maxWeight) - getItemCount(cart, itemType)
+  );
 }
 
 export function maxSell(cart: Cart, itemType: ItemType): number {

@@ -6,7 +6,7 @@ export const newGenericSlice = <T>(name: string, initialState: T) =>
     initialState,
     reducers: {
       setValue: (state, action: PayloadAction<T>) => {
-        action.payload;
+        return action.payload;
       },
     },
   });
