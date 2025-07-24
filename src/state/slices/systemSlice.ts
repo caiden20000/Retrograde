@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import initialState from "../initialState";
 import { ItemType } from "../../types/ItemType";
 import { addItemCount, setItemBaseQuantity } from "../../logic/tradeInventory";
+import { System } from "../../types/System";
 
 const systemSlice = createSlice({
   name: "system",
@@ -37,9 +38,20 @@ const systemSlice = createSlice({
         baseQuantity
       );
     },
+    replaceAllStations: (state, action: PayloadAction<System>) => {
+      return state.map((stn) => {
+        const replace = action.payload.find((stn2) => stn.id == stn2.id);
+        if (replace === undefined)
+          throw new Error("System replacement failed; ID missing");
+        return replace;
+      });
+    },
   },
 });
 
-export const { modifyStationItemCount, setStationBaseQuantity } =
-  systemSlice.actions;
+export const {
+  modifyStationItemCount,
+  setStationBaseQuantity,
+  replaceAllStations,
+} = systemSlice.actions;
 export default systemSlice.reducer;

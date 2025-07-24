@@ -1,16 +1,4 @@
-import React, {
-  useRef,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useMemo,
-} from "react";
-import { initTestPlayer, newPlayer } from "./logic/player";
-import { ScreenType } from "./types/ScreenType";
-import { Station } from "./types/Station";
-import { runTradeForSystem } from "./logic/station-trade-manager";
-import { set } from "./utils/util";
+import { useEffect } from "react";
 import { StationFuelScreen } from "./components/station-fuel-screen";
 import { StationInfoScreen } from "./components/station-info-screen";
 import { StationMapScreen } from "./components/station-map-screen";
@@ -18,95 +6,21 @@ import { StationTradeScreen } from "./components/station-trade-screen";
 import { TravelScreen } from "./components/travel-screen";
 import { Watermark } from "./components/watermark";
 import "./styles.css";
-import { newSpaceDate } from "./logic/spaceDate";
-import { generateSystem, updateStationInSystem } from "./logic/system";
-import { Player } from "./types/Player";
-import { SpaceDate } from "./types/SpaceDate";
-import { System } from "./types/System";
-import { Travel } from "./types/Travel";
 import { StationShipyardScreen } from "./components/station-shipyard-screen";
 import { Provider } from "react-redux";
-import { store } from "./state/store";
-
-// === Types ===
-type useStateSetter<T> = React.Dispatch<React.SetStateAction<T>>;
-export type GameState = {
-  screen: ScreenType;
-  setScreen: (screen: ScreenType) => void;
-  station: Station;
-  setStation: useStateSetter<Station>;
-  player: Player;
-  setPlayer: useStateSetter<Player>;
-  system: System;
-  setSystem: useStateSetter<System>;
-  date: SpaceDate;
-  setDate: useStateSetter<SpaceDate>;
-  travel: Travel | null;
-  setTravel: useStateSetter<Travel | null>;
-};
-
-// === Global Game State Context ===
-const GameStateContext = createContext<{
-  screen: ScreenType;
-  setScreen: (screen: ScreenType) => void;
-  station: Station;
-  setStation: useStateSetter<Station>;
-  player: Player;
-  setPlayer: useStateSetter<Player>;
-  system: System;
-  setSystem: useStateSetter<System>;
-  date: SpaceDate;
-  setDate: useStateSetter<SpaceDate>;
-  travel: Travel | null;
-  setTravel: useStateSetter<Travel | null>;
-} | null>(null);
-
-export function useGameState() {
-  const ctx = useContext(GameStateContext);
-  if (!ctx) throw new Error("GameStateContext not found");
-  return ctx;
-}
+import { RootState, store } from "./state/store";
+import { SIMULATED_REVS_BEFORE_START } from "./constants";
+import { systemTrade } from "./state/thunks/tradeThunk";
+import { useAppDispatch, useAppSelector } from "./state/hooks";
 
 // === Root App ===
 export default function App() {
-  const [screen, setScreen] = useState<ScreenType>("StationInfoScreen");
-  const [system, setSystem] = useState<System>(generateSystem(30));
-  const [station, setStation] = useState<Station>(system[0]);
-  const [player, setPlayer] = useState<Player>(initTestPlayer());
-  const [date, setDate] = useState<SpaceDate>(newSpaceDate(3000, 0));
-  const [travel, setTravel] = useState<Travel | null>(null);
+  const screen = useAppSelector((state: RootState) => state.currentScreen);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const simulatedDaysBeforeStart = 1000;
-    setSystem((system) => {
-      let newSystem = runTradeForSystem(system, simulatedDaysBeforeStart);
-      let newStation = newSystem.find((stn: Station) => stn.id === station.id);
-      if (newStation === undefined)
-        throw new Error("Could not find station ID in updated system!");
-      newStation = set(newStation, { visited: true });
-      newSystem = updateStationInSystem(newSystem, station, newStation);
-      setStation(newStation);
-      return newSystem;
-    });
+    dispatch(systemTrade(SIMULATED_REVS_BEFORE_START));
   }, []);
-
-  const contextMemo = useMemo(
-    () => ({
-      screen,
-      setScreen,
-      station,
-      setStation,
-      player,
-      setPlayer,
-      system,
-      setSystem,
-      date,
-      setDate,
-      travel,
-      setTravel,
-    }),
-    [screen, station, player, system, date, travel]
-  );
 
   return (
     <Provider store={store}>

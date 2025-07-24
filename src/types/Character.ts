@@ -8,5 +8,5 @@ export type Character = {
   skills: CharacterSkills;
   money: number;
   ship: Ship | null; // Owned ship. If crew, ship is null.
-  location: Station | Travel;
+  location: string | Travel; // string is station ID
 };

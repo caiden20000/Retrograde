@@ -16,7 +16,7 @@ export const newCharacterSlice = (name: string, initialState: Character) =>
       setMoney: (state, action: PayloadAction<number>) => {
         state.money = action.payload;
       },
-      setLocation: (state, action: PayloadAction<Station | Travel>) => {
+      setLocation: (state, action: PayloadAction<string | Travel>) => {
         state.location = action.payload;
       },
       setName: (state, action: PayloadAction<string>) => {
