@@ -11,14 +11,18 @@ import { RootState, store } from "./state/store";
 import { SIMULATED_REVS_BEFORE_START } from "./constants";
 import { systemTrade } from "./state/thunks/tradeThunk";
 import { useAppDispatch, useAppSelector } from "./state/hooks";
+import { setStationVisited } from "./state/slices/systemSlice";
+import { selectCurrentScreen, selectPlayer } from "./state/selectors";
 
 // === Root App ===
 export default function App() {
-  const screen = useAppSelector((state: RootState) => state.currentScreen);
+  const screen = useAppSelector(selectCurrentScreen);
+  const player = useAppSelector(selectPlayer);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(systemTrade(SIMULATED_REVS_BEFORE_START));
+    dispatch(setStationVisited(player.location as string));
   }, []);
 
   return (

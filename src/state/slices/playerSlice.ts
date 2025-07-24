@@ -15,5 +15,6 @@ export const {
   changeShip,
   modifyItemCount: modifyPlayerItemCount,
   modifyFuel,
+  setFuel,
 } = playerSlice.actions;
 export default playerSlice.reducer;

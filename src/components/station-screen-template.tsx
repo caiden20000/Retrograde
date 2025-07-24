@@ -8,6 +8,7 @@ import {
 } from "../state/selectors";
 import { setScreen } from "../state/slices/currentScreenSlice";
 import { ScreenType } from "../types/ScreenType";
+import { floor } from "../utils/util";
 
 export function StationScreenTemplate({
   title,
@@ -30,7 +31,7 @@ export function StationScreenTemplate({
           <span className="station-name">
             {isTravel || station === null ? "Space" : station.name}
           </span>
-          <span className="funds">Funds: ${player.money}</span>
+          <span className="funds">Funds: ${floor(player.money, 1)}</span>
           <span className="space-date">Date: {spaceDateToString(date)}</span>
         </div>
         {title}

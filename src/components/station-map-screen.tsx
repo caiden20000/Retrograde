@@ -22,7 +22,10 @@ import { ErrorPage } from "./error";
 import { useDispatch } from "react-redux";
 import { addRevs } from "../state/slices/dateSlice";
 import { modifyFuel } from "../state/slices/playerSlice";
-import { replaceAllStations } from "../state/slices/systemSlice";
+import {
+  replaceAllStations,
+  setStationVisited,
+} from "../state/slices/systemSlice";
 import { setTravel } from "../state/slices/travelSlice";
 import { setScreen } from "../state/slices/currentScreenSlice";
 
@@ -136,12 +139,12 @@ export function StationDot({
   readonly maxTravelDistance: number;
   readonly onTravel: (station: Station) => void;
 }) {
-  const canTravelTo = maxTravelDistance <= distance;
+  const canTravelTo = distance <= maxTravelDistance;
   const top = absolutePosition.y * 100;
   const left = absolutePosition.x * 100;
   let classname = "current-station";
   if (distance > 0) classname = "reachable-station";
-  if (canTravelTo) classname = "unreachable-station";
+  if (!canTravelTo) classname = "unreachable-station";
   const sizeStyle = (pop: number) => ({
     transform: `scale(${1 + (pop - 1) / 4})`,
   });
@@ -155,7 +158,7 @@ export function StationDot({
           className={classname}
           style={{ ...sizeStyle(station.populationClass) }}
           onClick={() => onTravel(station)}
-          disabled={distance > maxTravelDistance}
+          disabled={!canTravelTo}
         ></button>
       </Tooltip>
     </div>

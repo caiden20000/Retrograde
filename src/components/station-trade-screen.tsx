@@ -1,4 +1,4 @@
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 import { Cart } from "../types/Cart";
 import * as Crt from "../logic/cart";
 import * as Trd from "../logic/tradeInventory";
@@ -6,13 +6,12 @@ import * as Inv from "../logic/inventory";
 import { getItemTypesForStation } from "../logic/station";
 import { StationScreenTemplate } from "./station-screen-template";
 import { getCargoUsage } from "../logic/ship";
-import { floor, set, trunc1 } from "../utils/util";
+import { floor, trunc1 } from "../utils/util";
 import { ItemType } from "../types/ItemType";
 import { allItemTypes } from "../constants/itemTypes";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { selectPlayer, selectShip, selectStation } from "../state/selectors";
 import { checkout } from "../state/thunks/tradeThunk";
-import { Station } from "../types/Station";
 import { ErrorPage } from "./error";
 
 export function StationTradeScreen() {
@@ -31,6 +30,15 @@ export function StationTradeScreen() {
   }
 
   const [cart, setCart] = useState<Cart>(Crt.newCart(player, station));
+
+  useEffect(() => {
+    setCart((cart) => {
+      const newCart = Crt.cloneCart(cart);
+      newCart.player = player;
+      newCart.station = station;
+      return newCart;
+    });
+  }, [player, station]);
 
   const weightTotal = useMemo(() => floor(Crt.getCartWeight(cart), 1), [cart]);
   const costTotal = useMemo(() => floor(Crt.getCartCost(cart), 1), [cart]);

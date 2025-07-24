@@ -41,6 +41,9 @@ export const newCharacterSlice = <T extends Character | Player>(
       modifyFuel: (state, action: PayloadAction<number>) => {
         if (state.ship) state.ship.fuel += action.payload;
       },
+      setFuel: (state, action: PayloadAction<number>) => {
+        if (state.ship) state.ship.fuel = action.payload;
+      },
       modifyItemCount(
         state,
         action: PayloadAction<{ itemType: ItemType; count: number }>

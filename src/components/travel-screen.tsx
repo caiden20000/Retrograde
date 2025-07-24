@@ -10,10 +10,11 @@ import { Statbar } from "./statbar";
 import { Player } from "../types/Player";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { selectPlayer, selectShip, selectTravel } from "../state/selectors";
-import { modifyFuel } from "../state/slices/playerSlice";
+import { modifyFuel, setFuel, setLocation } from "../state/slices/playerSlice";
 import { setDate } from "../state/slices/dateSlice";
 import { setTravel } from "../state/slices/travelSlice";
 import { setScreen } from "../state/slices/currentScreenSlice";
+import { setStationVisited } from "../state/slices/systemSlice";
 
 export function TravelScreen() {
   const dispatch = useAppDispatch();
@@ -43,7 +44,7 @@ export function TravelScreen() {
         cloneSpaceDate(travel.startDate),
         floor(travel.timeToTravel * progress)
       );
-      dispatch(modifyFuel(currentFuel - ship.fuel));
+      dispatch(setFuel(currentFuel));
       dispatch(setDate(currentDate));
     };
 
@@ -63,6 +64,12 @@ export function TravelScreen() {
   };
 
   function dock() {
+    if (travel === null)
+      throw new Error(
+        "Location could not be set; travel was null before docking!"
+      );
+    dispatch(setLocation(travel.to.id));
+    dispatch(setStationVisited(travel.to.id));
     dispatch(setTravel(null));
     dispatch(setScreen("StationInfoScreen"));
   }

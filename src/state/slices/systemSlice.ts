@@ -46,6 +46,10 @@ const systemSlice = createSlice({
         return replace;
       });
     },
+    setStationVisited: (state, action: PayloadAction<string>) => {
+      const station = state.find((stn) => stn.id == action.payload);
+      if (station !== undefined) station.visited = true;
+    },
   },
 });
 
@@ -53,5 +57,6 @@ export const {
   modifyStationItemCount,
   setStationBaseQuantity,
   replaceAllStations,
+  setStationVisited,
 } = systemSlice.actions;
 export default systemSlice.reducer;

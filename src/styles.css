@@ -402,10 +402,13 @@ table.station-map {
 }
 
 .station-dot.undiscovered {
-  filter: brightness(0.85);
+  filter: brightness(0.7);
+}
+.station-dot.undiscovered .unreachable-station {
+  filter: brightness(0.8) saturate(0.6);
 }
 
-.station-dot.undiscovered::after {
+/* .station-dot.undiscovered::after {
   position: absolute;
   top: 0;
   left: 0;
@@ -419,7 +422,7 @@ table.station-map {
   font-size: 0.7em;
   user-select: none;
   pointer-events: none;
-}
+} */
 
 .system-dot-map {
   aspect-ratio: 1;
