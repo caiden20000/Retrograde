@@ -48,7 +48,10 @@ export function StationTradeScreen() {
   }
 
   function finalizeTrade() {
+    if (station === null)
+      throw new Error("Station is null when finalizing a trade!");
     dispatch(checkout(cart));
+    setCart(Crt.newCart(player, station));
   }
 
   return (
