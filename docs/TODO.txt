@@ -1,4 +1,8 @@
 
+x == completed
++ == working on
+- == cancelled
+~ == kinda done
 
 ===== <> Questline: Main Features =====
 [x] Shipyard: Make TODO
@@ -26,22 +30,22 @@
 
 
 ===== <+> Questline: Encounters =====
-[+] Define encounter type structure
+[~] Define encounter type structure
 [-] Define battle type
 [ ] Draft a few test encounters
-[ ] Create encounter screen wireframes
-[ ] Create preliminary encounter screen component
-[ ] Create system to switch to encounters during travel
-[ ] Think about unifying the travel + encounter screens
+[x] Create encounter screen wireframes
+[x] Create preliminary encounter screen component
+[x] Create system to switch to encounters during travel
+[~] Think about unifying the travel + encounter screens
 
-===== <+> Questline: Battle =====
-[ ] Define Character type
-[ ] Characters have stats; define the stats
-[ ] Switch Player to Character
+===== <> Questline: Battle =====
+[x] Define Character type
+[x] Characters have stats; define the stats
+[~] Switch Player to Character
 [ ] Create a random Character generator
     [ ] Crew - Characters that don't own a ship
     [ ] Captains - Characters that own a ship
-[ ] Define battle type
+[~] Define battle type
 
 ===== <> Questline: Code Quality =====
 [ ] Turn ItemType and ShipType into ENUMS with values (?)
