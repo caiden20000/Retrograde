@@ -14,6 +14,7 @@ import { modifyFuel, setFuel, setLocation } from "../state/slices/playerSlice";
 import { setDate } from "../state/slices/dateSlice";
 import {
   pushElapsed,
+  setProgress,
   setStartNow,
   setTravel,
 } from "../state/slices/travelSlice";
@@ -27,7 +28,7 @@ export function TravelScreen() {
   const dispatch = useAppDispatch();
   const travel = useAppSelector(selectTravel);
   const player = useAppSelector(selectPlayer);
-  const [progress, setProgress] = useState<number>(0);
+  const progress = travel?.progress ?? 0;
   const [elapsed, setElapsed] = useState<number>(0);
   const [lastEncounterCheck, setLastEncounterCheck] = useState<number>(0);
   const animationRef = useRef<number>(0);
@@ -42,7 +43,7 @@ export function TravelScreen() {
       const progress = Math.min(elapsed / totalDuration, 1);
       const animatedValue = progress;
 
-      setProgress(animatedValue);
+      dispatch(setProgress(progress));
       animationRef.current = requestAnimationFrame(update);
 
       const currentFuel =
@@ -58,10 +59,10 @@ export function TravelScreen() {
 
       if (lastEncounterCheck < currentRev) {
         let revDiff;
-        // Way easier to assume 0 == resuming travel than calculating correct
+        // Way easier to assume "=== 0" means resuming travel than calculating correct
         // initial lastEncounterCheck if travel.alreadyElapsed > 0.
         // Only inaccuracy is if there's a revDiff > 1, the chance won't increase
-        // for the first encounter check.
+        // for the first encounter check. Doesn't really matter.
         if (lastEncounterCheck === 0) {
           revDiff = 1;
           setLastEncounterCheck(currentRev + ENCOUNTER_COOLDOWN_REVS);
@@ -132,13 +133,8 @@ export function TravelScreen() {
   );
 }
 
-export function ProgressAndFuel({
-  progress,
-  player,
-}: {
-  progress: number;
-  player: Player;
-}) {
+export function ProgressAndFuel({ progress }: { progress: number }) {
+  const player = useAppSelector(selectPlayer);
   return (
     <div>
       <div className="bar-container">

@@ -26,8 +26,13 @@ const travelSlice = createSlice({
       const now = Date.now();
       state.startedAt = now;
     },
+    setProgress: (state, action: PayloadAction<number>) => {
+      if (!state) return;
+      state.progress = action.payload;
+    },
   },
 });
 
-export const { setTravel, pushElapsed, setStartNow } = travelSlice.actions;
+export const { setTravel, pushElapsed, setStartNow, setProgress } =
+  travelSlice.actions;
 export default travelSlice.reducer;

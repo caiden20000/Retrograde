@@ -4,14 +4,16 @@ import { EncounterOption } from "../types/EcounterOption";
 import { StationScreenTemplate } from "./station-screen-template";
 import { doSideEffect } from "../logic/sideEffect";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
-import { selectEncounter } from "../state/selectors";
+import { selectEncounter, selectTravel } from "../state/selectors";
 import { setScreen } from "../state/slices/currentScreenSlice";
 import { setEncounter } from "../state/slices/encounterSlice";
 import { setStartNow } from "../state/slices/travelSlice";
+import { ProgressAndFuel } from "./travel-screen";
 
 export function EncounterScreen() {
   const dispatch = useAppDispatch();
   const encounterNode = useAppSelector(selectEncounter);
+  const travel = useAppSelector(selectTravel);
 
   if (encounterNode == null) {
     returnToTravel();
@@ -41,14 +43,17 @@ export function EncounterScreen() {
   }
 
   return (
-    <StationScreenTemplate title="Encounter!">
+    <StationScreenTemplate title="Encounter!" isTravel>
       <h2>Encounter!</h2>
       <div className="description">{encounterNode.description}</div>
       <div className="options">
-        {encounterNode.options.map((opt) => (
-          <button onClick={() => chooseOption(opt)}>{opt.label}</button>
+        {encounterNode.options.map((opt, index) => (
+          <button onClick={() => chooseOption(opt)} key={index}>
+            {opt.label}
+          </button>
         ))}
       </div>
+      <ProgressAndFuel progress={travel?.progress ?? 0} />
     </StationScreenTemplate>
   );
 }
