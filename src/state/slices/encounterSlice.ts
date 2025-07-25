@@ -4,7 +4,7 @@ import { newGenericSlice } from "./genericSlice";
 import { EncounterNode } from "../../types/EncounterNode";
 
 const encounterSlice = newGenericSlice<EncounterNode | null>(
-  "travel",
+  "encounter",
   initialState().encounter
 );
 

@@ -1,3 +1,4 @@
+import { newSideEffect } from "../logic/sideEffect";
 import { EncounterNode } from "../types/EncounterNode";
 import { set } from "../utils/util";
 
@@ -7,11 +8,7 @@ const node1_2: EncounterNode = {
     { label: "Do a thing", sideEffect: null, node: null, nodeType: "null" },
     {
       label: "Do a different thing",
-      sideEffect: () => {
-        // const { player, setPlayer } = state;
-        // setPlayer(set(player, { currency: player.currency + 1234 }));
-        // TODO: Determine redux way
-      },
+      sideEffect: newSideEffect({ playerMoney: 1234 }),
       node: null,
       nodeType: "null",
     },

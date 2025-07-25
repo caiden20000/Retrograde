@@ -12,27 +12,33 @@ import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { selectPlayer, selectShip, selectTravel } from "../state/selectors";
 import { modifyFuel, setFuel, setLocation } from "../state/slices/playerSlice";
 import { setDate } from "../state/slices/dateSlice";
-import { setTravel } from "../state/slices/travelSlice";
+import {
+  pushElapsed,
+  setStartNow,
+  setTravel,
+} from "../state/slices/travelSlice";
 import { setScreen } from "../state/slices/currentScreenSlice";
 import { setStationVisited } from "../state/slices/systemSlice";
+import { getRandomEncounter, randomEncounterTrigger } from "../logic/encounter";
+import { setEncounter } from "../state/slices/encounterSlice";
 
 export function TravelScreen() {
   const dispatch = useAppDispatch();
   const travel = useAppSelector(selectTravel);
   const player = useAppSelector(selectPlayer);
-  const ship = useAppSelector(selectShip);
   const [progress, setProgress] = useState<number>(0);
   const [elapsed, setElapsed] = useState<number>(0);
+  const [lastEncounterCheck, setLastEncounterCheck] = useState<number>(0);
   const animationRef = useRef<number>(0);
 
   useEffect(() => {
     const update = () => {
       if (travel === null) return;
       const now = Date.now();
-      const elapsed = now - travel.startedAt;
+      const elapsed = now - travel.startedAt + travel.alreadyElapsed;
       setElapsed(elapsed / 1000);
-      const duration = travel.distance * travel.travelSpeed;
-      const progress = Math.min(elapsed / duration, 1);
+      const totalDuration = travel.distance * travel.travelSpeed;
+      const progress = Math.min(elapsed / totalDuration, 1);
       const animatedValue = progress;
 
       setProgress(animatedValue);
@@ -40,18 +46,31 @@ export function TravelScreen() {
 
       const currentFuel =
         travel.fuelBefore + (travel.fuelAfter - travel.fuelBefore) * progress;
+      const currentRev = floor(travel.timeToTravel * progress);
       const currentDate = addRevolutions(
         cloneSpaceDate(travel.startDate),
-        floor(travel.timeToTravel * progress)
+        currentRev
       );
+
       dispatch(setFuel(currentFuel));
       dispatch(setDate(currentDate));
+
+      if (lastEncounterCheck < currentRev) {
+        let revDiff;
+        // === 0 means we just started, so minimize delta incase alreadyElapsed > 0
+        if (lastEncounterCheck === 0) revDiff = 1;
+        else revDiff = currentRev - lastEncounterCheck;
+        console.log(revDiff, currentRev, lastEncounterCheck);
+        setLastEncounterCheck(currentRev);
+        const check = randomEncounterTrigger(revDiff);
+        if (check) encounter();
+      }
     };
 
     animationRef.current = requestAnimationFrame(update);
 
     return () => cancelAnimationFrame(animationRef.current);
-  }, [travel]);
+  }, [travel, lastEncounterCheck]);
 
   if (travel === null) {
     return <h2>Err: Not traveling!</h2>;
@@ -72,6 +91,12 @@ export function TravelScreen() {
     dispatch(setStationVisited(travel.to.id));
     dispatch(setTravel(null));
     dispatch(setScreen("StationInfoScreen"));
+  }
+
+  function encounter() {
+    dispatch(setEncounter(getRandomEncounter()));
+    dispatch(pushElapsed());
+    dispatch(setScreen("EncounterScreen"));
   }
 
   return (

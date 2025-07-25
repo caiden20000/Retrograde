@@ -13,6 +13,7 @@ import { systemTrade } from "./state/thunks/tradeThunk";
 import { useAppDispatch, useAppSelector } from "./state/hooks";
 import { setStationVisited } from "./state/slices/systemSlice";
 import { selectCurrentScreen, selectPlayer } from "./state/selectors";
+import { EncounterScreen } from "./components/encounter-screen";
 
 // === Root App ===
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
           {screen === "StationFuelScreen" && <StationFuelScreen />}
           {screen === "StationMapScreen" && <StationMapScreen />}
           {screen === "TravelScreen" && <TravelScreen />}
+          {screen === "EncounterScreen" && <EncounterScreen />}
         </div>
       </div>
       <Watermark />

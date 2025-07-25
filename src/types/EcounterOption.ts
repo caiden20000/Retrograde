@@ -1,9 +1,10 @@
 import { Battle } from "./Battle";
 import { EncounterNode } from "./EncounterNode";
+import { SideEffect } from "./SideEffect";
 
 export type EncounterOption = {
   readonly label: string;
-  readonly sideEffect: (() => void) | null;
+  readonly sideEffect: SideEffect | null;
 } & (
   | {
       readonly node: EncounterNode;

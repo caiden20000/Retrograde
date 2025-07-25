@@ -60,3 +60,16 @@ Battle
     
 
 */
+
+import { allEncounters } from "../constants/encounters";
+import { randomOf } from "../utils/util";
+
+// 1/20 chance per parsec
+/** Called per-parsec */
+export function randomEncounterTrigger(revs: number = 1): boolean {
+  return Math.random() * 20 <= revs;
+}
+
+export function getRandomEncounter() {
+  return randomOf(allEncounters);
+}

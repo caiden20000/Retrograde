@@ -7,7 +7,10 @@ export type Travel = {
   readonly distance: number;
   readonly progress: number;
   readonly travelSpeed: number;
+  /** ms timestamp */
   readonly startedAt: number;
+  /** ms */
+  readonly alreadyElapsed: number;
   readonly fuelBefore: number;
   readonly fuelAfter: number;
   readonly startDate: SpaceDate;

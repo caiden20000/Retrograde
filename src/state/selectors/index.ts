@@ -33,3 +33,7 @@ export function selectTravel(state: RootState) {
 export function selectShip(state: RootState) {
   return state.player.ship ?? shipType.none;
 }
+
+export function selectEncounter(state: RootState) {
+  return state.encounter;
+}
