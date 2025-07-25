@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EncounterNode } from "../types/EncounterNode";
 import { EncounterOption } from "../types/EcounterOption";
 import { StationScreenTemplate } from "./station-screen-template";
@@ -9,13 +9,24 @@ import { setScreen } from "../state/slices/currentScreenSlice";
 import { setEncounter } from "../state/slices/encounterSlice";
 import { setStartNow } from "../state/slices/travelSlice";
 import { ProgressAndFuel } from "./travel-screen";
+import { chooseOutcome } from "../logic/encounter";
+import { applySideEffect } from "../state/thunks/sideEffectThunk";
+import { SideEffectList } from "./side-effect";
 
 export function EncounterScreen() {
   const dispatch = useAppDispatch();
   const encounterNode = useAppSelector(selectEncounter);
   const travel = useAppSelector(selectTravel);
 
-  if (encounterNode == null) {
+  // Do side effect
+  useEffect(() => {
+    if (encounterNode === null) return;
+    if (encounterNode.sideEffect !== null) {
+      dispatch(applySideEffect(encounterNode.sideEffect));
+    }
+  }, [encounterNode]);
+
+  if (encounterNode === null) {
     returnToTravel();
     return <div>Exiting encounter...</div>;
   }
@@ -27,17 +38,13 @@ export function EncounterScreen() {
   }
 
   function chooseOption(option: EncounterOption) {
-    // Do side effect
-    if (option.sideEffect !== null) doSideEffect(option.sideEffect);
-    // Change screen
-    const next = option.node;
-    if (option.nodeType == "null") {
-      // TODO: Resume travel
+    const result = chooseOutcome(option);
+
+    if (result.nodeType == "null") {
       returnToTravel();
-    } else if (option.nodeType == "EncounterNode") {
-      // TODO: Change screen
-      dispatch(setEncounter(option.node));
-    } else if (option.nodeType == "Battle") {
+    } else if (result.nodeType == "EncounterNode") {
+      dispatch(setEncounter(result.node));
+    } else if (result.nodeType == "Battle") {
       // TODO: Trigger battle
     }
   }
@@ -46,6 +53,9 @@ export function EncounterScreen() {
     <StationScreenTemplate title="Encounter!" isTravel>
       <h2>Encounter!</h2>
       <div className="description">{encounterNode.description}</div>
+      {encounterNode.sideEffect !== null && (
+        <SideEffectList sideEffect={encounterNode.sideEffect} />
+      )}
       <div className="options">
         {encounterNode.options.map((opt, index) => (
           <button onClick={() => chooseOption(opt)} key={index}>

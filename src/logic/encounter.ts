@@ -62,6 +62,8 @@ Battle
 */
 
 import { allEncounters } from "../constants/encounters";
+import { EncounterOption } from "../types/EcounterOption";
+import { EncounterPossibility } from "../types/EncounterPossibility";
 import { randomOf } from "../utils/util";
 
 // 1/20 chance per parsec
@@ -72,4 +74,14 @@ export function randomEncounterTrigger(revs: number = 1): boolean {
 
 export function getRandomEncounter() {
   return randomOf(allEncounters);
+}
+
+export function chooseOutcome(option: EncounterOption): EncounterPossibility {
+  let randomValue = Math.random();
+  for (const outcome of option.outcomes) {
+    if (randomValue <= outcome.chance) return outcome;
+    randomValue -= outcome.chance;
+  }
+  return option.outcomes[0];
+  // Throw error because invalid range?
 }
