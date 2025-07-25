@@ -21,6 +21,7 @@ import { setScreen } from "../state/slices/currentScreenSlice";
 import { setStationVisited } from "../state/slices/systemSlice";
 import { getRandomEncounter, randomEncounterTrigger } from "../logic/encounter";
 import { setEncounter } from "../state/slices/encounterSlice";
+import { ENCOUNTER_COOLDOWN_REVS } from "../constants/encounters";
 
 export function TravelScreen() {
   const dispatch = useAppDispatch();
@@ -57,11 +58,17 @@ export function TravelScreen() {
 
       if (lastEncounterCheck < currentRev) {
         let revDiff;
-        // === 0 means we just started, so minimize delta incase alreadyElapsed > 0
-        if (lastEncounterCheck === 0) revDiff = 1;
-        else revDiff = currentRev - lastEncounterCheck;
-        console.log(revDiff, currentRev, lastEncounterCheck);
-        setLastEncounterCheck(currentRev);
+        // Way easier to assume 0 == resuming travel than calculating correct
+        // initial lastEncounterCheck if travel.alreadyElapsed > 0.
+        // Only inaccuracy is if there's a revDiff > 1, the chance won't increase
+        // for the first encounter check.
+        if (lastEncounterCheck === 0) {
+          revDiff = 1;
+          setLastEncounterCheck(currentRev + ENCOUNTER_COOLDOWN_REVS);
+        } else {
+          revDiff = currentRev - lastEncounterCheck;
+          setLastEncounterCheck(currentRev);
+        }
         const check = randomEncounterTrigger(revDiff);
         if (check) encounter();
       }

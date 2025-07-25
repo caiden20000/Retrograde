@@ -1,6 +1,7 @@
 import { newSideEffect } from "../logic/sideEffect";
 import { EncounterNode } from "../types/EncounterNode";
-import { set } from "../utils/util";
+
+export const ENCOUNTER_COOLDOWN_REVS = 10;
 
 const node1_2: EncounterNode = {
   description: "Gain money... $1234!",
