@@ -78,8 +78,17 @@ export function itemizeSideEffect(
       ).toString()}`,
     ]);
   }
+
+  if (sideEffect.fuel !== 0) {
+    list.push([
+      "Fuel",
+      `${sideEffect.fuel < 0 ? "-" : "+"} ${Math.abs(
+        sideEffect.fuel
+      ).toString()}ps`,
+    ]);
+  }
   for (const [item, value] of Object.entries(sideEffect.cargo)) {
-    list.push([item, `+ ${value >= 0 ? "+" : "-"} ${value}`]);
+    list.push([item, `${value >= 0 ? "+" : "-"} ${value}`]);
   }
   return list;
 }

@@ -3,7 +3,7 @@ import {
   commonSideEffects,
 } from "../../logic/sideEffect";
 import { SideEffect } from "../../types/SideEffect";
-import { modifyMoney } from "../slices/playerSlice";
+import { modifyFuel, modifyMoney } from "../slices/playerSlice";
 import { AppThunk } from "../store";
 
 export const applySideEffect =
@@ -15,6 +15,10 @@ export const applySideEffect =
     let finalSideEffect = applyCommonSideEffects(sideEffect);
 
     dispatch(modifyMoney(finalSideEffect.money));
+    // TODO: Prevent taking all fuel in a side effect -- gray out
+    // button or only take what can be taken.
+    dispatch(modifyFuel(finalSideEffect.fuel));
+
     // TODO: Write checked addCargo to playerSlice
     // dispatch(addCargo(finalSideEffect.cargo));
   };
