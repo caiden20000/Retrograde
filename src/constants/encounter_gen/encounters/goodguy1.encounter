@@ -1,0 +1,21 @@
+#(root) Good guy 1 (food/water beggar)
+You notice a ship in distress. They call you over comms and ask for food and water.
+[Give them some supplies]
+- root_s
+- root_f
+[Ignore them]
+- end
+
+(root_s) Reward!
+You haul over some food and water rations. They are so grateful, they give you money in return!
+> smallReward
+[Fantastic!]
+
+(root_f) No money but still a good guy
+You haul over some food and water rations. They thank you profusely, and apologize for not having anything to trade with.
+That warm feeling you got should be enough, right?
+[I guess...]
+
+(end) Ignore them
+You hang up and fly away. They were probably trying to scam you anyway.
+[Leave]

@@ -166,7 +166,7 @@ function transpileNodes(allNodes: RawNode[]): string {
     emitNode(node);
   }
 
-  outputLines.push(`const allRootNodes = [${rootNames.join(", ")}];
+  outputLines.push(`export const allRootNodes = [${rootNames.join(", ")}];
 `);
   return outputLines.join("\n");
 }

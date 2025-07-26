@@ -8,6 +8,7 @@ import { getItemTypesByTag } from "./itemType";
 const emptySideEffect = (): SideEffect => ({
   namedEffects: [],
   money: 0,
+  fuel: 0,
   cargo: newInventory(),
 });
 
@@ -46,6 +47,11 @@ export const commonSideEffects = {
   smallReward: (sideEffect: SideEffect): SideEffect => {
     const newSideEffect = cloneSideEffect(sideEffect);
     newSideEffect.money = randomInt(500, 2000);
+    return newSideEffect;
+  },
+  loseFuel: (sideEffect: SideEffect): SideEffect => {
+    const newSideEffect = cloneSideEffect(sideEffect);
+    newSideEffect.fuel = randomInt(-10, -5);
     return newSideEffect;
   },
 };

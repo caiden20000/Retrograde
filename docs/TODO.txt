@@ -32,7 +32,7 @@ x == completed
 ===== <+> Questline: Encounters =====
 [~] Define encounter type structure
 [-] Define battle type
-[ ] Draft a few test encounters
+[x] Draft a few test encounters
 [x] Create encounter screen wireframes
 [x] Create preliminary encounter screen component
 [x] Create system to switch to encounters during travel

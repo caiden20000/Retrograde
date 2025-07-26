@@ -13,6 +13,7 @@ export type SideEffect = {
   /** Named effects are to be resolved by a function before applying side effect. */
   namedEffects: CommonSideEffect[];
   money: number;
+  fuel: number;
   cargo: Inventory;
   // Reputation TODO
   // Crew TODO
