@@ -49,6 +49,11 @@ export const commonSideEffects = {
     newSideEffect.money = randomInt(500, 2000);
     return newSideEffect;
   },
+  smallTheft: (sideEffect: SideEffect): SideEffect => {
+    const newSideEffect = cloneSideEffect(sideEffect);
+    newSideEffect.money = randomInt(-2000, -500);
+    return newSideEffect;
+  },
   loseFuel: (sideEffect: SideEffect): SideEffect => {
     const newSideEffect = cloneSideEffect(sideEffect);
     newSideEffect.fuel = randomInt(-10, -5);
