@@ -52,11 +52,11 @@ export function EncounterScreen() {
   return (
     <StationScreenTemplate title="Encounter!" isTravel>
       <h2>Encounter!</h2>
-      <div className="description">{encounterNode.description}</div>
+      <div className="encounter-description">{encounterNode.description}</div>
       {encounterNode.sideEffect !== null && (
         <SideEffectList sideEffect={encounterNode.sideEffect} />
       )}
-      <div className="options">
+      <div className="encounter-options">
         {encounterNode.options.map((opt, index) => (
           <button onClick={() => chooseOption(opt)} key={index}>
             {opt.label}

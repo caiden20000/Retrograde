@@ -8,6 +8,7 @@ import { ShipType } from "../../types/ShipType";
 import { newShip } from "../../logic/ship";
 import { addItemCount, reduceTo } from "../../logic/inventory";
 import { Player } from "../../types/Player";
+import { floor } from "../../utils/util";
 
 export const newCharacterSlice = <T extends Character | Player>(
   name: string,
@@ -19,6 +20,7 @@ export const newCharacterSlice = <T extends Character | Player>(
     reducers: {
       modifyMoney: (state, action: PayloadAction<number>) => {
         state.money += action.payload;
+        state.money = floor(state.money, 1);
       },
       setLocation: (state, action: PayloadAction<string | Travel>) => {
         state.location = action.payload;

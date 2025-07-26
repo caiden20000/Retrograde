@@ -86,7 +86,7 @@ export function StationFuelScreen() {
               <div className="refuel-button-text">
                 <span className="large-text">Refuel</span>
                 <span>
-                  {maxFuel}ps for ${maxFuel * fuelPrice}
+                  {maxFuel}ps for ${floor(maxFuel * fuelPrice, 1)}
                 </span>
               </div>
             </button>
