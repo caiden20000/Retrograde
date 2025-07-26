@@ -1,0 +1,41 @@
+#(root) Good guy 2 (fuel beggar)
+You notice a ship nearby that just put on its distress beacon.
+After initiating comms, the captain explains they are out of fuel.
+[Give some of your fuel to them]
+- root_s1
+- root_s2
+- root_f
+[Provide nothing]
+- leave1
+- leave2
+
+(root_s1) Money!
+You siphon off some of your fuel to the crew of the stalled ship.
+They're so grateful that they bestow a gift upon you!
+> loseFuel
+> smallReward
+[Wonderful!]
+
+(root_s2) Goods!
+You siphon off some of your fuel to the crew of the stalled ship.
+They're so grateful that they bestow a gift upon you!
+> loseFuel
+> randomValuables
+[Fantastic!]
+
+(root_f) Nothing in return...
+You siphon off some of your fuel to the crew of the stalled ship.
+They are very thankful and apologetic that they have nothing to give in return.
+> loseFuel
+[Just doing what's right.]
+
+(leave1) crying
+You express sympathy and explain that you can't afford to lose any more fuel.
+The poor captain begins to cry.
+You quickly stop the comms before you change your mind.
+[That was strange.]
+
+(leave2) understanding
+You express sympathy and explain that you can't afford to lose any more fuel.
+The captain bids you well, and you continue your journey.
+[Onwards]

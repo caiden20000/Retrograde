@@ -1,0 +1,29 @@
+#(root) Hitchhiker
+As you fly to your destination, you are surprised to see a person floating out in space.
+When you open comms with them, they explain they are hitchhiking in the direction you are flying.
+[Pick them up]
+- root_s
+- root_f
+- root_f2
+[Leave them]
+- leave
+
+(root_s) Reward!
+You let them into the airlock and onto your ship. The hitchhiker is so thankful that he transfers you some money!
+> smallReward
+[Generous!]
+
+(root_f) Warm fuzzies
+You let them into the airlock and onto your ship. The hitchhiker thanks you for your kindness.
+[No problem!]
+
+(root_f2) Thief
+You let them into the airlock and onto your ship. The hitchhiker thanks you for your kindness.
+When he finally leaves the ship, however, you notice a considerable amount of money missing!
+> smallTheft
+[I've been robbed!]
+
+(leave) Ditch the hitch
+You bluff, saying there's no room in the ship. 
+Before the hitchhiker can get a word in, you close the comms and set your thrusters to high.
+[Let's get out of here]

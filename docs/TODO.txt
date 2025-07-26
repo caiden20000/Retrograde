@@ -1,4 +1,8 @@
 
+x == completed
++ == working on
+- == cancelled
+~ == kinda done
 
 ===== <> Questline: Main Features =====
 [x] Shipyard: Make TODO
@@ -25,7 +29,25 @@
 [ ] A price list that color-codes each station based on the value of the good selected.
 
 
-===== <+> Questline: Code Quality =====
+===== <+> Questline: Encounters =====
+[~] Define encounter type structure
+[-] Define battle type
+[x] Draft a few test encounters
+[x] Create encounter screen wireframes
+[x] Create preliminary encounter screen component
+[x] Create system to switch to encounters during travel
+[~] Think about unifying the travel + encounter screens
+
+===== <> Questline: Battle =====
+[x] Define Character type
+[x] Characters have stats; define the stats
+[~] Switch Player to Character
+[ ] Create a random Character generator
+    [ ] Crew - Characters that don't own a ship
+    [ ] Captains - Characters that own a ship
+[~] Define battle type
+
+===== <> Questline: Code Quality =====
 [ ] Turn ItemType and ShipType into ENUMS with values (?)
 [x] Rename files to match classes
 [x] Reorganize folder structure

@@ -1,60 +1,57 @@
-import { ReactNode, useEffect, useState } from "react";
-import { useGameState } from "../App";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 import { Cart } from "../types/Cart";
 import * as Crt from "../logic/cart";
 import * as Trd from "../logic/tradeInventory";
 import * as Inv from "../logic/inventory";
-import { clonePlayer, setCurrency } from "../logic/player";
 import { getItemTypesForStation } from "../logic/station";
 import { StationScreenTemplate } from "./station-screen-template";
 import { getCargoUsage } from "../logic/ship";
-import { updateStationInSystem } from "../logic/system";
-import { floor, set, trunc1 } from "../utils/util";
+import { floor, trunc1 } from "../utils/util";
 import { ItemType } from "../types/ItemType";
 import { allItemTypes } from "../constants/itemTypes";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
+import { selectPlayer, selectShip, selectStation } from "../state/selectors";
+import { checkout } from "../state/thunks/tradeThunk";
+import { ErrorPage } from "./error";
 
 export function StationTradeScreen() {
-  const { station, player, setStation, setPlayer, system, setSystem } =
-    useGameState();
+  const dispatch = useAppDispatch();
+  const player = useAppSelector(selectPlayer);
+  const station = useAppSelector(selectStation);
+  const ship = useAppSelector(selectShip);
+
+  if (station === null) {
+    return (
+      <ErrorPage
+        code="6154952356136"
+        reason="Attempted to load cart on trade screen while station was null (implies traveling)"
+      />
+    );
+  }
+
   const [cart, setCart] = useState<Cart>(Crt.newCart(player, station));
-  const weightTotal = floor(Crt.getCartWeight(cart), 1);
-  const costTotal = floor(Crt.getCartCost(cart), 1);
+
+  useEffect(() => {
+    setCart((cart) => {
+      const newCart = Crt.cloneCart(cart);
+      newCart.player = player;
+      newCart.station = station;
+      return newCart;
+    });
+  }, [player, station]);
+
+  const weightTotal = useMemo(() => floor(Crt.getCartWeight(cart), 1), [cart]);
+  const costTotal = useMemo(() => floor(Crt.getCartCost(cart), 1), [cart]);
 
   function onQuantityChange(itemType: ItemType, delta: number): void {
     setCart((cart) => Crt.addToCart(cart, itemType, delta));
   }
 
   function finalizeTrade() {
-    let inventory = player.ship.inventory;
-    for (const itemType of allItemTypes) {
-      inventory = Inv.addItemCount(
-        inventory,
-        itemType,
-        Crt.getItemCount(cart, itemType)
-      );
-    }
-    const newShip = set(player.ship, { inventory });
-    const newPlayer = set(player, {
-      ship: newShip,
-      currency: player.currency - costTotal,
-    });
-
-    let tradeInventory = station.tradeInventory;
-    for (const itemType of allItemTypes) {
-      tradeInventory = Trd.addItemCount(
-        tradeInventory,
-        itemType,
-        -Crt.getItemCount(cart, itemType)
-      );
-    }
-    const newStation = set(station, { tradeInventory });
-
-    const newSystem = updateStationInSystem(system, station, newStation);
-
-    setPlayer(newPlayer);
-    setStation(newStation);
-    setSystem(newSystem);
-    setCart(Crt.newCart(newPlayer, newStation));
+    if (station === null)
+      throw new Error("Station is null when finalizing a trade!");
+    dispatch(checkout(cart));
+    setCart(Crt.newCart(player, station));
   }
 
   return (
@@ -67,11 +64,11 @@ export function StationTradeScreen() {
               <tr>
                 <th rowSpan={2}>Cargo capacity:</th>
                 <td>
-                  {trunc1(getCargoUsage(player.ship))} /{" "}
-                  {player.ship.shipType.cargoCapacity} kg
+                  {trunc1(getCargoUsage(ship))} / {ship.shipType.cargoCapacity}{" "}
+                  kg
                 </td>
                 <th rowSpan={2}>Funds:</th>
-                <td>${trunc1(player.currency)}</td>
+                <td>${trunc1(player.money)}</td>
                 <td rowSpan={2}>
                   <button
                     className="trade-button"

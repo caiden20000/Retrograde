@@ -10,3 +10,6 @@ export const MAX_STATION_DISTANCE = 32;
 
 // Travel speed is milliseconds per parsec
 export const TRAVEL_SPEED = 50;
+
+// Simulated time before game begins, for trade inventory randomizing
+export const SIMULATED_REVS_BEFORE_START = 1000;

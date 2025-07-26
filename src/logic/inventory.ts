@@ -39,3 +39,31 @@ export function getTotalWeight(inventory: Inventory): number {
   }
   return sum;
 }
+
+export function reduceTo(inventory: Inventory, weightLimit: number): Inventory {
+  let newInventory = cloneInventory(inventory);
+  if (getTotalWeight(inventory) <= weightLimit) return newInventory;
+
+  const itemTypesSortedByWeight = [...allItemTypes].sort(
+    (a, b) => b.weight - a.weight
+  );
+  let itemTypeIndex = 0;
+  while (
+    getTotalWeight(newInventory) > weightLimit &&
+    getTotalWeight(newInventory) > 0
+  ) {
+    const itemType = itemTypesSortedByWeight[itemTypeIndex];
+    const itemCount = getItemCount(newInventory, itemType);
+    const requiredWeightReduction = getTotalWeight(newInventory) - weightLimit;
+    const targetRemovalCountToReachGoal = Math.ceil(
+      requiredWeightReduction / itemType.weight
+    );
+    const actualRemoveCount = Math.min(
+      targetRemovalCountToReachGoal,
+      itemCount
+    );
+    newInventory = addItemCount(newInventory, itemType, -actualRemoveCount);
+    itemTypeIndex++;
+  }
+  return newInventory;
+}

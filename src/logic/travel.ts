@@ -20,6 +20,7 @@ export function newTravel(
     progress: 0.0,
     travelSpeed: TRAVEL_SPEED,
     startedAt: Date.now(),
+    alreadyElapsed: 0,
     fuelBefore,
     fuelAfter,
     startDate,

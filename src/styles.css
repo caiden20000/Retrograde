@@ -60,9 +60,8 @@ html,
   color: white;
   border-bottom: 2px solid black;
 
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .station-content {
@@ -329,14 +328,12 @@ table.station-map {
 }
 
 .statbar {
-  background-color: rgb(211, 211, 211);
   border: 2px solid black;
   height: 30px;
   border-radius: 5px;
 }
 
 .statbar .statbar-fill {
-  background-color: rgb(224, 218, 104);
   outline: 1px solid black;
   height: 100%;
   border-radius: 3px;
@@ -405,10 +402,13 @@ table.station-map {
 }
 
 .station-dot.undiscovered {
-  filter: brightness(0.85);
+  filter: brightness(0.7);
+}
+.station-dot.undiscovered .unreachable-station {
+  filter: brightness(0.8) saturate(0.6);
 }
 
-.station-dot.undiscovered::after {
+/* .station-dot.undiscovered::after {
   position: absolute;
   top: 0;
   left: 0;
@@ -422,7 +422,7 @@ table.station-map {
   font-size: 0.7em;
   user-select: none;
   pointer-events: none;
-}
+} */
 
 .system-dot-map {
   aspect-ratio: 1;
@@ -534,4 +534,42 @@ table.station-map {
 
 .bold {
   font-weight: bold;
+}
+
+.side-effect-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+}
+
+.side-effect-list table {
+  width: fit-content;
+  border-collapse: collapse;
+}
+
+.side-effect-list tr > * {
+  padding: 5px;
+  border: 2px solid white;
+}
+
+.side-effect-list table tr:nth-child(odd) {
+  background-color: #0001;
+}
+
+.side-effect-list table tr:nth-child(even) {
+  background-color: #8881;
+}
+
+.encounter-options {
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  justify-content: center;
+}
+
+.encounter-options button {
+  padding: 5px 10px;
+  font-size: 1.1em;
 }

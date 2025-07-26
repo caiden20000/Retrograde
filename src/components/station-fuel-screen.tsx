@@ -1,15 +1,30 @@
-import { useGameState } from "../App";
 import { StationScreenTemplate } from "./station-screen-template";
 import * as Trd from "../logic/tradeInventory";
 import { itemType } from "../constants/itemTypes";
 import { updateStationInSystem } from "../logic/system";
 import { set, floor } from "../utils/util";
+import { Statbar } from "./statbar";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
+import { selectPlayer, selectShip, selectStation } from "../state/selectors";
+import { ErrorPage } from "./error";
+import { buyFuel } from "../state/thunks/tradeThunk";
 
 export function StationFuelScreen() {
-  const { station, player, setStation, setPlayer, system, setSystem } =
-    useGameState();
+  const dispatch = useAppDispatch();
+  const player = useAppSelector(selectPlayer);
+  const station = useAppSelector(selectStation);
+  const ship = useAppSelector(selectShip);
 
-  const funds = player.currency;
+  if (station === null) {
+    return (
+      <ErrorPage
+        code="981913468"
+        reason="Attempted to load fuel page on trade screen while station was null (implies traveling)"
+      />
+    );
+  }
+
+  const funds = player.money;
   const fuelAmount = player.ship.fuel;
   const fuelCapacity = player.ship.shipType.fuelCapacity;
   const emptyFuel = fuelCapacity - fuelAmount;
@@ -31,28 +46,9 @@ export function StationFuelScreen() {
   }
 
   function buy(fuelAmount: number) {
-    const fullCost = floor(fuelAmount * fuelPrice);
-
-    let newShip = set(player.ship, {
-      fuel: player.ship.fuel + fuelAmount,
-    });
-    let newPlayer = set(player, {
-      currency: player.currency - fullCost,
-      ship: newShip,
-    });
-
-    const newStation = set(station, {
-      tradeInventory: Trd.addItemCount(
-        station.tradeInventory,
-        itemType.fuel,
-        -fuelAmount
-      ),
-    });
-    const newSystem = updateStationInSystem(system, station, newStation);
-
-    setPlayer(newPlayer);
-    setStation(newStation);
-    setSystem(newSystem);
+    if (station === null)
+      throw new Error("Tried to buy fuel when station is null!");
+    dispatch(buyFuel(station.id, fuelAmount));
   }
 
   const maxAfford = Math.floor(funds / fuelPrice);
@@ -69,7 +65,11 @@ export function StationFuelScreen() {
             Fuel: {fuelAmount}/{fuelCapacity}
           </div>
           <div className="bar">
-            <Statbar percentage={fuelPercentage}></Statbar>
+            <Statbar
+              backgroundColor="rgb(211, 211, 211)"
+              barColor="rgb(224, 218, 104)"
+              percentage={fuelPercentage}
+            ></Statbar>
           </div>
           <div className="smallbutton1">
             <button disabled={!canBuy(1)} onClick={() => buy(1)}>
@@ -86,7 +86,7 @@ export function StationFuelScreen() {
               <div className="refuel-button-text">
                 <span className="large-text">Refuel</span>
                 <span>
-                  {maxFuel}ps for ${maxFuel * fuelPrice}
+                  {maxFuel}ps for ${floor(maxFuel * fuelPrice, 1)}
                 </span>
               </div>
             </button>
@@ -95,16 +95,5 @@ export function StationFuelScreen() {
         </div>
       </div>
     </StationScreenTemplate>
-  );
-}
-
-function Statbar({ percentage }: { readonly percentage: number }) {
-  return (
-    <div className="statbar">
-      <div
-        className="statbar-fill"
-        style={{ width: percentage * 100 + "%" }}
-      ></div>
-    </div>
   );
 }
