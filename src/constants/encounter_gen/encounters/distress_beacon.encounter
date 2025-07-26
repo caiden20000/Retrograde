@@ -1,0 +1,37 @@
+#(node1) Distress beacon
+You've picked up a distress beacon signal!
+[Follow the signal]
+- node2
+[Ignore the signal]
+- node0
+
+(node0) Leavin
+You continue on your way, ignoring the beacon.
+[Continue]
+
+(node2) Visit the crime scene
+You see a ship torn to pieces, likely by pirates. There is valuable cargo drifting around the wreckage.
+[Try to scoop some up]
+- node2s
+- node2f
+[Search for survivors]
+- node2f2
+[Leave before something bad happens]
+- node2_0
+
+(node2s) Success! Valuables
+You manage to scoop up some valuable cargo!
+> randomValuables
+[Leave before something bad happens]
+
+(node2f) Failure. Run!
+You begin to maneuver to pick some of the valuables up. Suddenly, your HUD indicates the pirates' return.
+[Leave quickly]
+
+(node2f2) No survivors. Run!
+You drift cautiously closer to the wreckage. Suddenly, a warp wake signals the pirate's return.
+[Leave quickly]
+
+(node2_0) Leavin again
+You decide to leave before the pirates come back for their spoils.
+[Leave quickly]
