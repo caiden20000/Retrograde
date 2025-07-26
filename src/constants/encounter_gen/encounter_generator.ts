@@ -38,10 +38,23 @@ function parseEncounterFile(content: string, filePrefix: string): RawNode[] {
   let current: Partial<RawNode> | null = null;
   let mode: "description" | "options" = "description";
   let buffer: string[] = [];
+  let tempOutcomes: { label: string; lines: string[] }[] = [];
 
   const flushCurrent = () => {
     if (current && current.name) {
       current.description = buffer.join("\n").trim();
+
+      // Calculate default chances for options with all implicit chances
+      for (const opt of current.options || []) {
+        const explicit = opt.outcomes.some((o) => o.chance !== -1);
+        if (!explicit && opt.outcomes.length > 0) {
+          const evenChance = 1 / opt.outcomes.length;
+          for (const o of opt.outcomes) {
+            o.chance = evenChance;
+          }
+        }
+      }
+
       nodes.push(current as RawNode);
     }
     buffer = [];
@@ -85,7 +98,7 @@ function parseEncounterFile(content: string, filePrefix: string): RawNode[] {
       const match = trimmed.match(/^-\s*(?:\(([^)]+)\)\s*)?(\S+)/);
       if (match && current.options?.length) {
         const [, chanceRaw, target] = match;
-        const chance = chanceRaw ? parseFloat(chanceRaw) : 1;
+        const chance = chanceRaw ? parseFloat(chanceRaw) : -1;
         current.options[current.options.length - 1].outcomes.push({
           chance,
           target: `${filePrefix}__${target.replace(/\s+/g, "_")}`,
