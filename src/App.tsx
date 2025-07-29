@@ -5,7 +5,7 @@ import { StationMapScreen } from "./components/station-map-screen";
 import { StationTradeScreen } from "./components/station-trade-screen";
 import { TravelScreen } from "./components/travel-screen";
 import { Watermark } from "./components/watermark";
-import "./styles.css";
+import "./styles/global.css";
 import { StationShipyardScreen } from "./components/station-shipyard-screen";
 import { RootState, store } from "./state/store";
 import { SIMULATED_REVS_BEFORE_START } from "./constants";
