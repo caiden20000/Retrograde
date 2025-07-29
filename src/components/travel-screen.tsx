@@ -1,21 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  addRevolutions,
-  cloneSpaceDate,
-  spaceDateToString,
-} from "../logic/spaceDate";
-import { floor, set } from "../utils/util";
+import { addRevolutions, cloneSpaceDate } from "../logic/spaceDate";
+import { floor } from "../utils/util";
 import { StationScreenTemplate } from "./station-screen-template";
-import { Statbar } from "./statbar";
-import { Player } from "../types/Player";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
-import { selectPlayer, selectShip, selectTravel } from "../state/selectors";
-import { modifyFuel, setFuel, setLocation } from "../state/slices/playerSlice";
+import { selectPlayer, selectTravel } from "../state/selectors";
+import { setFuel, setLocation } from "../state/slices/playerSlice";
 import { setDate } from "../state/slices/dateSlice";
 import {
   pushElapsed,
   setProgress,
-  setStartNow,
   setTravel,
 } from "../state/slices/travelSlice";
 import { setScreen } from "../state/slices/currentScreenSlice";
@@ -24,6 +17,7 @@ import { getRandomEncounter, randomEncounterTrigger } from "../logic/encounter";
 import { setEncounter } from "../state/slices/encounterSlice";
 import { ENCOUNTER_COOLDOWN_REVS } from "../constants/encounters";
 import { ProgressAndFuel } from "./progress-and-fuel";
+import "../styles/travel-screen.css";
 
 export function TravelScreen() {
   const dispatch = useAppDispatch();
@@ -42,7 +36,6 @@ export function TravelScreen() {
       setElapsed(elapsed / 1000);
       const totalDuration = travel.distance * travel.travelSpeed;
       const progress = Math.min(elapsed / totalDuration, 1);
-      const animatedValue = progress;
 
       dispatch(setProgress(progress));
       animationRef.current = requestAnimationFrame(update);

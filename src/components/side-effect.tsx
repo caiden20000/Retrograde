@@ -2,6 +2,7 @@
 
 import { itemizeSideEffect } from "../logic/sideEffect";
 import { SideEffect } from "../types/SideEffect";
+import "../styles/side-effect.css";
 
 export function SideEffectList({ sideEffect }: { sideEffect: SideEffect }) {
   const itemized = itemizeSideEffect(sideEffect);

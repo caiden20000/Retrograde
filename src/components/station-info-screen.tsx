@@ -3,6 +3,7 @@ import { selectStation } from "../state/selectors";
 import { capitalize, commatize } from "../utils/util";
 import { ErrorPage } from "./error";
 import { StationScreenTemplate } from "./station-screen-template";
+import "../styles/station-info-screen.css";
 
 export function StationInfoScreen() {
   const station = useAppSelector(selectStation);
@@ -11,7 +12,7 @@ export function StationInfoScreen() {
     return (
       <ErrorPage
         code="789456615"
-        reason="Attempted to load cart on trade screen while station was null (implies traveling)"
+        reason="Attempted to load station info screen while station was null (implies traveling)"
       />
     );
   }

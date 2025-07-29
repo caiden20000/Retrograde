@@ -5,6 +5,7 @@ import { System } from "../types/System";
 import { Vec2 } from "../types/Vec2";
 import { getBoundsOfSystem, stationDistance } from "../utils/util";
 import { StationDot } from "./station-dot";
+import "../styles/station-list.css";
 
 export function StationList({
   station,

@@ -1,19 +1,16 @@
-import { ReactNode, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Cart } from "../types/Cart";
 import * as Crt from "../logic/cart";
-import * as Trd from "../logic/tradeInventory";
-import * as Inv from "../logic/inventory";
-import { getItemTypesForStation } from "../logic/station";
 import { StationScreenTemplate } from "./station-screen-template";
 import { getCargoUsage } from "../logic/ship";
 import { addSign, colorByValue, floor, trunc1 } from "../utils/util";
 import { ItemType } from "../types/ItemType";
-import { allItemTypes } from "../constants/itemTypes";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { selectPlayer, selectShip, selectStation } from "../state/selectors";
 import { checkout } from "../state/thunks/tradeThunk";
 import { ErrorPage } from "./error";
 import { TradeList } from "./trade-list";
+import "../styles/station-trade-screen.css";
 
 export function StationTradeScreen() {
   const dispatch = useAppDispatch();

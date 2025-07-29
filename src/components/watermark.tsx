@@ -1,3 +1,5 @@
+import "../styles/watermark.css";
+
 export function Watermark() {
   return (
     <div className="watermark">

@@ -1,0 +1,71 @@
+.trade-container {
+  max-height: 100%;
+}
+
+.trade-footer {
+  padding-top: 10px;
+}
+
+.trade-footer table {
+  width: 100%;
+}
+
+.trade-list {
+  width: 100%;
+  font-size: 0.9em;
+  overflow-y: auto;
+  border: 1px solid black;
+}
+
+.trade-list table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.trade-list table .separate {
+  border-right: 1px solid black;
+}
+
+.trade-list table .cart {
+  border: 1px solid black;
+  padding: 2px;
+}
+
+.trade-list table tbody td {
+  text-align: right;
+  padding: 2px 3px;
+}
+.trade-list table tbody th {
+  text-align: left;
+  padding: 2px 3px;
+}
+
+.trade-list table thead tr:nth-child(2) th {
+  text-align: right;
+  padding: 2px 3px;
+}
+
+.trade-list table thead tr:nth-child(2) th:nth-child(1) {
+  text-align: left;
+}
+
+.trade-list tr {
+  border-bottom: 1px solid #0004;
+}
+
+.trade-list thead th {
+  border-bottom: 1px solid black;
+  padding: 3px;
+}
+
+.trade-button {
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 5px 10px;
+}
+
+.trade-disabled {
+  color: #555;
+  backdrop-filter: brightness(0.9);
+}

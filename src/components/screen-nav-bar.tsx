@@ -1,5 +1,6 @@
 import { ScreenType } from "../types/ScreenType";
 import { ScreenNavButton } from "./screen-nav-button";
+import "../styles/screen-nav-bar.css";
 
 export function ScreenNavBar({ screen }: { readonly screen: ScreenType }) {
   return (

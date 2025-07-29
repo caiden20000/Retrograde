@@ -1,15 +1,14 @@
 import { spaceDateToString } from "../logic/spaceDate";
-import { useAppDispatch, useAppSelector } from "../state/hooks";
+import { useAppSelector } from "../state/hooks";
 import {
   selectCurrentScreen,
   selectDate,
   selectPlayer,
   selectStation,
 } from "../state/selectors";
-import { setScreen } from "../state/slices/currentScreenSlice";
-import { ScreenType } from "../types/ScreenType";
 import { floor } from "../utils/util";
 import { ScreenNavBar } from "./screen-nav-bar";
+import "../styles/station-screen-template.css";
 
 export function StationScreenTemplate({
   title,

@@ -1,6 +1,7 @@
 import { useAppSelector } from "../state/hooks";
 import { selectPlayer } from "../state/selectors";
 import { Statbar } from "./statbar";
+import "../styles/progress-and-fuel.css";
 
 export function ProgressAndFuel({ progress }: { progress: number }) {
   const player = useAppSelector(selectPlayer);

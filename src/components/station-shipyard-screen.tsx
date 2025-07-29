@@ -5,6 +5,7 @@ import { StationScreenTemplate } from "./station-screen-template";
 import { RootState } from "../state/store";
 import { changeShip, modifyMoney } from "../state/slices/playerSlice";
 import { ShipItem } from "./ship-item";
+import "../styles/station-shipyard-screen.css";
 
 export function StationShipyardScreen() {
   // const { player, setPlayer } = useGameState();

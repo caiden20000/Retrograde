@@ -1,0 +1,24 @@
+.side-effect-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+}
+
+.side-effect-list table {
+  width: fit-content;
+  border-collapse: collapse;
+}
+
+.side-effect-list tr > * {
+  padding: 5px;
+  border: 2px solid white;
+}
+
+.side-effect-list table tr:nth-child(odd) {
+  background-color: #0001;
+}
+
+.side-effect-list table tr:nth-child(even) {
+  background-color: #8881;
+}

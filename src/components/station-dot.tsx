@@ -1,6 +1,7 @@
 import { Station } from "../types/Station";
 import { Vec2 } from "../types/Vec2";
 import { Tooltip } from "./tooltip";
+import "../styles/station-dot.css";
 
 export function StationDot({
   station,

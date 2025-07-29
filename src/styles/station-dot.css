@@ -1,0 +1,32 @@
+.station-dot {
+  position: absolute;
+}
+
+.station-dot button {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.current-station {
+  background: rgb(16, 191, 255);
+}
+
+.reachable-station {
+  background: rgb(106, 217, 130);
+}
+
+.unreachable-station {
+  background: rgb(236, 99, 99);
+}
+
+.unreachable-station:disabled {
+  filter: none;
+}
+
+.station-dot.undiscovered {
+  filter: brightness(0.7);
+}
+.station-dot.undiscovered .unreachable-station {
+  filter: brightness(0.8) saturate(0.6);
+}

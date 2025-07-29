@@ -1,0 +1,11 @@
+.statbar {
+  border: 2px solid black;
+  height: 30px;
+  border-radius: 5px;
+}
+
+.statbar .statbar-fill {
+  outline: 1px solid black;
+  height: 100%;
+  border-radius: 3px;
+}

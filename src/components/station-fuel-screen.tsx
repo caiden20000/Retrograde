@@ -1,13 +1,13 @@
 import { StationScreenTemplate } from "./station-screen-template";
 import * as Trd from "../logic/tradeInventory";
 import { itemType } from "../constants/itemTypes";
-import { updateStationInSystem } from "../logic/system";
-import { set, floor } from "../utils/util";
+import { floor } from "../utils/util";
 import { Statbar } from "./statbar";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { selectPlayer, selectShip, selectStation } from "../state/selectors";
 import { ErrorPage } from "./error";
 import { buyFuel } from "../state/thunks/tradeThunk";
+import "../styles/station-fuel-screen.css";
 
 export function StationFuelScreen() {
   const dispatch = useAppDispatch();
