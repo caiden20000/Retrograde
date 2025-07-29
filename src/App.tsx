@@ -15,6 +15,7 @@ import { setStationVisited } from "./state/slices/systemSlice";
 import { selectCurrentScreen, selectPlayer } from "./state/selectors";
 import { EncounterScreen } from "./components/encounter-screen";
 import "./styles/app.css";
+import { Modal } from "./components/modal";
 
 // === Root App ===
 export default function App() {
@@ -31,6 +32,9 @@ export default function App() {
     <div className="screen-background">
       <div className="screen-resize-box">
         <div className="screen-box">
+          <Modal goButton="Yes" stopButton="No">
+            This is a test modal?
+          </Modal>
           {screen === "StationInfoScreen" && <StationInfoScreen />}
           {screen === "StationTradeScreen" && <StationTradeScreen />}
           {/* {screen === "StationMissionScreen" && <StationMissionScreen />}
