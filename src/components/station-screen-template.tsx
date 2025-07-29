@@ -9,6 +9,7 @@ import {
 import { setScreen } from "../state/slices/currentScreenSlice";
 import { ScreenType } from "../types/ScreenType";
 import { floor } from "../utils/util";
+import { ScreenNavBar } from "./screen-nav-bar";
 
 export function StationScreenTemplate({
   title,
@@ -39,67 +40,5 @@ export function StationScreenTemplate({
       <div className="station-content">{children}</div>
       {!isTravel && <ScreenNavBar {...{ screen }} />}
     </div>
-  );
-}
-
-function ScreenNavBar({ screen }: { readonly screen: ScreenType }) {
-  return (
-    <div className="station-footer">
-      <ScreenNavButton
-        navScreen="StationInfoScreen"
-        title="Info"
-        {...{ screen }}
-      />
-      <ScreenNavButton
-        navScreen="StationTradeScreen"
-        title="Trade"
-        {...{ screen }}
-      />
-      <ScreenNavButton
-        navScreen="StationShipyardScreen"
-        title="Shipyard"
-        {...{ screen }}
-      />
-      {/* <ScreenNavButton
-    navScreen="StationMissionScreen"
-    title="Missions"
-    {...{ screen, setScreen }}
-  />
-  <ScreenNavButton
-    navScreen="StationCrewScreen"
-    title="Crew"
-    {...{ screen, setScreen }}
-  /> */}
-      <ScreenNavButton
-        navScreen="StationFuelScreen"
-        title="Refuel"
-        {...{ screen }}
-      />
-      <ScreenNavButton
-        navScreen="StationMapScreen"
-        title="Map"
-        {...{ screen }}
-      />
-    </div>
-  );
-}
-
-function ScreenNavButton({
-  navScreen,
-  screen,
-  title,
-}: {
-  readonly navScreen: ScreenType;
-  readonly screen: ScreenType;
-  readonly title: string;
-}) {
-  const dispatch = useAppDispatch();
-  return (
-    <button
-      className={screen == navScreen ? "selected" : ""}
-      onClick={() => dispatch(setScreen(navScreen))}
-    >
-      {title}
-    </button>
   );
 }

@@ -29,6 +29,7 @@ import {
 import { setTravel } from "../state/slices/travelSlice";
 import { setScreen } from "../state/slices/currentScreenSlice";
 import { Tooltip } from "./tooltip";
+import { StationList } from "./station-list";
 
 export function StationMapScreen() {
   const dispatch = useAppDispatch();
@@ -79,106 +80,4 @@ export function StationMapScreen() {
       <StationList {...{ station, player, system, travelTo }} />
     </StationScreenTemplate>
   );
-}
-
-export function StationList({
-  station,
-  player,
-  system,
-  travelTo,
-}: {
-  readonly station: Station;
-  readonly player: Player;
-  readonly system: System;
-  readonly travelTo: (station: Station) => void;
-}) {
-  const bounds = getBoundsOfSystem(system);
-  const maxBound = Math.max(
-    bounds.br.x - bounds.tl.x,
-    bounds.br.y - bounds.tl.y
-  );
-  const scale = newVec2(maxBound, maxBound);
-
-  function absolutePosition(station: Station): Vec2 {
-    const pos = newVec2(
-      (station.position.x - bounds.tl.x) * (1 / scale.x),
-      (station.position.y - bounds.tl.y) * (1 / scale.y)
-    );
-    return pos;
-  }
-
-  function onTravel(station: Station) {
-    travelTo(station);
-  }
-
-  return (
-    <div className="system-dot-map">
-      {system.map((stn) => (
-        <StationDot
-          key={stn.name}
-          station={stn}
-          absolutePosition={absolutePosition(stn)}
-          distance={stationDistance(station, stn)}
-          maxTravelDistance={player.ship.fuel}
-          onTravel={onTravel}
-        />
-      ))}
-    </div>
-  );
-}
-
-export function StationDot({
-  station,
-  absolutePosition,
-  distance,
-  maxTravelDistance,
-  onTravel,
-}: {
-  readonly station: Station;
-  readonly absolutePosition: Vec2;
-  readonly distance: number;
-  readonly maxTravelDistance: number;
-  readonly onTravel: (station: Station) => void;
-}) {
-  const canTravelTo = distance <= maxTravelDistance;
-  const top = absolutePosition.y * 100;
-  const left = absolutePosition.x * 100;
-  let classname = "current-station";
-  if (distance > 0) classname = "reachable-station";
-  if (!canTravelTo) classname = "unreachable-station";
-  const sizeStyle = (pop: number) => ({
-    transform: `scale(${1 + (pop - 1) / 4})`,
-  });
-  return (
-    <div
-      className={"station-dot" + (station.visited ? "" : " undiscovered")}
-      style={{ top: top + "%", left: left + "%" }}
-    >
-      <Tooltip text={station.visited ? station.name : "??????"}>
-        <button
-          className={classname}
-          style={{ ...sizeStyle(station.populationClass) }}
-          onClick={() => onTravel(station)}
-          disabled={!canTravelTo}
-        ></button>
-      </Tooltip>
-    </div>
-  );
-}
-
-function stationDistance(station1: Station, station2: Station): number {
-  const raw = getDistance(station1.position, station2.position);
-  return Math.trunc(raw);
-}
-
-function getBoundsOfSystem(system: System): { tl: Vec2; br: Vec2 } {
-  const tl = cloneVec2(system[0].position);
-  const br = cloneVec2(system[0].position);
-  for (const station of system) {
-    if (station.position.x < tl.x) tl.x = station.position.x;
-    if (station.position.y < tl.y) tl.y = station.position.y;
-    if (station.position.x > br.x) br.x = station.position.x;
-    if (station.position.y > br.y) br.y = station.position.y;
-  }
-  return { tl, br };
 }

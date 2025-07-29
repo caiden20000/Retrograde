@@ -23,6 +23,7 @@ import { setStationVisited } from "../state/slices/systemSlice";
 import { getRandomEncounter, randomEncounterTrigger } from "../logic/encounter";
 import { setEncounter } from "../state/slices/encounterSlice";
 import { ENCOUNTER_COOLDOWN_REVS } from "../constants/encounters";
+import { ProgressAndFuel } from "./progress-and-fuel";
 
 export function TravelScreen() {
   const dispatch = useAppDispatch();
@@ -130,29 +131,5 @@ export function TravelScreen() {
         Dock station
       </button>
     </StationScreenTemplate>
-  );
-}
-
-export function ProgressAndFuel({ progress }: { progress: number }) {
-  const player = useAppSelector(selectPlayer);
-  return (
-    <div>
-      <div className="bar-container">
-        <h3>Progress:</h3>
-        <Statbar
-          backgroundColor="rgb(51, 50, 68)"
-          barColor="rgb(110, 115, 242)"
-          percentage={progress}
-        />
-      </div>
-      <div className="bar-container">
-        <h3>Fuel:</h3>
-        <Statbar
-          backgroundColor="rgb(211, 211, 211)"
-          barColor="rgb(224, 218, 104)"
-          percentage={player.ship.fuel / player.ship.shipType.fuelCapacity}
-        />
-      </div>
-    </div>
   );
 }

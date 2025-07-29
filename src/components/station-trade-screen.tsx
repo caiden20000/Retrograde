@@ -6,13 +6,14 @@ import * as Inv from "../logic/inventory";
 import { getItemTypesForStation } from "../logic/station";
 import { StationScreenTemplate } from "./station-screen-template";
 import { getCargoUsage } from "../logic/ship";
-import { floor, trunc1 } from "../utils/util";
+import { addSign, colorByValue, floor, trunc1 } from "../utils/util";
 import { ItemType } from "../types/ItemType";
 import { allItemTypes } from "../constants/itemTypes";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { selectPlayer, selectShip, selectStation } from "../state/selectors";
 import { checkout } from "../state/thunks/tradeThunk";
 import { ErrorPage } from "./error";
+import { TradeList } from "./trade-list";
 
 export function StationTradeScreen() {
   const dispatch = useAppDispatch();
@@ -93,131 +94,4 @@ export function StationTradeScreen() {
       </div>
     </StationScreenTemplate>
   );
-}
-
-/** Handles all inputs from TradeListItems and passes them up. */
-function TradeList({
-  cart,
-  onQuantityChange,
-}: {
-  readonly cart: Cart;
-  readonly onQuantityChange: (itemType: ItemType, delta: number) => void;
-}) {
-  const list: ReactNode[] = [];
-  for (const itemType of allItemTypes) {
-    list.push(
-      <TradeListItem
-        key={itemType.name}
-        {...{
-          cart,
-          itemType,
-          onQuantityChange: (delta: number) => {
-            onQuantityChange(itemType, delta);
-          },
-          disabled:
-            getItemTypesForStation(cart.station).indexOf(itemType) === -1,
-        }}
-      />
-    );
-  }
-
-  return (
-    <div className="trade-list">
-      <table>
-        <thead>
-          <tr className="big-headers">
-            <th colSpan={3} className="separate">
-              Station
-            </th>
-            <th colSpan={5} className="separate">
-              Cart
-            </th>
-            <th colSpan={2}>You</th>
-          </tr>
-          <tr className="small-headers">
-            <th>Item</th>
-            <th>Units</th>
-            <th className="separate">Buy price</th>
-            <th>Weight</th>
-            <th>Cost</th>
-            <th>Units</th>
-            <th>Sell</th>
-            <th className="separate">Buy</th>
-            <th>Sell price</th>
-            <th>Units</th>
-          </tr>
-        </thead>
-        <tbody>{list}</tbody>
-      </table>
-    </div>
-  );
-}
-
-// Input: Cart, ItemType of this listing
-// Output: Button clicks
-function TradeListItem({
-  cart,
-  itemType,
-  onQuantityChange,
-  disabled,
-}: {
-  readonly cart: Cart;
-  readonly itemType: ItemType;
-  readonly onQuantityChange: (delta: number) => void;
-  readonly disabled: boolean;
-}) {
-  const cartCost = trunc1(Crt.getItemCost(cart, itemType));
-  const cartWeight = trunc1(Crt.getItemWeight(cart, itemType));
-  const cartQuantity = Crt.getItemCount(cart, itemType);
-  const buyPrice = trunc1(
-    Trd.getItemBuyPrice(cart.station.tradeInventory, itemType, 1)
-  );
-  const sellPrice = trunc1(
-    Trd.getItemSellPrice(cart.station.tradeInventory, itemType, 1)
-  );
-
-  /* Item, Units, Buy price, Weight, Cost, Units, Sell, Buy, Sell price, Units */
-  return (
-    <tr className={disabled ? "trade-disabled" : ""}>
-      <th>{itemType.name}</th>
-      <td className="">
-        {Trd.getItemCount(cart.station.tradeInventory, itemType)}
-      </td>
-      <td className="separate">${buyPrice}</td>
-      <td className={colorByValue(cartWeight, true)}>{cartWeight} kg</td>
-      <td className={colorByValue(cartCost, true)}>${cartCost}</td>
-      <td className={colorByValue(cartCost)}>{cartQuantity}</td>
-      <td>
-        <button
-          onClick={() => onQuantityChange(-1)}
-          disabled={!Crt.canRemove(cart, itemType) || disabled}
-        >
-          -
-        </button>
-      </td>
-      <td className="separate">
-        <button
-          onClick={() => onQuantityChange(1)}
-          disabled={!Crt.canAdd(cart, itemType) || disabled}
-        >
-          +
-        </button>
-      </td>
-      <td>${sellPrice}</td>
-      <td>{Inv.getItemCount(cart.player.ship.inventory, itemType)}</td>
-    </tr>
-  );
-}
-
-function colorByValue(value: number, invert: boolean = false) {
-  if (invert) value *= -1;
-  if (value > 0) return "value-up";
-  if (value < 0) return "value-down";
-  return "";
-}
-
-function addSign(num: number) {
-  if (num > 0) return "+";
-  if (num < 0) return "-";
-  return "";
 }

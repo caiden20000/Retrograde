@@ -8,7 +8,7 @@ import { selectEncounter, selectTravel } from "../state/selectors";
 import { setScreen } from "../state/slices/currentScreenSlice";
 import { setEncounter } from "../state/slices/encounterSlice";
 import { setStartNow } from "../state/slices/travelSlice";
-import { ProgressAndFuel } from "./travel-screen";
+import { ProgressAndFuel } from "./progress-and-fuel";
 import { chooseOutcome } from "../logic/encounter";
 import { applySideEffect } from "../state/thunks/sideEffectThunk";
 import { SideEffectList } from "./side-effect";
