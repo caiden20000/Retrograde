@@ -28,6 +28,7 @@ import {
 } from "../state/slices/systemSlice";
 import { setTravel } from "../state/slices/travelSlice";
 import { setScreen } from "../state/slices/currentScreenSlice";
+import { Tooltip } from "./tooltip";
 
 export function StationMapScreen() {
   const dispatch = useAppDispatch();
@@ -165,33 +166,9 @@ export function StationDot({
   );
 }
 
-export function Tooltip({
-  text,
-  children,
-}: {
-  readonly text: string;
-  readonly children: ReactNode;
-}) {
-  return (
-    <div className="tooltip-container">
-      {children} <span className="tooltip-text">{text}</span>
-    </div>
-  );
-}
-
 function stationDistance(station1: Station, station2: Station): number {
   const raw = getDistance(station1.position, station2.position);
   return Math.trunc(raw);
-}
-
-function getCenterOfSystem(system: System): Vec2 {
-  const sum = newVec2(0, 0);
-  for (const station of system) {
-    sum.x += station.position.x;
-    sum.y += station.position.y;
-  }
-  const center = newVec2(sum.x / system.length, sum.y / system.length);
-  return center;
 }
 
 function getBoundsOfSystem(system: System): { tl: Vec2; br: Vec2 } {
