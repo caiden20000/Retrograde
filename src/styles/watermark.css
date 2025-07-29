@@ -1,0 +1,17 @@
+.watermark {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  padding: 5px;
+  font-size: 1em;
+  color: #0008;
+  font-family: monospace;
+}
+
+.watermark .title {
+  font-weight: bold;
+}
+
+.watermark .logo {
+  opacity: 1;
+}

@@ -1,0 +1,31 @@
+.station-footer button {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.station-footer button.selected {
+  filter: brightness(0.85);
+}
+
+.station-footer {
+  display: flex;
+  border-top: 1px solid gray;
+}
+
+.station-footer button {
+  flex: 1;
+  padding: 8px 0;
+  border: none;
+  border-right: 1px solid gray;
+  background: #f0f0f0;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.station-footer button:last-child {
+  border-right: none;
+}
+
+.station-footer button:hover {
+  background: #e0e0e0;
+}

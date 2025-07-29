@@ -1,3 +1,8 @@
+import { getDistance, cloneVec2 } from "../logic/vec2";
+import { Station } from "../types/Station";
+import { System } from "../types/System";
+import { Vec2 } from "../types/Vec2";
+
 export function randomOf<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
@@ -89,11 +94,25 @@ export function colorByValue(value: number, invert: boolean = false) {
   return "";
 }
 
-// TODO: Floor every non-whole number to first decimal at their source.
-// Sources of floats:
-//  - Trading in trade screen --> Player currency
-//  - Buying fuel --> Fuel amount, player currency
-//  - Traveling --> Fuel amount
-// Fuel - Integer
-// Money - One decimal
-// Weight - One decimal
+export function addSign(num: number) {
+  if (num > 0) return "+";
+  if (num < 0) return "-";
+  return "";
+}
+
+export function stationDistance(station1: Station, station2: Station): number {
+  const raw = getDistance(station1.position, station2.position);
+  return Math.trunc(raw);
+}
+
+export function getBoundsOfSystem(system: System): { tl: Vec2; br: Vec2 } {
+  const tl = cloneVec2(system[0].position);
+  const br = cloneVec2(system[0].position);
+  for (const station of system) {
+    if (station.position.x < tl.x) tl.x = station.position.x;
+    if (station.position.y < tl.y) tl.y = station.position.y;
+    if (station.position.x > br.x) br.x = station.position.x;
+    if (station.position.y > br.y) br.y = station.position.y;
+  }
+  return { tl, br };
+}

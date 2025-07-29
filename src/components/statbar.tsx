@@ -1,3 +1,5 @@
+import "../styles/statbar.css";
+
 export function Statbar({
   percentage,
   backgroundColor = "red",

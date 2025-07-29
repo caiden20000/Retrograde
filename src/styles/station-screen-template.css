@@ -1,0 +1,33 @@
+/* Station screen layout */
+.station-template {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.station-header {
+  background: #f0f0f0;
+  padding: 6px;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 1px solid gray;
+}
+
+.perm-header {
+  margin: -6px;
+  margin-bottom: 5px;
+  padding: 5px 10px;
+  background: #444;
+  color: white;
+  border-bottom: 2px solid black;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.station-content {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  text-align: center;
+}

@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "./state/hooks";
 import { setStationVisited } from "./state/slices/systemSlice";
 import { selectCurrentScreen, selectPlayer } from "./state/selectors";
 import { EncounterScreen } from "./components/encounter-screen";
+import "./styles/app.css";
 
 // === Root App ===
 export default function App() {

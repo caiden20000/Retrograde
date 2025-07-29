@@ -1,0 +1,12 @@
+.encounter-options {
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  justify-content: center;
+}
+
+.encounter-options button {
+  padding: 5px 10px;
+  font-size: 1.1em;
+}

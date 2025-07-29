@@ -1,17 +1,16 @@
-import { useEffect, useState } from "react";
-import { EncounterNode } from "../types/EncounterNode";
+import { useEffect } from "react";
 import { EncounterOption } from "../types/EcounterOption";
 import { StationScreenTemplate } from "./station-screen-template";
-import { doSideEffect } from "../logic/sideEffect";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { selectEncounter, selectTravel } from "../state/selectors";
 import { setScreen } from "../state/slices/currentScreenSlice";
 import { setEncounter } from "../state/slices/encounterSlice";
 import { setStartNow } from "../state/slices/travelSlice";
-import { ProgressAndFuel } from "./travel-screen";
+import { ProgressAndFuel } from "./progress-and-fuel";
 import { chooseOutcome } from "../logic/encounter";
 import { applySideEffect } from "../state/thunks/sideEffectThunk";
 import { SideEffectList } from "./side-effect";
+import "../styles/encounter-screen.css";
 
 export function EncounterScreen() {
   const dispatch = useAppDispatch();

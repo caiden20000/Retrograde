@@ -1,0 +1,17 @@
+.station-info table {
+  margin: auto;
+}
+
+.station-info table th {
+  text-align: left;
+  padding: 5px;
+}
+
+.station-info table td {
+  text-align: right;
+  padding: 5px;
+}
+
+.station-info table tr:nth-child(odd) {
+  background-color: #0001;
+}
