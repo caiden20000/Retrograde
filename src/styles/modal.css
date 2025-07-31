@@ -9,13 +9,19 @@
 }
 
 .modal-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   background: #eee;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid black;
   text-align: center;
 
-  box-shadow: 5px 5px 5px #0005;
+  min-width: 10em;
+  min-height: 5em;
+
+  box-shadow: 5px 5px 5px #0005, -5px -5px 10px inset #0002;
 }
 
 .modal-body {
@@ -40,4 +46,8 @@
 
 .stopbutton {
   background-color: #f002;
+}
+
+.hidden {
+  display: none;
 }

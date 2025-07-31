@@ -1,31 +1,32 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { createPortal } from "react-dom";
 import "../styles/modal.css";
 
+export type ModalButton = { text: string; color: string };
+
 export function Modal({
   children,
-  goButton,
-  stopButton,
+  onSelect,
+  buttons,
 }: {
   children: ReactNode;
-  goButton: string;
-  stopButton: string;
+  onSelect: (value: number) => void;
+  buttons: ModalButton[];
 }) {
-  function stopPressed() {}
-
-  function goPressed() {}
-
   return createPortal(
-    <div className="modal-background" onClick={stopPressed}>
+    <div className="modal-background" onClick={() => onSelect(-1)}>
       <div className="modal-container">
         <div className="modal-body">{children}</div>
         <div className="modal-buttons">
-          <button className="gobutton" onClick={goPressed}>
-            {goButton}
-          </button>
-          <button className="stopbutton" onClick={stopPressed}>
-            {stopButton}
-          </button>
+          {buttons.map((btn, index) => (
+            <button
+              key={btn.text}
+              style={{ background: btn.color }}
+              onClick={() => onSelect(index)}
+            >
+              {btn.text}
+            </button>
+          ))}
         </div>
       </div>
     </div>,
