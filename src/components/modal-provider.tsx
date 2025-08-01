@@ -14,12 +14,12 @@ type ModalState = {
 };
 
 const defaultYesNoButtons: ModalButton[] = [
-  { text: "No", color: "#f002" },
   { text: "Yes", color: "#0f02" },
+  { text: "No", color: "#f002" },
 ];
 
 type ModalContextType = {
-  queryModalYesNo: (children: ReactNode) => Promise<number>;
+  queryModalYesNo: (children: ReactNode) => Promise<boolean>;
   queryModal: (children: ReactNode, buttons: ModalButton[]) => Promise<number>;
 };
 
@@ -43,7 +43,7 @@ export function ModalProvider({ children }: { children: ReactNode }) {
   );
 
   const queryModalYesNo = (chldrn: ReactNode) =>
-    queryModal(chldrn, defaultYesNoButtons);
+    queryModal(chldrn, defaultYesNoButtons).then((value) => value == 0);
 
   const modalResponse = useCallback(
     (value: number) => {

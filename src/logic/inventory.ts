@@ -40,30 +40,60 @@ export function getTotalWeight(inventory: Inventory): number {
   return sum;
 }
 
-export function reduceTo(inventory: Inventory, weightLimit: number): Inventory {
-  let newInventory = cloneInventory(inventory);
-  if (getTotalWeight(inventory) <= weightLimit) return newInventory;
+export function subtractInventory(
+  inventory: Inventory,
+  loss: Inventory
+): Inventory {
+  let finalInventory = cloneInventory(inventory);
+
+  for (const itemType of allItemTypes) {
+    finalInventory = addItemCount(
+      finalInventory,
+      itemType,
+      -getItemCount(loss, itemType)
+    );
+  }
+  return finalInventory;
+}
+
+export function calculateReductionLoss(
+  inventory: Inventory,
+  weightLimit: number
+): Inventory | null {
+  let inventoryWeight = getTotalWeight(inventory);
+  if (inventoryWeight <= weightLimit) return null;
 
   const itemTypesSortedByWeight = [...allItemTypes].sort(
     (a, b) => b.weight - a.weight
   );
-  let itemTypeIndex = 0;
-  while (
-    getTotalWeight(newInventory) > weightLimit &&
-    getTotalWeight(newInventory) > 0
-  ) {
-    const itemType = itemTypesSortedByWeight[itemTypeIndex];
-    const itemCount = getItemCount(newInventory, itemType);
-    const requiredWeightReduction = getTotalWeight(newInventory) - weightLimit;
-    const targetRemovalCountToReachGoal = Math.ceil(
-      requiredWeightReduction / itemType.weight
-    );
-    const actualRemoveCount = Math.min(
-      targetRemovalCountToReachGoal,
-      itemCount
-    );
-    newInventory = addItemCount(newInventory, itemType, -actualRemoveCount);
-    itemTypeIndex++;
+
+  let loss = newInventory();
+  for (const itemType of itemTypesSortedByWeight) {
+    const itemCount = getItemCount(inventory, itemType);
+    const itemTotalWeight = itemCount * itemType.weight;
+    if (inventoryWeight - itemTotalWeight > weightLimit) {
+      loss = addItemCount(loss, itemType, itemCount);
+      inventoryWeight -= itemTotalWeight;
+    } else {
+      const requiredWeightLoss = inventoryWeight - weightLimit;
+      const requiredItemLoss = Math.ceil(requiredWeightLoss / itemType.weight);
+      loss = addItemCount(loss, itemType, requiredItemLoss);
+      break;
+    }
+    if (inventoryWeight < 0)
+      throw new Error("Inventory weight reduced past zero!");
   }
-  return newInventory;
+  return loss;
 }
+
+export function reduceTo(inventory: Inventory, weightLimit: number): Inventory {
+  let result = cloneInventory(inventory);
+  const reductionLoss = calculateReductionLoss(inventory, weightLimit);
+  if (reductionLoss === null) return result;
+  return subtractInventory(result, reductionLoss);
+}
+
+/**
+ * for (itemType in sortedByWeight)
+ *    if (totalItemType)
+ */

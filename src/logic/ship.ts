@@ -1,4 +1,5 @@
 import { allItemTypes } from "../constants/itemTypes";
+import { Inventory } from "../types/Inventory";
 import { Ship } from "../types/Ship";
 import { ShipType } from "../types/ShipType";
 import { cloneInventory, getItemCount, newInventory } from "./inventory";
