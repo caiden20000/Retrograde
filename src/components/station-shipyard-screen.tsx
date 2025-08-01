@@ -31,18 +31,18 @@ export function StationShipyardScreen() {
         if (count !== 0) lossItems.push([itemType.name, count]);
       }
       queryModalYesNo(
-        <>
+        <div className="centered-column">
           <h1>Warning!</h1>
           <p>
             The ship you're purchasing has a smaller cargo hold, and you
             currently have too much cargo! Some cargo would be lost if you buy
             this ship now!
           </p>
-          <table>
+          <table className="small-table top-headers">
             <thead>
               <tr>
-                <td>Item</td>
-                <td>Loss amount</td>
+                <th>Item</th>
+                <th>Loss</th>
               </tr>
             </thead>
             <tbody>
@@ -54,7 +54,7 @@ export function StationShipyardScreen() {
               ))}
             </tbody>
           </table>
-        </>
+        </div>
       ).then((response) => {
         if (response === true) {
           dispatch(changeShip(shipType));
