@@ -23,9 +23,17 @@ html,
 .small-headers {
   font-size: 0.8em;
 }
+
 .flex-column {
   display: flex;
   flex-direction: column;
+}
+
+.centered-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 button {
@@ -54,4 +62,45 @@ button:disabled {
 
 .bold {
   font-weight: bold;
+}
+
+table.small-table {
+  border-collapse: collapse;
+}
+
+table.small-table td,
+table.small-table tr {
+  border: 1px solid white;
+}
+
+table.small-table.side-headers th {
+  text-align: left;
+  padding: 5px;
+}
+
+table.small-table.side-headers td {
+  text-align: right;
+  padding: 5px;
+}
+
+table.small-table.top-headers th,
+table.small-table.top-headers td  {
+  text-align: left;
+  padding: 5px;
+}
+
+table.small-table thead tr:nth-child(odd) {
+  background-color: #0002;
+}
+
+table.small-table tbody tr:nth-child(odd) td {
+  border: 1px solid #0005;
+}
+
+table.small-table.no-headers tbody tr:nth-child(odd) {
+  background-color: #0002;
+}
+
+table.small-table.no-headers tbody tr:nth-child(even) td {
+  border: 1px solid #0005;
 }

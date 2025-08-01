@@ -9,19 +9,24 @@ x == completed
 [ ] Equipment store: Make TODO
 [ ] Crew: Make TODO
 [ ] Missions: Make TODO
-[ ] Random encounters: Make TODO
-[ ] Popup / warning / modal system TODO
+[x] Random encounters: Make TODO
+[~] Popup / warning / modal system TODO
+
+===== <+> Questline: Modal =====
+[ ] Design Modal
+[ ] Implement Modal
+[ ] Apply Modal
 
 ===== <> Questline: Shipyard =====
 [x] Mock up a UI
-[ ] Draft the Station Screen
+[x] Draft the Station Screen
 [x] Determine preliminary ship stats
 [x] Create the ShipTypes for each planned ship
-[ ] Fix the "cargo overflow" issue by warning player before purge.
+[~] Fix the "cargo overflow" issue by warning player before purge.
 [ ] Identify flaws and update this list accordingly
 
 
-===== <+> Questline: System Map =====
+===== <> Questline: System Map =====
 [+] Fix tooltip Z-index behind UI and some undiscovered stations (mystery) (fix)
 [ ] Rewrite code that centers the map dots; they can get clustered off-center. (fix)
 [ ] Put the map into a square so it's contained & can be used in an updated map screen.

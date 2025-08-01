@@ -1,0 +1,56 @@
+.modal-background {
+  background: #0002;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background: #eee;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid black;
+  text-align: center;
+
+  min-width: 10em;
+  min-height: 5em;
+
+  max-width: 70%;
+  max-height: 40%;
+
+  box-shadow: 5px 5px 5px #0005, -5px -5px 10px inset #0002;
+}
+
+.modal-body {
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.modal-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+}
+
+.modal-buttons button {
+  padding: 5px 10px;
+}
+
+.gobutton {
+  background-color: #0f02;
+}
+
+.stopbutton {
+  background-color: #f002;
+}
+
+.hidden {
+  display: none;
+}
