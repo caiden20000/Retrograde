@@ -140,11 +140,6 @@ function getRandomNeighborInRange(
   return randomPick;
 }
 
-// TODO: Somehow a trade ended up a negative value. Figure out how that could happen and fix!
-// Pinpointed issue: Stations don't have base quantities for items they don't initially stock,
-// but then they get traded these items and don't know how much they should cost.
-// FIX: Prevent trading of items that aren't in the station's item pool.
-
 // function: Trade items between two stations
 function tradeBetween(
   requester: Station,
