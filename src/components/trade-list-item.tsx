@@ -43,19 +43,31 @@ export function TradeListItem({
       <td className={colorByValue(cartCost, true)}>${cartCost}</td>
       <td className={colorByValue(cartCost)}>{cartQuantity}</td>
       <td>
-        <button
+      <button className="small-trade-button"
           onClick={() => onQuantityChange(-1)}
           disabled={!Crt.canRemove(cart, itemType) || disabled}
         >
           -
         </button>
+        <button className="small-trade-button ten"
+          onClick={() => onQuantityChange(-10)}
+          disabled={!Crt.canRemove(cart, itemType, 10) || disabled}
+        >
+          10
+        </button>
       </td>
       <td className="separate">
-        <button
+        <button className="small-trade-button"
           onClick={() => onQuantityChange(1)}
           disabled={!Crt.canAdd(cart, itemType) || disabled}
         >
           +
+        </button>
+        <button className="small-trade-button ten"
+          onClick={() => onQuantityChange(10)}
+          disabled={!Crt.canAdd(cart, itemType, 10) || disabled}
+        >
+          10
         </button>
       </td>
       <td>${sellPrice}</td>

@@ -89,7 +89,8 @@ table.small-table.top-headers td  {
   padding: 5px;
 }
 
-table.small-table thead tr:nth-child(odd) {
+table.small-table thead tr:nth-child(odd),
+table.small-table tbody tr:nth-child(even) {
   background-color: #0002;
 }
 

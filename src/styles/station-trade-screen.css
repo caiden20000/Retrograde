@@ -69,3 +69,17 @@
   color: #555;
   backdrop-filter: brightness(0.9);
 }
+
+.small-trade-button {
+  aspect-ratio: 1;
+  font-family: monospace;
+  width: 2em;
+}
+
+.ten {
+  padding: 0;
+}
+
+.hundred {
+  font-size: 0.4em;
+}

@@ -25,6 +25,7 @@
   max-height: 40%;
 
   box-shadow: 5px 5px 5px #0005, -5px -5px 10px inset #0002;
+  overflow-y: auto;
 }
 
 .modal-body {
