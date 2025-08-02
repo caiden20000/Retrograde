@@ -1,3 +1,4 @@
+import { VERSION } from "../constants/version";
 import "../styles/watermark.css";
 
 export function Watermark() {
@@ -10,7 +11,7 @@ export function Watermark() {
         width={32}
       />
       <div className="title">Retrograde</div>
-      <div className="version">v0.1.0</div>
+      <div className="version">{VERSION}</div>
     </div>
   );
 }
