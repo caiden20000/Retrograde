@@ -19,12 +19,12 @@ jobs:
         id: files
         run: |
           git fetch origin ${{ github.base_ref }}
-          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | tr '\n' ' ')
           echo "changed=$CHANGED_FILES" >> $GITHUB_OUTPUT
 
-      - name: Check for required file
+      - name: Check for required version change
         run: |
-          echo "${{ steps.files.outputs.changed }}" | grep -q '^src/constants/version.ts$' || {
+          echo "${{ steps.files.outputs.changed }}" | tr ' ' '\n' | grep -q -F 'src/constants/version.ts' || {
             echo "Version not modified!";
             exit 1;
           }
