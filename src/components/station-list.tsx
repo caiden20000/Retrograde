@@ -23,7 +23,10 @@ export function StationList({
     bounds.br.x - bounds.tl.x,
     bounds.br.y - bounds.tl.y
   );
-  const scale = newVec2(maxBound, maxBound);
+  let scale = newVec2(maxBound, maxBound);
+  let borderLR = [0.05, 0.05];
+  let borderTB = [0.05, 0.05];
+  // TODO implement border 
 
   function absolutePosition(station: Station): Vec2 {
     const pos = newVec2(
