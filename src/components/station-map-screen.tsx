@@ -20,6 +20,7 @@ import { setTravel } from "../state/slices/travelSlice";
 import { setScreen } from "../state/slices/currentScreenSlice";
 import { StationList } from "./station-list";
 import "../styles/station-map-screen.css";
+import StationMapGoodsList from "./station-map-goods-list";
 
 export function StationMapScreen() {
   const dispatch = useAppDispatch();
@@ -67,8 +68,10 @@ export function StationMapScreen() {
   return (
     <StationScreenTemplate title="System Map">
       <div className="station-map-grid">
-        <div className="map"><StationList {...{ station, player, system, travelTo }} /></div>
-        <div className="list"></div>
+        <div className="map">
+          <div className="map-inner"><StationList {...{ station, player, system, travelTo }} /></div>
+        </div>
+        <div className="list"><StationMapGoodsList onSelection={()=>{}}/></div>
         <div className="travel"><button>Travel</button></div>
       </div>
     </StationScreenTemplate>
