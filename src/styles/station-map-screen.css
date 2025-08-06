@@ -1,0 +1,30 @@
+.station-map-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 3fr 1fr;
+    grid-template-areas: 
+        "map list" 
+        "map travel";
+}
+
+.station-map-grid .map {
+    grid-area: map;
+}
+
+.station-map-grid .list {
+    grid-area: list;
+    border: 2px solid red;
+}
+
+.station-map-grid .travel {
+    grid-area: travel;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.station-map-grid .travel button {
+    width: 80%;
+    height: 80%;
+}

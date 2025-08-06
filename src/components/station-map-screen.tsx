@@ -19,6 +19,7 @@ import { replaceAllStations } from "../state/slices/systemSlice";
 import { setTravel } from "../state/slices/travelSlice";
 import { setScreen } from "../state/slices/currentScreenSlice";
 import { StationList } from "./station-list";
+import "../styles/station-map-screen.css";
 
 export function StationMapScreen() {
   const dispatch = useAppDispatch();
@@ -31,7 +32,7 @@ export function StationMapScreen() {
     return (
       <ErrorPage
         code="1654321968"
-        reason="Attempted to load map on trade screen while station was null (implies traveling)"
+        reason="Attempted to load map on map screen while station was null (implies traveling)"
       />
     );
   }
@@ -65,7 +66,11 @@ export function StationMapScreen() {
 
   return (
     <StationScreenTemplate title="System Map">
-      <StationList {...{ station, player, system, travelTo }} />
+      <div className="station-map-grid">
+        <div className="map"><StationList {...{ station, player, system, travelTo }} /></div>
+        <div className="list"></div>
+        <div className="travel"><button>Travel</button></div>
+      </div>
     </StationScreenTemplate>
   );
 }
