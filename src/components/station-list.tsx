@@ -6,6 +6,7 @@ import { Vec2 } from "../types/Vec2";
 import { getBoundsOfSystem, stationDistance } from "../utils/util";
 import { StationDot } from "./station-dot";
 import "../styles/station-list.css";
+import { useEffect, useRef } from "react";
 
 export function StationList({
   station,
@@ -43,8 +44,19 @@ export function StationList({
     travelTo(station);
   }
 
+  const starDivRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (starDivRef.current === null) return; 
+    let a="";
+    // Consts are pre-balanced to generally fill the space.
+    const starCount = 30000;
+    const starRarity = 0.99;
+    for(let i=0;i<starCount;i++)a+=Math.random()>starRarity?".":" ";
+    starDivRef.current.setAttribute("stars", a);
+  }, [starDivRef]);
+
   return (
-    <div className="system-dot-map">
+    <div className="system-dot-map" ref={starDivRef}>
       {system.map((stn) => (
         <StationDot
           key={stn.name}
