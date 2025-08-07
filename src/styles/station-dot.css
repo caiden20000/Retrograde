@@ -6,32 +6,21 @@
   aspect-ratio: 1;
   border-radius: 50%;
   z-index: 1;
+  border: 1px solid #FFF5;
 }
 
-.current-station {
-  background: rgb(16, 191, 255);
-}
 
-.reachable-station {
-  background: rgb(106, 217, 130);
-}
-
-.unreachable-station {
-  background: rgb(236, 99, 99);
-}
-
-.unreachable-station:disabled {
+.station-dot button:disabled {
   filter: none;
 }
 
 .station-dot.undiscovered {
-  filter: brightness(0.7);
-}
-.station-dot.undiscovered .unreachable-station {
-  filter: brightness(0.8) saturate(0.6);
+  filter: brightness(0.6);
 }
 
-
+.station-dot.undiscovered button:disabled {
+  filter: brightness(0.6) saturate(0.2);
+}
 
 .station-dot .selected {
     outline: 2px dashed cyan;
