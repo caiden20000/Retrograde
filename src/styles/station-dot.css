@@ -30,3 +30,20 @@
 .station-dot.undiscovered .unreachable-station {
   filter: brightness(0.8) saturate(0.6);
 }
+
+
+
+.station-dot .selected {
+    outline: 2px dashed cyan;
+    rotate: 0deg;
+    animation: selected-animation 5s linear 0s infinite;
+}
+
+.station-dot .current {
+  outline: 2px solid cyan;
+}
+
+@keyframes selected-animation {
+  0% { rotate: 0deg; }
+  100% { rotate: 360deg; }
+}

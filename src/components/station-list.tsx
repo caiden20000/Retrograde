@@ -7,18 +7,24 @@ import { getBoundsOfSystem, stationDistance } from "../utils/util";
 import { StationDot } from "./station-dot";
 import "../styles/station-list.css";
 import { useEffect, useRef } from "react";
+import { useAppSelector } from "../state/hooks";
+import { selectStation, selectPlayer, selectSystem } from "../state/selectors";
+import { ItemType } from "../types/ItemType";
+import { getItemSellPrice } from "../logic/tradeInventory";
 
 export function StationList({
-  station,
-  player,
-  system,
-  travelTo,
+  onSelect,
+  selectedStation,
+  compareItemType,
 }: {
-  readonly station: Station;
-  readonly player: Player;
-  readonly system: System;
-  readonly travelTo: (station: Station) => void;
+  readonly onSelect: (station: Station) => void;
+  selectedStation: Station | null;
+  compareItemType: ItemType | null;
 }) {
+  const station = useAppSelector(selectStation);
+  const player = useAppSelector(selectPlayer);
+  const system = useAppSelector(selectSystem);
+  if (station === null) throw new Error("Station should not be null here");
   const bounds = getBoundsOfSystem(system);
   const maxBound = Math.max(
     bounds.br.x - bounds.tl.x,
@@ -41,7 +47,12 @@ export function StationList({
   }
 
   function onTravel(station: Station) {
-    travelTo(station);
+    onSelect(station);
+  }
+
+  function canTravelTo(stn: Station) {
+    if (station === null) return false;
+    return stationDistance(station, stn) <= player.ship.fuel;
   }
 
   const starDivRef = useRef<HTMLDivElement | null>(null);
@@ -62,11 +73,45 @@ export function StationList({
           key={stn.name}
           station={stn}
           absolutePosition={absolutePosition(stn)}
-          distance={stationDistance(station, stn)}
-          maxTravelDistance={player.ship.fuel}
           onTravel={onTravel}
+          color={colorStation(stn, station, system, canTravelTo(stn), compareItemType)}
+          canTravelTo={canTravelTo(stn)}
+          selected={stn==selectedStation}
         />
       ))}
     </div>
   );
 }
+
+function colorStation(station: Station, playerStation: Station, system: System, canTravelTo: boolean, compareItemType: ItemType | null): string {
+  if (compareItemType === null) {
+    if (playerStation == station) return "cyan";
+    if (canTravelTo) return "green";
+    else return "red";
+  }
+  const midColor = "#FF0";
+  const lowColor = "#0F0";
+  const highColor = "#F00";
+
+  if (playerStation == station) return midColor;
+
+  // Compare here
+  const stationPrice = getItemSellPrice(station.tradeInventory, compareItemType);
+  const anchorPrice = getItemSellPrice(playerStation.tradeInventory, compareItemType);
+  let minPrice = stationPrice;
+  let maxPrice = minPrice;
+  for (const stn of system) {
+    const price = getItemSellPrice(stn.tradeInventory, compareItemType);
+    if (price < minPrice) minPrice = price;
+    if (price > maxPrice) maxPrice = price;
+  }
+  
+  if (stationPrice < anchorPrice) return `color-mix(in hsl, ${midColor}, ${lowColor} ${((stationPrice - minPrice) / (anchorPrice - minPrice))*100}%`;
+  if (stationPrice > anchorPrice) return `color-mix(in hsl, ${midColor}, ${highColor} ${(1-((stationPrice - maxPrice) / (anchorPrice - maxPrice)))*100}%`;
+  if (stationPrice == anchorPrice) return midColor;
+
+  return "#FFF";
+}
+// distance={stationDistance(station, stn)}
+// maxTravelDistance={player.ship.fuel}
+
