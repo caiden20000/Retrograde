@@ -1,32 +1,45 @@
 .station-dot {
   position: absolute;
+  aspect-ratio: 1;
+}
+
+.station-dot > * {
+  position: relative;
+  top: -50%;
+  left: -50%;
 }
 
 .station-dot button {
   aspect-ratio: 1;
   border-radius: 50%;
   z-index: 1;
+  border: 1px solid #FFF5;
 }
 
-.current-station {
-  background: rgb(16, 191, 255);
-}
 
-.reachable-station {
-  background: rgb(106, 217, 130);
-}
-
-.unreachable-station {
-  background: rgb(236, 99, 99);
-}
-
-.unreachable-station:disabled {
+.station-dot button:disabled {
   filter: none;
 }
 
 .station-dot.undiscovered {
-  filter: brightness(0.7);
+  filter: brightness(0.6);
 }
-.station-dot.undiscovered .unreachable-station {
-  filter: brightness(0.8) saturate(0.6);
+
+.station-dot.undiscovered button:disabled {
+  filter: brightness(0.6) saturate(0.2);
+}
+
+.station-dot .selected {
+    outline: 2px dashed cyan;
+    rotate: 0deg;
+    animation: selected-animation 5s linear 0s infinite;
+}
+
+.station-dot .current {
+  outline: 2px solid cyan;
+}
+
+@keyframes selected-animation {
+  0% { rotate: 0deg; }
+  100% { rotate: 360deg; }
 }

@@ -1,0 +1,81 @@
+.station-map-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 3fr 1fr;
+    grid-template-areas: 
+        "map list" 
+        "map travel";
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 2/3;
+    gap: 5px;
+}
+
+.station-map-grid .map {
+    grid-area: map;
+    min-height: 0;
+}
+
+.station-map-grid .list {
+    grid-area: list;
+    min-height: 0;
+}
+
+.station-map-grid .travel {
+    grid-area: travel;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 0;
+}
+
+.map-inner {
+    height: 100%;
+}
+
+.station-map-grid .travel button {
+    width: 80%;
+    height: 80%;
+}
+
+.station-goods-list {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #444;
+    overflow-y: auto;
+}
+
+.goods-list-item {
+    border: 1px solid #444;
+    padding: 5px;
+    text-align: center;
+    user-select: none;
+    min-width: max-content;
+}
+
+.goods-list-item:hover {
+    background: #00f1;
+    cursor: pointer;
+}
+
+.goods-list-item.selected {
+    background: #00f3;
+}
+
+.range-circle-container {
+    position: absolute;
+    pointer-events: none;
+}
+
+.range-circle {
+    position: relative;
+    top: -50%;
+    left: -50%;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;;
+    background-color: transparent;
+    outline: 2px dotted cyan;
+    pointer-events: none;
+}

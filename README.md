@@ -50,4 +50,4 @@ This has been a learning experience, and I'm still learning every day.
 ### Design doc
 
 I use Excalidraw to mock-up designs for the UI and other interactions.  
-[Here](https://excalidraw.com/#json=4S1Ib7tluGF4YWKbilXyC,NamVraKYYVn6K1pN-UrQ2g) is a recent version (may not be up to date)
+[Here](https://excalidraw.com/#json=uS7Gy5ICJz7QFBL8dZF7a,KmYCIyZwAG34SQRHiRNSEQ) is a recent version (may not be up to date)
