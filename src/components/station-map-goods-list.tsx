@@ -4,7 +4,6 @@ import { ItemType } from "../types/ItemType"
 
 export default function StationMapGoodsList({onSelection}: {onSelection: (itemType: ItemType | null) => void}) {
     const [selectedItem, setSelectedItem] = useState<ItemType | null>(null);
-    // TODO this
     function select(itemType: ItemType) {
         const newItem = selectedItem == itemType ? null : itemType;
         setSelectedItem(newItem);

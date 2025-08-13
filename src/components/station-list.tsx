@@ -67,19 +67,22 @@ export function StationList({
   }, [starDivRef]);
 
   return (
-    <div className="system-dot-map" ref={starDivRef}>
-      {system.map((stn) => (
-        <StationDot
-          key={stn.name}
-          station={stn}
-          absolutePosition={absolutePosition(stn)}
-          onTravel={onTravel}
-          color={colorStation(stn, station, system, canTravelTo(stn), compareItemType)}
-          canTravelTo={canTravelTo(stn)}
-          selected={stn==selectedStation}
-        />
-      ))}
-    </div>
+    <>
+      <div className="system-dot-map" ref={starDivRef}>
+        {system.map((stn) => (
+          <StationDot
+            key={stn.name}
+            station={stn}
+            absolutePosition={absolutePosition(stn)}
+            onTravel={onTravel}
+            color={colorStation(stn, station, system, canTravelTo(stn), compareItemType)}
+            canTravelTo={canTravelTo(stn)}
+            selected={stn==selectedStation}
+          />
+        ))}
+        <RangeCircle position={absolutePosition(station)} size={player.ship.fuel}/>
+      </div>
+    </>
   );
 }
 
@@ -115,3 +118,10 @@ function colorStation(station: Station, playerStation: Station, system: System, 
 // distance={stationDistance(station, stn)}
 // maxTravelDistance={player.ship.fuel}
 
+function RangeCircle({position, size}: {position: Vec2; size: number;}) {
+  // Magic number 1.2 seems to work
+  const range = size * 1.2;
+  return <div className="range-circle-container" style={{top: (position.y*100) + "%", left: (position.x*100) + "%", width: range + "%", height: range + "%"}}>
+    <div className="range-circle"></div>
+  </div>
+}
