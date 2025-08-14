@@ -45,6 +45,7 @@ export default function StarCanvas({
     let stopDrawing = false;
     let imageLoaded = false;
 
+    let lastDraw = Date.now();
     const draw = () => {
         if (stopDrawing) return;
         const ctx = canvas.getContext("2d");
@@ -52,6 +53,9 @@ export default function StarCanvas({
         const box = canvas.getBoundingClientRect();
         const width = box.width;
         const height = box.height;
+        const now = Date.now();
+        const delta = now - lastDraw;
+        lastDraw = now;
 
         const targetStarCount = density * width * height;
         while (stars.length < targetStarCount) {
@@ -79,13 +83,16 @@ export default function StarCanvas({
 
           if (warp || warpRampingDown) {
             const power = 0.3;
-            const len = (1 - (STAR_CYCLE - age) / STAR_CYCLE)*power*(warpRampingDown ? warpRampDownFrac : warpRampUpFrac);
+            const warpFrac = warpRampingDown ? warpRampDownFrac : warpRampUpFrac;
+            const len = (1 - (STAR_CYCLE - age) / STAR_CYCLE)*power*warpFrac;
             ctx.beginPath();
             ctx.moveTo(pos.x, pos.y);
             ctx.lineTo(pos.x + (pos.x - center.x)*len, pos.y + (pos.y - center.y)*len);
             ctx.closePath();
             ctx.stroke();
             
+            star.pos.x += (pos.x - center.x) * warpFrac * 0.0000005 * delta;
+            star.pos.y += (pos.y - center.y) * warpFrac * 0.0000005 * delta;
           } else {
             if (imageLoaded) {
                 ctx.drawImage(
