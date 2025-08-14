@@ -15,6 +15,7 @@ import { setStationVisited } from "./state/slices/systemSlice";
 import { selectCurrentScreen, selectPlayer } from "./state/selectors";
 import { EncounterScreen } from "./components/encounter-screen";
 import "./styles/app.css";
+import StarCanvas from "./components/star-canvas";
 
 // === Root App ===
 export default function App() {
@@ -29,6 +30,7 @@ export default function App() {
 
   return (
     <div className="screen-background">
+      <StarCanvas />
       <div className="screen-resize-box">
         <div className="screen-box">
           {screen === "StationInfoScreen" && <StationInfoScreen />}

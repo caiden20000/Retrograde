@@ -13,6 +13,7 @@ export default function StationMapGoodsList({onSelection}: {onSelection: (itemTy
         <div>{allItemTypes.map(
             itemType => (
                 <GoodsListItem 
+                key={itemType.name}
                 itemType={itemType} 
                 selected={selectedItem == itemType}
                 onClick={()=>select(itemType)}

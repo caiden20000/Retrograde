@@ -6,6 +6,9 @@
   font-size: 1em;
   color: #0008;
   font-family: monospace;
+  background: #eee;
+  opacity: 0.6;
+  border-radius: 4px;
 }
 
 .watermark .title {
