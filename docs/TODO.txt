@@ -6,7 +6,7 @@ x == completed
 
 ===== <> Questline: Main Features =====
 [x] Shipyard: Make TODO
-[ ] Equipment store: Make TODO
+[~] Equipment store: Make TODO
 [ ] Crew: Make TODO
 [ ] Missions: Make TODO
 [x] Random encounters: Make TODO
@@ -26,12 +26,16 @@ x == completed
 [ ] Identify flaws and update this list accordingly
 
 
-===== <+> Questline: System Map =====
-[+] Fix tooltip Z-index behind UI and some undiscovered stations (mystery) (fix)
+===== <> Questline: System Map =====
+[x] Fix tooltip Z-index behind UI and some undiscovered stations (mystery) (fix)
 [ ] Rewrite code that centers the map dots; they can get clustered off-center. (fix)
-[ ] Put the map into a square so it's contained & can be used in an updated map screen.
-[ ] Make a selection interface + travel button rather than directly traveling on click.
-[ ] A price list that color-codes each station based on the value of the good selected.
+[x] Put the map into a square so it's contained & can be used in an updated map screen.
+[x] Make a selection interface + travel button rather than directly traveling on click.
+[x] A price list that color-codes each station based on the value of the good selected.
+[ ] Get the colors and visual syntax of the system map fixed.
+[ ] Fix the centering of dots on their actual position
+[ ] Fix the centering of the range circle
+[ ] Make the range indication circle cut off by map edges
 
 
 ===== <> Questline: Encounters =====
@@ -43,6 +47,7 @@ x == completed
 [x] Create system to switch to encounters during travel
 [~] Think about unifying the travel + encounter screens
 
+
 ===== <> Questline: Battle =====
 [x] Define Character type
 [x] Characters have stats; define the stats
@@ -52,13 +57,14 @@ x == completed
     [ ] Captains - Characters that own a ship
 [~] Define battle type
 
+
 ===== <> Questline: Code Quality =====
 [ ] Turn ItemType and ShipType into ENUMS with values (?)
 [x] Rename files to match classes
 [x] Reorganize folder structure
 [ ] Code review my stuff, look for issues with structure or unclear code.
 [x] Get some sort of linter / code scanner for GH actions
-[ ] Floor fuel cost
+[x] Floor fuel cost
 [x] Run SonarQube
 [x] Fix some SonarQube issues
 [ ] Unify statbar in fuel / travel screen + css
