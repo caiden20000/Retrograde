@@ -11,6 +11,7 @@ import { useAppSelector } from "../state/hooks";
 import { selectStation, selectPlayer, selectSystem } from "../state/selectors";
 import { ItemType } from "../types/ItemType";
 import { getItemSellPrice } from "../logic/tradeInventory";
+import StarCanvas from "./star-canvas";
 
 export function StationList({
   onSelect,
@@ -55,20 +56,21 @@ export function StationList({
     return stationDistance(station, stn) <= player.ship.fuel;
   }
 
-  const starDivRef = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    if (starDivRef.current === null) return; 
-    let a="";
-    // Consts are pre-balanced to generally fill the space.
-    const starCount = 30000;
-    const starRarity = 0.99;
-    for(let i=0;i<starCount;i++)a+=Math.random()>starRarity?".":" ";
-    starDivRef.current.setAttribute("stars", a);
-  }, [starDivRef]);
+  // const starDivRef = useRef<HTMLDivElement | null>(null);
+  // useEffect(() => {
+  //   if (starDivRef.current === null) return; 
+  //   let a="";
+  //   // Consts are pre-balanced to generally fill the space.
+  //   const starCount = 30000;
+  //   const starRarity = 0.99;
+  //   for(let i=0;i<starCount;i++)a+=Math.random()>starRarity?".":" ";
+  //   starDivRef.current.setAttribute("stars", a);
+  // }, [starDivRef]);
 
   return (
     <>
-      <div className="system-dot-map" ref={starDivRef}>
+      <div className="system-dot-map">
+        <StarCanvas />
         {system.map((stn) => (
           <StationDot
             key={stn.name}

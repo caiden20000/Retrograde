@@ -14,6 +14,9 @@
   padding: 10px;
   resize: both;
   overflow: auto;
+  background: linear-gradient(135deg,rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 35%, rgba(222, 222, 222, 1) 75%, rgba(222, 222, 222, 1) 100%);
+  z-index: 2;
+  border-radius: 4px;
 }
 
 .screen-box {
