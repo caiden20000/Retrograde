@@ -8,7 +8,7 @@ x == completed
 [x] Shipyard: Make TODO
 [~] Equipment store: Make TODO
 [ ] Crew: Make TODO
-[ ] Missions: Make TODO
+[x] Missions: Make TODO
 [x] Random encounters: Make TODO
 [x] Popup / warning / modal system TODO
 
@@ -83,7 +83,23 @@ x == completed
 
 
 
-
+Missions require work done by the player for a reward.
+There can be several goal types for missions, and several reward types.
+Goals:
+- Bounties
+    - Destroy x pirates
+    - Destroy this pirate over here
+- Deliveries
+    - Take this thing here to over there
+- Orders
+    - Can we have x of this item?
+- Funding
+    - Can we have money?
+Rewards:
+- Money
+- Faction points
+- Items
+- Ship
 
 
 
