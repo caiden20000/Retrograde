@@ -38,14 +38,26 @@ x == completed
 [ ] Make the range indication circle cut off by map edges
 
 
+===== <+> Questline: Missions =====
+[~] Define missions as a concept
+[ ] Design a mission type
+[ ] Mockup the mission screen UI
+[ ] Implement the mission screen UI
+[ ] Add mission slice to redux store
+[ ] Make a mission generator
+
+
 ===== <> Questline: Encounters =====
-[~] Define encounter type structure
+[x] Define encounter type structure
 [-] Define battle type
 [x] Draft a few test encounters
 [x] Create encounter screen wireframes
 [x] Create preliminary encounter screen component
 [x] Create system to switch to encounters during travel
-[~] Think about unifying the travel + encounter screens
+[x] Think about unifying the travel + encounter screens
+[ ] Expand encounters
+[ ] Create new encounter rewards / punishments
+[ ] Put safeguards on encounter rewards / punishments (e.g. capping fuel loss to prevent negative fuel)
 
 
 ===== <> Questline: Battle =====
