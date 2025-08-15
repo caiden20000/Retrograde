@@ -20,7 +20,6 @@ export default function StarCanvas({
   const [starsArray, setStarsArray] = useState<Star[]>(randomStars(200));
 
   useEffect(() => {
-    console.log(!!travel + " " + !!encounter);
     if (travel&& travel.progress < 1) {
         setWarp(true);
         setWarpStartTime(Date.now());
@@ -44,6 +43,8 @@ export default function StarCanvas({
 
     let stopDrawing = false;
     let imageLoaded = false;
+
+    let repositionedStarsAfterWarp = false;
 
     let lastDraw = Date.now();
     const draw = () => {
@@ -74,6 +75,22 @@ export default function StarCanvas({
         const warpRampUpFrac = Math.min((Date.now() - warpStartTime) / WARP_RAMP_UP, 1);
         const warpRampDownFrac = 1 - Math.min((Date.now() - warpEndTime) / WARP_RAMP_DOWN, 1);
         const warpRampingDown = warpRampDownFrac > 0 && warp == false;
+        const warpFrac = warpRampingDown ? warpRampDownFrac : warpRampUpFrac;
+        const getTrailLength = (age: number, pow: number) => {
+          // return 1*pow*warpFrac;
+          return (1 - (STAR_CYCLE - age) / STAR_CYCLE)*pow*warpFrac;
+        }
+        
+        if (repositionedStarsAfterWarp == false && warpRampingDown) {
+          repositionedStarsAfterWarp = true;
+          // Reposition stars to tails of lines.
+          for (const star of stars) {
+            const pos = {x: width * star.pos.x, y: height * star.pos.y};
+            const len = getTrailLength(Date.now() - star.birth, 0.3);
+            star.pos.x += (((pos.x - center.x)*len)/width);
+            star.pos.y += (((pos.y - center.y)*len)/height);
+          }
+        }
 
         for (const star of stars) {
           const pos = {x: width * star.pos.x, y: height * star.pos.y};
@@ -82,18 +99,21 @@ export default function StarCanvas({
           ctx.globalAlpha = Math.max(mag, 0);
 
           if (warp || warpRampingDown) {
-            const power = 0.3;
-            const warpFrac = warpRampingDown ? warpRampDownFrac : warpRampUpFrac;
-            const len = (1 - (STAR_CYCLE - age) / STAR_CYCLE)*power*warpFrac;
+            const len = getTrailLength(age, 0.3);
             ctx.beginPath();
             ctx.moveTo(pos.x, pos.y);
-            ctx.lineTo(pos.x + (pos.x - center.x)*len, pos.y + (pos.y - center.y)*len);
+            if (warpRampingDown) {
+              ctx.lineTo(pos.x - (pos.x - center.x)*len*0.9, pos.y - (pos.y - center.y)*len*0.9);
+            } else {
+              ctx.lineTo(pos.x + (pos.x - center.x)*len, pos.y + (pos.y - center.y)*len);
+            }
             ctx.closePath();
             ctx.stroke();
             
             star.pos.x += (pos.x - center.x) * warpFrac * 0.0000005 * delta;
             star.pos.y += (pos.y - center.y) * warpFrac * 0.0000005 * delta;
           } else {
+            repositionedStarsAfterWarp = false;
             if (imageLoaded) {
                 ctx.drawImage(
                     img,
