@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useResizeCanvas } from "./canvas-resize-hook";
 import "../styles/star-canvas.css";
-import { commatize } from "../utils/util";
+import { clamp, commatize } from "../utils/util";
 import { useAppSelector } from "../state/hooks";
 import { selectEncounter, selectTravel } from "../state/selectors";
 
@@ -20,7 +20,7 @@ export default function StarCanvas({
   const [starsArray, setStarsArray] = useState<Star[]>(randomStars(200));
 
   useEffect(() => {
-    if (travel&& travel.progress < 1) {
+    if (travel && travel.progress < 1) {
         setWarp(true);
         setWarpStartTime(Date.now());
     } else {
@@ -49,11 +49,14 @@ export default function StarCanvas({
     let lastDraw = Date.now();
     const draw = () => {
         if (stopDrawing) return;
+
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
+
         const box = canvas.getBoundingClientRect();
         const width = box.width;
         const height = box.height;
+
         const now = Date.now();
         const delta = now - lastDraw;
         lastDraw = now;
@@ -96,7 +99,7 @@ export default function StarCanvas({
           const pos = {x: width * star.pos.x, y: height * star.pos.y};
           const age = Date.now() - star.birth;
           const mag = 1 - Math.abs(age - STAR_CYCLE / 2) / (STAR_CYCLE / 2);
-          ctx.globalAlpha = Math.max(mag, 0);
+          ctx.globalAlpha = clamp(0, mag+0.2, 1);
 
           if (warp || warpRampingDown) {
             const len = getTrailLength(age, 0.3);
@@ -131,7 +134,11 @@ export default function StarCanvas({
 
           if (age >= STAR_CYCLE) {
             const newStar = randomStar(true);
-            star.pos = newStar.pos;
+            if (warp || warpRampingDown || isOutOfBounds(star.pos)) {
+              star.pos = newStar.pos;
+            } else {
+              star.pos = star.pos;
+            }
             star.birth = Date.now() + (age % STAR_CYCLE);
           }
         }
@@ -167,8 +174,8 @@ type Star = {
 };
 
 const STAR_CYCLE = 5000;
-const SMALL_STAR = 0.2;
-const BIG_STAR = 1;
+const SMALL_STAR = 0.3;
+const BIG_STAR = 1.5;
 const WARP_RAMP_UP = 1500;
 const WARP_RAMP_DOWN = 500;
 
@@ -179,10 +186,20 @@ function randomStar(current: boolean = false): Star {
       y: Math.random(),
     },
     birth: Date.now() - (current ? 0 : Math.floor(Math.random() * STAR_CYCLE)),
-    size: Math.random() * (BIG_STAR - SMALL_STAR) + SMALL_STAR,
+    size: clamp(SMALL_STAR, skewUnitTowardsZero(Math.random(), 15) + SMALL_STAR, BIG_STAR),
   };
 }
 
 function randomStars(length: number): Star[] {
   return Array.from({ length }, () => randomStar());
+}
+
+/* Takes values between 0 and 1,
+and skews them towards zero. Higher factor = lower numbers. */
+function skewUnitTowardsZero(num: number, factor: number) {
+  return num / (1 + factor * (1 - num));
+}
+
+function isOutOfBounds(vec: Vec2) {
+  return vec.x < 0 || vec.x > 1 || vec.y < 0 || vec.y > 1;
 }
