@@ -102,10 +102,43 @@ Rewards:
 - Ship
 
 
+https://excalidraw.com/#json=X7o-0fE1B8F4H42J4VKHx,cPcm8fXXFexxbrnV360xaQ
+
+
+Working on a template string system
+then a mission type that uses template strings
+
+I feel like if we made players go back to the system they got the mission from,
+then it would feel like a chore and it would be less fun.
+So missions will be station dependent, but after accepting,
+accepted missions will show up on every station menu.
+
+There will be a max active missions amount, default probably 2
 
 
 
+How do we track mission progress?
+Whenever something happens, it gets sent to an event bus
+The mission manager subscribes to the event bus
+When a mission fulfilling event happens, the mission manager 
+notices and applies state changes to the mission progress values.
 
+"Something happening" is a change in state.
+We can make every change in state fire an event to the event bus.
+If we make the redux slices very granular then we could listen for anything.
+However, instead of giving specific context within the event,
+we'd only be able to give the value change and the entire /old/ state.
 
+type Event = {
+    location: Station | Vec2;
+    eventType: EventType;
 
+}
 
+type EventType =
+      "buy" | "sell" | "depart" | "arrive"
+    | "acceptMission" | "cancelMission"
+    | "refuel" | "encounter"
+    | "receiveMoney" | "loseMoney"
+    | "buyShip"
+    | "gainCargo" | "loseCargo"
