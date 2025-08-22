@@ -32,6 +32,7 @@ export default function initialState(): GameState {
     encounter: null,
     date: newSpaceDate(3000, 0),
     currentScreen: "StationInfoScreen",
+    missions: []
   };
   initStorage = newState;
   return newState;

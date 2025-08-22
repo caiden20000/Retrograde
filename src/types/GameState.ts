@@ -1,6 +1,7 @@
 import { Battle } from "./Battle";
 import { Character } from "./Character";
 import { EncounterNode } from "./EncounterNode";
+import { Mission } from "./Mission";
 import { Player } from "./Player";
 import { ScreenType } from "./ScreenType";
 import { SpaceDate } from "./SpaceDate";
@@ -14,6 +15,7 @@ export type GameState = {
   currentScreen: ScreenType;
   travel: Travel | null;
   encounter: EncounterNode | null;
+  missions: Mission[];
 };
 
 /* 
