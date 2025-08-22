@@ -129,6 +129,23 @@ If we make the redux slices very granular then we could listen for anything.
 However, instead of giving specific context within the event,
 we'd only be able to give the value change and the entire /old/ state.
 
+OK so the plan is:
+- Fix all reducers to use NAMED actions rather than payload actions.
+- Create an event bus.
+- Create a global listener that catches all actions then feeds then into the event bus.
+- Create a Mission type.
+- Create a mission manager that listens to the event bus and updates missions accordingly.
+- Create the mission screen.
+
+An issue is that if we are too fine grain with the events, it can become unhelpful.
+Imagine if we want to trigger something when the player trades money for cargo.
+Now we could have a "buy" event, OR we could have a "loseMoney" and a "gainCargo" event.
+On their own, these latter two events are unable to communicate /why/ there is a money loss or cargo gain.
+If instead we only shoot out the "buy" event with the money lost and the cargo gained,
+then a listener would be more happy.
+There is the option of doing both, but if we're dispatching the events from listening to reducer actions,
+then we won't always have the hollistic option.
+
 type Event = {
     location: Station | Vec2;
     eventType: EventType;
